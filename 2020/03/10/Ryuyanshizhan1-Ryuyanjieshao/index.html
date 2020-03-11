@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="摘要：小知识点记录。| 工作空间；输入和输出；包的更新；批处理；将输出用为输入；示例实践。待查：cooks.distance();predict()。">
+  <meta name="description" content="摘要：知识点记录。| 工作空间；输入和输出；包的更新；批处理；将输出用为输入；示例实践。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="笔记_R语言实战_1.R语言介绍">
 <meta property="og:url" content="https://itsyunmeng.github.io/2020/03/10/Ryuyanshizhan1-Ryuyanjieshao/index.html">
 <meta property="og:site_name" content="Yunmeng&#39;s Blog">
-<meta property="og:description" content="摘要：小知识点记录。| 工作空间；输入和输出；包的更新；批处理；将输出用为输入；示例实践。待查：cooks.distance();predict()。">
+<meta property="og:description" content="摘要：知识点记录。| 工作空间；输入和输出；包的更新；批处理；将输出用为输入；示例实践。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-10T18:44:12.000Z">
-<meta property="article:modified_time" content="2020-03-11T10:00:23.293Z">
+<meta property="article:modified_time" content="2020-03-11T13:49:04.950Z">
 <meta property="article:author" content="Yunmeng">
 <meta property="article:tag" content="R.Books">
 <meta name="twitter:card" content="summary">
@@ -189,7 +189,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-11 11:00:23" itemprop="dateModified" datetime="2020-03-11T11:00:23+01:00">2020-03-11</time>
+                <time title="Modified: 2020-03-11 14:49:04" itemprop="dateModified" datetime="2020-03-11T14:49:04+01:00">2020-03-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -212,7 +212,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>摘要</strong>：小知识点记录。| 工作空间；输入和输出；包的更新；批处理；将输出用为输入；示例实践。<strong>待查：cooks.distance();predict()。</strong></p>
+        <p><strong>摘要</strong>：知识点记录。| 工作空间；输入和输出；包的更新；批处理；将输出用为输入；示例实践。</p>
 <a id="more"></a>
 <h3 id="1-3-3工作空间"><a href="#1-3-3工作空间" class="headerlink" title="1.3.3工作空间"></a>1.3.3工作空间</h3><ul>
 <li>示例：<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">getwd</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="title">setwd</span><span class="params">(<span class="string">"C:/users/yunmeng.li/Desktop"</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">options</span><span class="params">(digits=<span class="number">3</span>)</span></span></span><br><span class="line">a&lt;-<span class="number">0.11111</span></span><br><span class="line">a</span><br><span class="line">b&lt;-<span class="number">4857498356</span></span><br><span class="line">b</span><br><span class="line">x&lt;-rnorm(<span class="number">100</span>) #正态分布</span><br><span class="line">y&lt;-runif(<span class="number">100</span>) #均匀分布</span><br><span class="line"><span class="function"><span class="title">hist</span><span class="params">(x)</span></span></span><br><span class="line"><span class="function"><span class="title">hist</span><span class="params">(y)</span></span></span><br><span class="line">save.image(<span class="string">"wd.RData"</span>) #保存工作空间</span><br><span class="line"><span class="function"><span class="title">load</span><span class="params">(<span class="string">"wd.RData"</span>)</span></span> #加载工作空间</span><br><span class="line">a</span><br><span class="line">dir.create(<span class="string">"filefoldername"</span>) #创建工作目录</span><br></pre></td></tr></table></figure>
@@ -257,7 +257,10 @@
     <a href="/2020/03/10/note1-shengxinrenyinggaizheyangxueR/" rel="prev" title="笔记1.生信人应该这样学R">
       <i class="fa fa-chevron-left"></i> 笔记1.生信人应该这样学R
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/11/Ryuyanshizhan2-chuangjianshujuji/" rel="next" title="笔记_R语言实战_2.创建数据集">
+      笔记_R语言实战_2.创建数据集 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -333,7 +336,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
