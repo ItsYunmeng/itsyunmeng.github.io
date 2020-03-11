@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要：小知识点记录。| 工作空间；输入和输出；包的更新；批处理；将输出用为输入；示例实践。待查：cooks.distance();predict()。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="笔记_R语言实战_1.R语言介绍">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/03/10/Ryuyanshizhan1-Ryuyanjieshao/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="摘要：小知识点记录。| 工作空间；输入和输出；包的更新；批处理；将输出用为输入；示例实践。待查：cooks.distance();predict()。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-10T18:44:12.000Z">
+<meta property="article:modified_time" content="2020-03-11T10:00:23.293Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="R.Books">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/03/10/Ryuyanshizhan1-Ryuyanjieshao/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>笔记_R语言实战_1.R语言介绍 | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/03/10/Ryuyanshizhan1-Ryuyanjieshao/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          笔记_R语言实战_1.R语言介绍
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-10 19:44:12" itemprop="dateCreated datePublished" datetime="2020-03-10T19:44:12+01:00">2020-03-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-11 11:00:23" itemprop="dateModified" datetime="2020-03-11T11:00:23+01:00">2020-03-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>摘要</strong>：小知识点记录。| 工作空间；输入和输出；包的更新；批处理；将输出用为输入；示例实践。<strong>待查：cooks.distance();predict()。</strong></p>
+<a id="more"></a>
+<h3 id="1-3-3工作空间"><a href="#1-3-3工作空间" class="headerlink" title="1.3.3工作空间"></a>1.3.3工作空间</h3><ul>
+<li>示例：<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">getwd</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="title">setwd</span><span class="params">(<span class="string">"C:/users/yunmeng.li/Desktop"</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">options</span><span class="params">(digits=<span class="number">3</span>)</span></span></span><br><span class="line">a&lt;-<span class="number">0.11111</span></span><br><span class="line">a</span><br><span class="line">b&lt;-<span class="number">4857498356</span></span><br><span class="line">b</span><br><span class="line">x&lt;-rnorm(<span class="number">100</span>) #正态分布</span><br><span class="line">y&lt;-runif(<span class="number">100</span>) #均匀分布</span><br><span class="line"><span class="function"><span class="title">hist</span><span class="params">(x)</span></span></span><br><span class="line"><span class="function"><span class="title">hist</span><span class="params">(y)</span></span></span><br><span class="line">save.image(<span class="string">"wd.RData"</span>) #保存工作空间</span><br><span class="line"><span class="function"><span class="title">load</span><span class="params">(<span class="string">"wd.RData"</span>)</span></span> #加载工作空间</span><br><span class="line">a</span><br><span class="line">dir.create(<span class="string">"filefoldername"</span>) #创建工作目录</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1-3-4输入和输出"><a href="#1-3-4输入和输出" class="headerlink" title="1.3.4输入和输出"></a>1.3.4输入和输出</h3><ul>
+<li>示例：<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">source</span><span class="params">(<span class="string">"myscript.R"</span>)</span></span></span><br><span class="line"></span><br><span class="line">a&lt;-<span class="number">1</span>:<span class="number">10</span></span><br><span class="line"><span class="function"><span class="title">summary</span><span class="params">(a)</span></span></span><br><span class="line"><span class="function"><span class="title">sink</span><span class="params">(<span class="string">"datout.txt"</span>)</span></span> #将结果输出到datout.txt中</span><br><span class="line"><span class="function"><span class="title">summary</span><span class="params">(a)</span></span></span><br><span class="line"></span><br><span class="line">a&lt;-c(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">b&lt;-c(<span class="number">11</span>,<span class="number">22</span>,<span class="number">33</span>,<span class="number">44</span>,<span class="number">55</span>)</span><br><span class="line"><span class="function"><span class="title">plot</span><span class="params">(a,b)</span></span></span><br><span class="line"><span class="function"><span class="title">png</span><span class="params">(<span class="string">"ab.png"</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">plot</span><span class="params">(a,b)</span></span></span><br><span class="line"><span class="function"><span class="title">jpeg</span><span class="params">(<span class="string">"ab.jpeg"</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">plot</span><span class="params">(a,b)</span></span></span><br><span class="line"><span class="function"><span class="title">pdf</span><span class="params">(<span class="string">"ab.pdf"</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">plot</span><span class="params">(a,b)</span></span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1-4-2包的安装"><a href="#1-4-2包的安装" class="headerlink" title="1.4.2包的安装"></a>1.4.2包的安装</h3><ul>
+<li>更新包<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">update</span><span class="selector-class">.packages</span>()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1-5批处理"><a href="#1-5批处理" class="headerlink" title="1.5批处理"></a>1.5批处理</h3><ul>
+<li>windows  <code>cmd</code><figure class="highlight tp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"C:/Program Files/R/R-3.6.2/bin/Rscript.exe"</span> plot<span class="number">1</span>.<span class="keyword">R</span></span><br></pre></td></tr></table></figure></li>
+<li>相关资料见：<a href="https://book.2cto.com/201305/21969.html" target="_blank" rel="noopener">批量运行R代码</a></li>
+</ul>
+<h3 id="1-6将输出用为输入"><a href="#1-6将输出用为输入" class="headerlink" title="1.6将输出用为输入"></a>1.6将输出用为输入</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">lm</span><span class="params">(mpg~wt,data=mtcars)</span></span></span><br><span class="line">lmfit&lt;-lm(mpg~wt,data=mtcars)</span><br><span class="line"><span class="function"><span class="title">summary</span><span class="params">(lmfit)</span></span></span><br><span class="line"><span class="function"><span class="title">plot</span><span class="params">(lmfit)</span></span></span><br><span class="line">cook&lt;-cooks.distance(lmfit) #计算影响度量统计量？？？</span><br><span class="line"><span class="function"><span class="title">plot</span><span class="params">(cook)</span></span></span><br><span class="line"><span class="function"><span class="title">predict</span><span class="params">(lmfit,mynewdata)</span></span> #进行预测？？？</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-8示例实践"><a href="#1-8示例实践" class="headerlink" title="1.8示例实践"></a>1.8示例实践</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">help.strat() #打开帮助文档首页</span><br><span class="line">install.packages(<span class="string">"vcd"</span>) #安装vcd包</span><br><span class="line"><span class="function"><span class="title">help</span><span class="params">(packages=<span class="string">"vcd"</span>)</span></span> #查看vcd包中的函数和数据集</span><br><span class="line"><span class="function"><span class="title">library</span><span class="params">(vcd)</span></span> #加载vcd包</span><br><span class="line"><span class="function"><span class="title">help</span><span class="params">(Arthritis)</span></span> #查看Arthritis数据集</span><br><span class="line">Arthritis #显示Arthritis数据集</span><br><span class="line"><span class="function"><span class="title">example</span><span class="params">(Arthritis)</span></span> #运行Arthritis自带的示例</span><br><span class="line"><span class="function"><span class="title">q</span><span class="params">()</span></span> #退出</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/R-Books/" rel="tag"># R.Books</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/10/note1-shengxinrenyinggaizheyangxueR/" rel="prev" title="笔记1.生信人应该这样学R">
+      <i class="fa fa-chevron-left"></i> 笔记1.生信人应该这样学R
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3工作空间"><span class="nav-number">1.</span> <span class="nav-text">1.3.3工作空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-4输入和输出"><span class="nav-number">2.</span> <span class="nav-text">1.3.4输入和输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-2包的安装"><span class="nav-number">3.</span> <span class="nav-text">1.4.2包的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5批处理"><span class="nav-number">4.</span> <span class="nav-text">1.5批处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6将输出用为输入"><span class="nav-number">5.</span> <span class="nav-text">1.6将输出用为输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-8示例实践"><span class="nav-number">6.</span> <span class="nav-text">1.8示例实践</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.bio-info-trainee.com/" title="http:&#x2F;&#x2F;www.bio-info-trainee.com&#x2F;" rel="noopener" target="_blank">生信菜鸟团</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
