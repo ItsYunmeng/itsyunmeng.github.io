@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Anvi&#39;o_v6_tutorial_Chapter1.Genome_resolved Metagenomics">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/03/23/anvi-o-v6-1-genome-resolved-Metagenomics/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="摘要：">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-23T13:39:48.000Z">
+<meta property="article:modified_time" content="2020-03-23T20:43:58.206Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="Anvi&#39;o">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/03/23/anvi-o-v6-1-genome-resolved-Metagenomics/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Anvi'o_v6_tutorial_Chapter1.Genome_resolved Metagenomics | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/03/23/anvi-o-v6-1-genome-resolved-Metagenomics/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Anvi'o_v6_tutorial_Chapter1.Genome_resolved Metagenomics
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-03-23 14:39:48 / Modified: 21:43:58" itemprop="dateCreated datePublished" datetime="2020-03-23T14:39:48+01:00">2020-03-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bioinformatics/" itemprop="url" rel="index"><span itemprop="name">Bioinformatics</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>摘要：</strong></p>
+<a id="more"></a>
+<h3 id="本章简介"><a href="#本章简介" class="headerlink" title="本章简介"></a>本章简介</h3><p>本教程的目的是使用Infant Gut Dataset (IGD)进行有关基因组解析的宏基因组学讨论，主要侧重于手动分箱。IGD由<a href="https://www.ncbi.nlm.nih.gov/pubmed/22936250" target="_blank" rel="noopener">Sharon et al. 2013</a>产生、分析和发布，然后在<a href="https://peerj.com/articles/1319/" target="_blank" rel="noopener">Anvi’o 方法论文</a>中进行了重新分析。</p>
+<p>本教程结束，你将得以：</p>
+<ul>
+<li>熟悉分箱的 <strong>交互界面</strong>（~25min）</li>
+<li><strong>检查contigs</strong> 是否具有宏基因组的信号（~5min）</li>
+<li>通过手动分箱表征 <strong>bins</strong>（~20min）</li>
+<li><strong>汇总手动分箱的结果</strong> 以进行下游分析（~20min）</li>
+<li><strong>手动管理各个bins</strong> 以进行质控（~10min）</li>
+<li>导入并可视化 <strong>外部分箱结果</strong>（~20min）</li>
+<li>整合 <strong>手动和自动分箱</strong>（~10min）</li>
+</ul>
+<p>本章结束，你应该（1）对基因组解析的宏基因组学有一个全面的了解，并且（2）能够从你自己的装配输出向前表征和手动管理基因组。</p>
+<p>典型的anvi’o解析宏基因组学工作流程<a href="http://merenlab.org/2016/06/22/anvio-tutorial-v2/#preparation" target="_blank" rel="noopener">从一个或多个BAM文件和contigs的FASTA文件开始</a>。有多种方法可以获取宏基因组的contigs和BAM文件，并且我们已经写了一个教程，该教程<a href="http://merenlab.org/2018/07/09/anvio-snakemake-workflows/" target="_blank" rel="noopener">描述了我们经常使用的工作流程</a>。 但是，在本教程中，我们将从工作流程中的某个点开始，在该点上，你已使用BAM和FASTA文件生成了anvi’o contigs和profile数据库。</p>
+<blockquote>
+<p>本教程较为简单，更全面也更抽象的教程见<a href="http://merenlab.org/2016/06/22/anvio-tutorial-v2/" target="_blank" rel="noopener">Anvi’o宏基因组工作流程</a></p>
+</blockquote>
+<p>使用data-pack目录中的文件，首先让我们看一下婴儿肠道宏基因组数据集的合并配置文件数据库。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conda activate anvio-<span class="number">6.1</span></span><br><span class="line">cd /media/sf_Bioinformatics/Anvi\'o_v6_tutorial/INFANT-GUT-TUTORIAL/</span><br><span class="line">anvi-interactive -p <span class="module-access"><span class="module"><span class="identifier">PROFILE</span>.</span></span>db -c <span class="module-access"><span class="module"><span class="identifier">CONTIGS</span>.</span></span>db</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Anvi’o交互界面宏基因组分箱相关的特点<br>anvi’o的交互式界面可能会让人感到不知所措。除了交互式界面教程之外，此特殊框还试图让您深入了解与宏基因组划分相关的交互式界面的功能。<br>首先，树状图的每个叶子都描述了一个contig。contigs由于其较长的长度而分为多个片段，可以在<code>parent</code> layer中进行识别。<code>GC-Content</code>显示后的灰色层表示11个宏基因组中每个contig/spilt的平均覆盖率值（即环境信号）。最后，你可以单击界面右侧的<code>MOUSE</code>框，以在显示屏上更详细地浏览数字和字母值。<br>交互界面启动并运行后，即可进行分箱：通过将鼠标悬停在anvi’o图形中心的树上，可以选择contig；单击鼠标左键将突出显示的选择添加到当前箱中;单机右键从当前箱中删除突出显示的选择；单击Setting中<code>Bins</code>标签下的<code>New bin</code>，创建新的bin；点击您感兴趣的bin名称旁边的蓝点将其更改为一个不同的bin。<br><strong>操纵内部的树状图</strong><br>默认情况下，anvi’o使用三种不同的聚类方法来组织中央树状图中的contigs。您执行手动分箱的能力将部分取决于您对这些聚类策略的了解。 这是每个的简要说明：</p>
+<ul>
+<li>差异覆盖：基于基因组间contigs的差异覆盖进行聚类。该度量标准背后的逻辑是，源自同一基因组的片段应具有相同的分布模式，通常不同于其他基因组。</li>
+<li>序列组成：基于contigs的序列组成（默认情况下，其四核苷酸频率）进行聚类。 这可能看起来很奇怪（实际上，对我们许多人而言），但是源自同一基因组的片段倾向于表现出相似的序列组成，通常不同于对应于远缘谱系的基因组。</li>
+<li>差异覆盖和序列组成：使用两个指标进行聚类以获得最佳分箱分辨率。</li>
+</ul>
+<p><strong>检查单个contig是否具有宏基因组的信号</strong><br>除了根据不同的聚类策略选择bins外，你还可以更详细地探索宏基因组间单个contig的覆盖范围：这是inspection模式。你只需要在感兴趣的contig的坐标上右键单击任何宏基因组图层，然后选择<code>Inspect split</code>。会弹出一个新窗口。<br>注意，基因坐标显示在底部，单击即可访问其推断的功能。当检测到时，该显示中还描述了单核苷酸变体（竖线）。 好奇心得到满足后，您可以关闭inspection模式窗口。</p>
+</blockquote>
+<h3 id="输入基因分类"><a href="#输入基因分类" class="headerlink" title="输入基因分类"></a>输入基因分类</h3><p>Anvi’o可以使用基因水平分类注释，但是对于基因水平分类，除了手动分箱时偶尔帮助外，没有其他用途。一旦基因水平分类被添加到contigs数据库后，anvi’o将根据它们描述的基因的分类隶属关系确定每个contig的分类，并在可能的情况下在界面中显示它们。<br>Centrifuge（<a href="https://github.com/infphilo/centrifuge" target="_blank" rel="noopener">code</a>，<a href="https://www.biorxiv.org/node/15197.article-info" target="_blank" rel="noopener">pre-print</a>）是将<a href="http://merenlab.org/2016/06/18/importing-taxonomy/#centrifuge-output" target="_blank" rel="noopener">分类注释导入</a>anvi’o contigs数据库的<a href="http://merenlab.org/2016/06/18/importing-taxonomy/#centrifuge-output" target="_blank" rel="noopener">一种选择</a>。IGD的centrifuge文件已经在目录<code>Additional-files/centrifuge-files</code>中。<br>如果你通过以下方式将这些文件导入contigs数据库，并再次运行交互式界面，您将看到一个具有分类法的附加层。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">anvi-import-taxonomy-<span class="keyword">for</span>-genes -c CONTIGS<span class="selector-class">.db</span> \</span><br><span class="line">                               -<span class="selector-tag">p</span> centrifuge \</span><br><span class="line">                               -<span class="selector-tag">i</span> additional-files/centrifuge-files/centrifuge_report<span class="selector-class">.tsv</span> \</span><br><span class="line">                               additional-files/centrifuge-files/centrifuge_hits.tsv</span><br><span class="line">anvi-interactive -<span class="selector-tag">p</span> PROFILE<span class="selector-class">.db</span> -c CONTIGS.db</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在层标签中找到<code>Taxonomy</code>层，将其高度设置为200，然后将该层拖到<code>DAY24</code>和<code>hmms_Ribosomal_RNAs</code>之间，然后再次单击<code>Draw</code>。然后单击<code>Save State</code>按钮，并覆盖<code>default</code>状态。这样可以确保anvi’o记得在下次运行交互式界面时将该层的高度设置为200px！</p>
+</blockquote>
+<h3 id="推断宏基因组的分类"><a href="#推断宏基因组的分类" class="headerlink" title="推断宏基因组的分类"></a>推断宏基因组的分类</h3><p>因此，在这一点上，我们对在这个数据集中拥有什么基因组还一无所知，但是Anvi’o可以通过表征单拷贝核心基因(single-copy core genes, scg)的分类从属关系来了解给定基因组的分类。详细介绍此scg分类法工作流程见<a href="http://merenlab.org/2019/10/08/anvio-scg-taxonomy/" target="_blank" rel="noopener">此处</a>。</p>
+<blockquote>
+<p><strong>特殊数据库设置</strong><br>由于anvi’o v6的故障，您可能会在这里遇到一些SCG数据库问题，所以让我们在这里一劳永逸地解决它。这是您将要做的一次。首先，复制并粘贴以下行，以从磁盘上删除所有以前生成的数据库（这种神秘的一线将删除所有用于SCG分类的数据库）：<br><code>python -c &#39;import anvio; \
+           import glob; \
+           import os; \
+               [os.remove(x) for x in glob.glob(os.path.join(os.path.dirname(anvio.__file__), \
+                                               &quot;data/misc/SCG_TAXONOMY/GTDB/SCG_SEARCH_DATABASES/&quot;) + &quot;*.dmnd&quot;) \
+                                                        if os.path.exists(x)]&#39;</code><br>然后使用四个线程重新创建他们：<br><code>anvi-setup-scg-databases -T 4</code><br>并在我们的contigs数据库上重新运行分类：<br><code>anvi-run-scg-taxonomy -c CONTIGS.db \
+                      --num-parallel-processes 3 \
+                      --num-threads 2</code><br>完成。</p>
+</blockquote>
+<p>你可以先通过命令行快速查看宏基因组的分类组成：</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Anvi-o/" rel="tag"># Anvi'o</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/23/anvi-o-v6-introduction/" rel="prev" title="Anvi'o_v6_tutorial_introduction">
+      <i class="fa fa-chevron-left"></i> Anvi'o_v6_tutorial_introduction
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/25/2020-10-wojuedinghuodeyouqu/" rel="next" title="2020.10.我决定活得有趣">
+      2020.10.我决定活得有趣 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#本章简介"><span class="nav-number">1.</span> <span class="nav-text">本章简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入基因分类"><span class="nav-number">2.</span> <span class="nav-text">输入基因分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推断宏基因组的分类"><span class="nav-number">3.</span> <span class="nav-text">推断宏基因组的分类</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.bio-info-trainee.com/" title="http:&#x2F;&#x2F;www.bio-info-trainee.com&#x2F;" rel="noopener" target="_blank">生信菜鸟团</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
