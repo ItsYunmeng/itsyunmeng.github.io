@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="摘要： 物种和环境数据的探索性分析。">
+  <meta name="description" content="摘要： 物种和环境数据的探索性分析，包含生物多样性指数、物种数据转化、环境变量之间的关系、环境因子标准化和正态性检验等。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="笔记_数量生态学_2.探索性数据分析">
 <meta property="og:url" content="https://itsyunmeng.github.io/2020/04/20/NumericalEcologywithR-2-exploratorydataanalysis/index.html">
 <meta property="og:site_name" content="Yunmeng&#39;s Blog">
-<meta property="og:description" content="摘要： 物种和环境数据的探索性分析。">
+<meta property="og:description" content="摘要： 物种和环境数据的探索性分析，包含生物多样性指数、物种数据转化、环境变量之间的关系、环境因子标准化和正态性检验等。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-2-exploratorydataanalysis/1.SpeAbundanceBarplot.png">
 <meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-2-exploratorydataanalysis/2.SiteLocations.png">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-2-exploratorydataanalysis/10.envbivariateplots.png">
 <meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-2-exploratorydataanalysis/11.rawandlogtransformation.png">
 <meta property="article:published_time" content="2020-04-20T11:59:26.000Z">
-<meta property="article:modified_time" content="2020-04-20T20:34:46.682Z">
+<meta property="article:modified_time" content="2020-04-21T07:01:59.352Z">
 <meta property="article:author" content="Yunmeng">
 <meta property="article:tag" content="R.Books">
 <meta name="twitter:card" content="summary">
@@ -198,10 +198,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-04-20 13:59:26 / Modified: 22:34:46" itemprop="dateCreated datePublished" datetime="2020-04-20T13:59:26+02:00">2020-04-20</time>
+              <time title="Created: 2020-04-20 13:59:26" itemprop="dateCreated datePublished" datetime="2020-04-20T13:59:26+02:00">2020-04-20</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-04-21 09:01:59" itemprop="dateModified" datetime="2020-04-21T09:01:59+02:00">2020-04-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -223,7 +229,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>摘要：</strong> 物种和环境数据的探索性分析。</p>
+        <p><strong>摘要：</strong> 物种和环境数据的探索性分析，包含生物多样性指数、物种数据转化、环境变量之间的关系、环境因子标准化和正态性检验等。</p>
 <a id="more"></a>
 <h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>探索性数据分析（exploratory data analysis, EDA），目的在于：</p>
 <ul>
@@ -372,7 +378,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
