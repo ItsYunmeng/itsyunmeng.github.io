@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要： 主要介绍了四种非约束排序：主成分分析（PCA）、对应分析（CA）、主坐标分析（PCoA）和非度量多维尺度分析（NMDS）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="笔记_数量生态学_5.非约束排序">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/04/24/NumericalEcologywithR-5-unconstrainedordination/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="摘要： 主要介绍了四种非约束排序：主成分分析（PCA）、对应分析（CA）、主坐标分析（PCoA）和非度量多维尺度分析（NMDS）。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/1.pca.eigenvalues.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/2.pca.biplot.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/3.pca.cluster.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/4.pca.eigenvalues.spe.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/5.pca.biplot.spe.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/6.ca.eigenvalues.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/7.ca.biplot.env.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/8.ca.biplot.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/9.PCoAwithspecies.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/10.pcoa.biplot.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/11.nmds.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/12.nmds.goodness.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/13.nmds.cluster.png">
+<meta property="article:published_time" content="2020-04-24T08:14:43.000Z">
+<meta property="article:modified_time" content="2020-04-27T10:42:47.792Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="R.Books">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/1.pca.eigenvalues.png">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/04/24/NumericalEcologywithR-5-unconstrainedordination/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>笔记_数量生态学_5.非约束排序 | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/04/24/NumericalEcologywithR-5-unconstrainedordination/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          笔记_数量生态学_5.非约束排序
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-24 10:14:43" itemprop="dateCreated datePublished" datetime="2020-04-24T10:14:43+02:00">2020-04-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-04-27 12:42:47" itemprop="dateModified" datetime="2020-04-27T12:42:47+02:00">2020-04-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>摘要：</strong> 主要介绍了四种非约束排序：主成分分析（PCA）、对应分析（CA）、主坐标分析（PCoA）和非度量多维尺度分析（NMDS）。</p>
+<a id="more"></a>
+<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>如果说聚类分析的目的在于寻找数据的间断性，那么排序的目的就在于寻找数据的连续性（通过连续的排序轴展示数据的主要趋势）。<br>本章的主要内容：</p>
+<ul>
+<li>学习如何选择合适的排序方法（PCA、CA、PCoA和NMDS），如何使用正确的参数选项运行这些排序分析的函数以及如何正确解读排序图；</li>
+<li>利用上述排序方法分析Doubs河流数据集；</li>
+<li>在排序图上叠加聚类分析的结果，以便更好地解读聚类分析的结果；</li>
+<li>将环境变量被动加入非约束排序，解读物种数据结构。</li>
+</ul>
+<h1 id="排序概述"><a href="#排序概述" class="headerlink" title="排序概述"></a>排序概述</h1><h2 id="多维空间"><a href="#多维空间" class="headerlink" title="多维空间"></a>多维空间</h2><p>排序过程实际上是将多维空间内的数据点尽可能排列在可视化的低维空间，也就是使最前面的几个排序轴尽可能包含数据结构变化的主要趋势。<br>注意：非约束排序只是描述性方法，不存在用统计检验评估排序结果显著性的问题。</p>
+<h2 id="降维空间内的排序"><a href="#降维空间内的排序" class="headerlink" title="降维空间内的排序"></a>降维空间内的排序</h2><p><strong>主成分分析(principal component analysis, PCA)</strong>：基于特征向量的排序方法。<u>分析对象是原始的定量数据。排序图展示样方之间的欧氏距离。</u><br><strong>对应分析(correspondence analysis, CA)</strong>：分析对象必须是频度或类频度、同量纲的非负数据。<u>排序图展示行（对象）或列（变量）之间的卡方距离。在生态学研究中主要用于分析物种数据。</u><br><strong>主坐标分析(principal coordinate analysis, PCoA)</strong>：分析对象为距离矩阵（大部分为Q模式），而非原始的样方-变量矩阵表格。因此，可以灵活选择关联测度。<br><strong>非度量多维尺度分析(nonmetric multidimensional scaling, NMDS)</strong>：与前面三种排序方法不同，NMDS不是基于特征向量提取的排序方法。NMDS尝试在预先设定数量的排序轴去排序对象，目标是保持这些对象排位关系(ordering relationship)不变。<br>注意：<u>PCoA和NMDS可以对任何一种距离方阵进行排序。</u></p>
+<h1 id="主成分分析（PCA）"><a href="#主成分分析（PCA）" class="headerlink" title="主成分分析（PCA）"></a>主成分分析（PCA）</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>PCA致力于分析定量数据，展示欧氏距离，线性关系，因此，PCA通常不适合原始的物种多度数据分析。但是适当转化后的物种数据可以进行PCA分析。</p>
+<h2 id="使用rda-函数对Doubs环境数据进行PCA分析"><a href="#使用rda-函数对Doubs环境数据进行PCA分析" class="headerlink" title="使用rda()函数对Doubs环境数据进行PCA分析"></a>使用rda()函数对Doubs环境数据进行PCA分析</h2><h3 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">library</span><span class="params">(ade4)</span></span></span><br><span class="line"><span class="function"><span class="title">library</span><span class="params">(vegan)</span></span></span><br><span class="line"><span class="function"><span class="title">library</span><span class="params">(gclus)</span></span>  </span><br><span class="line"><span class="function"><span class="title">library</span><span class="params">(ape)</span></span></span><br><span class="line">spe &lt;- read.csv(<span class="string">"DoubsSpe.csv"</span>, row.names=<span class="number">1</span>)</span><br><span class="line">env &lt;- read.csv(<span class="string">"DoubsEnv.csv"</span>, row.names=<span class="number">1</span>)</span><br><span class="line">spa &lt;- read.csv(<span class="string">"DoubsSpa.csv"</span>, row.names=<span class="number">1</span>)</span><br><span class="line">spe &lt;- spe[-<span class="number">8</span>,]</span><br><span class="line">env &lt;- env[-<span class="number">8</span>,]</span><br><span class="line">spa &lt;- spa[-<span class="number">8</span>,]</span><br><span class="line"><span class="function"><span class="title">summary</span><span class="params">(env)</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="基于相关矩阵的PCA"><a href="#基于相关矩阵的PCA" class="headerlink" title="基于相关矩阵的PCA"></a>基于相关矩阵的PCA</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">env.pca &lt;- rda(env, <span class="attribute">scale</span>=<span class="literal">TRUE</span>) #<span class="attribute">scale</span>=<span class="literal">TRUE</span>表示对变量进行标准化</span><br><span class="line">env.pca</span><br><span class="line">summary(env.pca) #默认<span class="attribute">scaling</span>=2,分析兴趣在于解读变量之间的关系,箭头之间的角度表示相关性；也可设置scaling=1，分析兴趣在于解读对象之间的关系，箭头之间的角度无意义。species scores表示变量在排序图的坐标；site scores表示对象在排序图的坐标。</span><br></pre></td></tr></table></figure>
+<h3 id="提取、解读和绘制vegan程序包输出的PCA结果"><a href="#提取、解读和绘制vegan程序包输出的PCA结果" class="headerlink" title="提取、解读和绘制vegan程序包输出的PCA结果"></a>提取、解读和绘制vegan程序包输出的PCA结果</h3><p>有多少个排序轴值得保留和解读？<br>①先看特征根，根据被解释方差所占的比例进行选择，比较随意；<br>②根据Kaiser-Guttman准则：选择保留特征根大于特征根平均值的轴；<br>③根据断棍模型：可以选择特征根大于断棍长度的轴，或者选择特征根的总和大于所对应断棍长度总和前几轴。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">(ev &lt;- env.pca<span class="variable">$CA</span><span class="variable">$eig</span>)#输出特征根</span><br><span class="line"><span class="comment">#②kaiser-Guttman准则</span></span><br><span class="line">ev[ev &gt; mean(ev)]</span><br><span class="line"><span class="comment">#③断棍模型</span></span><br><span class="line">n &lt;- length(ev)</span><br><span class="line">bsm &lt;- data.frame(<span class="attribute">j</span>=seq(1:n), <span class="attribute">p</span>=0)</span><br><span class="line">bsm<span class="variable">$p</span>[1] &lt;- 1/n</span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> 2:n) &#123;</span><br><span class="line">	bsm<span class="variable">$p</span>[i] = bsm<span class="variable">$p</span>[i-1] + (1/(n + 1 - i))</span><br><span class="line">&#125;</span><br><span class="line">bsm<span class="variable">$p</span> &lt;- 100<span class="number">*b</span>sm<span class="variable">$p</span>/n</span><br><span class="line">bsm</span><br><span class="line"><span class="comment">#绘制每轴的特征根和方差百分比</span></span><br><span class="line">par(<span class="attribute">mfrow</span>=c(2,1))</span><br><span class="line">barplot(ev, <span class="attribute">main</span>=<span class="string">"Eigenvalues"</span>, <span class="attribute">col</span>=<span class="string">"bisque"</span>, <span class="attribute">las</span>=2)</span><br><span class="line">abline(<span class="attribute">h</span>=mean(ev), <span class="attribute">col</span>=<span class="string">"red"</span>)</span><br><span class="line">legend(<span class="string">"topright"</span>, <span class="string">"Average eigenvalue"</span>, <span class="attribute">lwd</span>=1, <span class="attribute">col</span>=2, <span class="attribute">bty</span>=<span class="string">"n"</span>)</span><br><span class="line">barplot(t(cbind(100<span class="number">*e</span>v/sum(ev),bsm<span class="variable">$p</span>[n:1])), <span class="attribute">beside</span>=<span class="literal">TRUE</span>,</span><br><span class="line">	<span class="attribute">main</span>=<span class="string">"% variance"</span>, <span class="attribute">col</span>=c("bisque",2), <span class="attribute">las</span>=2)</span><br><span class="line">legend(<span class="string">"topright"</span>, c(<span class="string">"% evigenvalue"</span>, <span class="string">"Broken stick model"</span>),</span><br><span class="line">	<span class="attribute">pch</span>=15, <span class="attribute">col</span>=c("bisque",2), <span class="attribute">bty</span>=<span class="string">"n"</span>)</span><br><span class="line"><span class="comment">#上述代码已集成到自编函数evplot.R中，可以通过source("evplot.R"),evplot(ev)使用。</span></span><br></pre></td></tr></table></figure>
+<p>1.pca.eigenvalues<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/1.pca.eigenvalues.png" alt="1"></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用biplot()函数绘制排序图</span></span><br><span class="line">par(<span class="attribute">mfrow</span>=c(1,2))</span><br><span class="line">biplot(env.pca, <span class="attribute">scaling</span>=1, <span class="attribute">main</span>=<span class="string">"PCA-scaling1"</span>)#关注对象</span><br><span class="line">biplot(env.pca, <span class="attribute">main</span>=<span class="string">"PCA-scaling2"</span>)#默认scaling = 2，关注变量</span><br></pre></td></tr></table></figure>
+<p>2.pca.biplot<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/2.pca.biplot.png" alt="2"></p>
+<h3 id="组合聚类分析结果和排序结果"><a href="#组合聚类分析结果和排序结果" class="headerlink" title="组合聚类分析结果和排序结果"></a>组合聚类分析结果和排序结果</h3><p>两种方法：①在排序图上用不同颜色去区分不同样方组；②将聚类树添加到排序图上</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用环境变量数据对样方进行基于变量标准化后欧氏距离的ward聚类分析</span></span><br><span class="line">env.w &lt;- hclust(dist(scale(env)), <span class="string">"ward"</span>)</span><br><span class="line"><span class="comment">#裁剪聚类树，分为4组</span></span><br><span class="line">gr &lt;- cutree(env.w, <span class="attribute">k</span>=4)</span><br><span class="line">grl &lt;- levels(factor(gr))</span><br><span class="line"><span class="comment">#提取样方坐标，1型标尺</span></span><br><span class="line">sit.sc1 &lt;- scores(env.pca, <span class="attribute">display</span>=<span class="string">"wa"</span>, <span class="attribute">scaling</span>=1)</span><br><span class="line"><span class="comment">#①按照聚类分析的结果对样方进行标识和标色（1型标尺）</span></span><br><span class="line">p &lt;- plot(env.pca, <span class="attribute">display</span>=<span class="string">"wa"</span>, <span class="attribute">scaling</span>=1, <span class="attribute">type</span>=<span class="string">"n"</span>,</span><br><span class="line">	<span class="attribute">main</span>=<span class="string">"PCA correlation+clusters"</span>)</span><br><span class="line">abline(<span class="attribute">v</span>=0, <span class="attribute">lty</span>=<span class="string">"dotted"</span>)</span><br><span class="line">abline(<span class="attribute">h</span>=0, <span class="attribute">lty</span>=<span class="string">"dotted"</span>)</span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> 1:length(grl)) &#123;</span><br><span class="line">	points(sit.sc1[<span class="attribute">gr</span>==i,], pch=(14+i), <span class="attribute">cex</span>=2, <span class="attribute">col</span>=i+1)</span><br><span class="line">	&#125;</span><br><span class="line">text(sit.sc1, row.names(env), <span class="attribute">cex</span>=.7, <span class="attribute">pos</span>=3)</span><br><span class="line"><span class="comment">#②在排序图内添加聚类树</span></span><br><span class="line">ordicluster(p, env.w, <span class="attribute">col</span>=<span class="string">"dark grey"</span>)</span><br><span class="line">legend(<span class="string">"topright"</span>, paste(<span class="string">"Group"</span>,c(1:length(grl))), <span class="attribute">pch</span>=14+c(1:length(grl)),</span><br><span class="line">  <span class="attribute">col</span>=1+c(1:length(grl)), pt.<span class="attribute">cex</span>=2)</span><br></pre></td></tr></table></figure>
+<p>3.pca.cluster<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/3.pca.cluster.png" alt="3"></p>
+<h2 id="转化后的物种数据的PCA分析"><a href="#转化后的物种数据的PCA分析" class="headerlink" title="转化后的物种数据的PCA分析"></a>转化后的物种数据的PCA分析</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">spe<span class="selector-class">.h</span> &lt;- decostand(spe, <span class="string">"hellinger"</span>)</span><br><span class="line">spe<span class="selector-class">.h</span><span class="selector-class">.pca</span> &lt;- rda(spe.h)</span><br><span class="line">spe<span class="selector-class">.h</span>.pca</span><br><span class="line">ev &lt;- spe<span class="selector-class">.h</span>.pca<span class="variable">$CA</span><span class="variable">$eig</span></span><br><span class="line"><span class="function"><span class="title">evplot</span><span class="params">(ev)</span></span>#绘制特征根和方差百分比</span><br><span class="line">par（mfrow=c(<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line"><span class="function"><span class="title">biplot</span><span class="params">(spe.h.pca,scaling=<span class="number">1</span>,main=<span class="string">"PCA-scaling1"</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">biplot</span><span class="params">(spe.h.pca,main=<span class="string">"PCA-scaling2"</span>)</span></span></span><br></pre></td></tr></table></figure>
+<p>4.pca.eigenvalues.spe<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/4.pca.eigenvalues.spe.png" alt="4"></p>
+<h2 id="PCA应用领域"><a href="#PCA应用领域" class="headerlink" title="PCA应用领域"></a>PCA应用领域</h2><p>基于定量环境变量的样方排序，以及经过适当转化后的群落组成数据的样方排序<br>要求：数据具有相同的量纲</p>
+<h2 id="使用自编的PCA-函数进行PCA分析"><a href="#使用自编的PCA-函数进行PCA分析" class="headerlink" title="使用自编的PCA()函数进行PCA分析"></a>使用自编的PCA()函数进行PCA分析</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">source(<span class="string">"PCA.R"</span>)</span><br><span class="line">env.PCA.PL1 &lt;- PCA(env, <span class="attribute">stand</span>=<span class="literal">TRUE</span>)</span><br><span class="line">par(<span class="attribute">mfrow</span>=c(1,2))</span><br><span class="line">biplot.PCA(env.PCA.PL1)#这里默认的是1型标尺双序图</span><br><span class="line">abline(<span class="attribute">h</span>=0, <span class="attribute">lty</span>=3)</span><br><span class="line">abline(<span class="attribute">v</span>=0, <span class="attribute">lty</span>=3)</span><br><span class="line">env.PCA.PL2 &lt;- PCA(env, <span class="attribute">stand</span>=<span class="literal">TRUE</span>)</span><br><span class="line">biplot.PCA(env.PCA.PL2 ,<span class="attribute">scaling</span>=2)#生成2型标尺双序图</span><br><span class="line">abline(<span class="attribute">h</span>=0, <span class="attribute">lty</span>=3)</span><br><span class="line">abline(<span class="attribute">v</span>=0, <span class="attribute">lty</span>=3)</span><br></pre></td></tr></table></figure>
+<p>5.pca.biplot.spe<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/5.pca.biplot.spe.png" alt="5"></p>
+<h1 id="对应分析（CA）"><a href="#对应分析（CA）" class="headerlink" title="对应分析（CA）"></a>对应分析（CA）</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>长期以来，CA是分析物种有-无或多度数据最受欢迎的工具之一。<br>CA的排序结果展示的是样方之间的卡方距离，而不是欧氏距离。卡方距离不受双零问题的影响，因此，CA非常适用于原始的物种多度数据分析（无需预转化）。<br>以样方为行、物种为列的物种矩阵数据，scaling=1强调对象（样方）之间的关系，scaling=2强调变量（物种）之间的关系。</p>
+<h2 id="使用vegan包里的cca-函数进行CA分析"><a href="#使用vegan包里的cca-函数进行CA分析" class="headerlink" title="使用vegan包里的cca()函数进行CA分析"></a>使用vegan包里的cca()函数进行CA分析</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">###运行分析和绘制双序图</span><br><span class="line">spe<span class="selector-class">.ca</span> &lt;- cca(spe)</span><br><span class="line">spe.ca</span><br><span class="line"><span class="function"><span class="title">summary</span><span class="params">(spe.ca)</span></span>		#默认scaling= <span class="number">2</span></span><br><span class="line"><span class="function"><span class="title">summary</span><span class="params">(spe.ca, scaling=<span class="number">1</span>)</span></span></span><br><span class="line">(ev2 &lt;- spe.ca<span class="variable">$CA</span><span class="variable">$eig</span>)</span><br><span class="line"><span class="function"><span class="title">evplot</span><span class="params">(ev2)</span></span>#两类标尺下，特征根一样。标尺的选择，只影响特征向量，不影响特征根。</span><br><span class="line">#断棍模型比Kaiser-Guttman准则更保守</span><br><span class="line"><span class="function"><span class="title">par</span><span class="params">(mfrow=c(<span class="number">1</span>,<span class="number">2</span>)</span></span>)</span><br><span class="line"><span class="function"><span class="title">plot</span><span class="params">(spe.ca, scaling=<span class="number">1</span>, main=<span class="string">"CA fish abundances-biplot scaling 1"</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">plot</span><span class="params">(spe.ca, main=<span class="string">"CA fish abundances-biplot scaling 2"</span>)</span></span></span><br><span class="line">###使用环境变量被动解释排序轴</span><br><span class="line">##在vegan包里，被动加入环境变量可以通过函数envfit()实现。</span><br><span class="line">spe<span class="selector-class">.ca</span><span class="selector-class">.env</span> &lt;- envfit(spe<span class="selector-class">.ca</span>, env)#envfit()函数也用于解释变量与排序轴回归r2的显著性的置换检验。</span><br><span class="line"><span class="function"><span class="title">plot</span><span class="params">(spe.ca.env)</span></span></span><br><span class="line">###基于CA排序轴重排数据表格</span><br><span class="line"><span class="function"><span class="title">vegemite</span><span class="params">(spe, spe.ca)</span></span>#可选</span><br></pre></td></tr></table></figure>
+<p>6.ca.eigenvalues<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/6.ca.eigenvalues.png" alt="6"><br>7.ca.biplot.env<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/7.ca.biplot.env.png" alt="7"></p>
+<h2 id="使用自编的CA-函数进行对应分析"><a href="#使用自编的CA-函数进行对应分析" class="headerlink" title="使用自编的CA()函数进行对应分析"></a>使用自编的CA()函数进行对应分析</h2><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">source(<span class="string">"CA.R"</span>)</span><br><span class="line">spe.<span class="keyword">CA</span>.<span class="keyword">PL</span> &lt;- <span class="keyword">CA</span>(spe)</span><br><span class="line"><span class="keyword">biplot</span>(spe.<span class="keyword">CA</span>.<span class="keyword">PL</span>, cex=1)</span><br><span class="line">#用<span class="keyword">CA</span>第一轴排序结果重新排列数据表格</span><br><span class="line">#重新排列数据表格与vegemite()输出的结果一样</span><br><span class="line">summary(spe.<span class="keyword">CA</span>.<span class="keyword">PL</span>)</span><br><span class="line">t(spe[<span class="keyword">order</span>(spe.<span class="keyword">CA</span>.<span class="keyword">PL</span><span class="variable">$F</span>[,1]),<span class="keyword">order</span>(spe.<span class="keyword">CA</span>.<span class="keyword">PL</span><span class="variable">$V</span>[,1])])</span><br></pre></td></tr></table></figure>
+<p>8.ca.biplot<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/8.ca.biplot.png" alt="8"></p>
+<h2 id="弓形效应和去趋势对应分析（DCA）"><a href="#弓形效应和去趋势对应分析（DCA）" class="headerlink" title="弓形效应和去趋势对应分析（DCA）"></a>弓形效应和去趋势对应分析（DCA）</h2><p><code>decorana()</code><br>查看结果中的“Axis lengths”的第一轴DCA1的值，根据该值判断该采用线性模型还是单峰模型：如果大于4.0，就应该选单峰模型；如果3.0-4.0之间，选线性模型或者单峰模型均可；如果小于3.0, 线性模型的结果要好于单峰模型</p>
+<h2 id="多重对应分析（MCA）"><a href="#多重对应分析（MCA）" class="headerlink" title="多重对应分析（MCA）"></a>多重对应分析（MCA）</h2><p>multiple correspondence analysis (MCA)</p>
+<h1 id="主坐标分析（PCoA）"><a href="#主坐标分析（PCoA）" class="headerlink" title="主坐标分析（PCoA）"></a>主坐标分析（PCoA）</h1><h2 id="引言-1"><a href="#引言-1" class="headerlink" title="引言"></a>引言</h2><p>PCA是欧氏距离，CA是卡方距离。如果认为以其他距离测度为基础去排序对象对于所研究问题更合适，PCoA分析是首选。</p>
+<h2 id="利用cmdscale-包和vegan包对Doubs数据进行PCoA分析"><a href="#利用cmdscale-包和vegan包对Doubs数据进行PCoA分析" class="headerlink" title="利用cmdscale()包和vegan包对Doubs数据进行PCoA分析"></a>利用cmdscale()包和vegan包对Doubs数据进行PCoA分析</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#基于鱼类物种数据Bray-curtis相异矩阵的PCoA分析</span></span><br><span class="line">spe.bray &lt;- vegdist(spe)#默认Bray-curtis相异系数</span><br><span class="line">spe.b.pcoa &lt;- cmdscale(spe.bray, k=(nrow(spe)-1), <span class="attribute">eig</span>=<span class="literal">TRUE</span>)#k indicates the maximum dimension; eig indicates whether eigenvalues should be returned.</span><br><span class="line"><span class="comment">#绘制样方主坐标排序图并用加权平均方法将物种投影到样方的PCoA排序图内</span></span><br><span class="line">ordiplot(scores(spe.b.pcoa)[,c(1,2)], <span class="attribute">type</span>=<span class="string">"t"</span>, <span class="attribute">main</span>=<span class="string">"PCoA with species"</span>)</span><br><span class="line">abline(<span class="attribute">h</span>=0, <span class="attribute">lty</span>=3)</span><br><span class="line">abline(<span class="attribute">v</span>=0, <span class="attribute">lty</span>=3)</span><br><span class="line"><span class="comment">#添加物种</span></span><br><span class="line">spe.wa &lt;- wascores(spe.b.pcoa<span class="variable">$points</span>[,1:2], spe)#以多度加权平均方式将物种被动投影到样方的PCoA排序图内。</span><br><span class="line">text(spe.wa, rownames(spe.wa), <span class="attribute">cex</span>=0.7, <span class="attribute">col</span>=<span class="string">"red"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>9.PCoAwithspecies<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/9.PCoAwithspecies.png" alt="9"></p>
+<h2 id="使用pcoa-函数对Doubs数据进行PCoA分析"><a href="#使用pcoa-函数对Doubs数据进行PCoA分析" class="headerlink" title="使用pcoa()函数对Doubs数据进行PCoA分析"></a>使用pcoa()函数对Doubs数据进行PCoA分析</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#基于物种数据经过hellinger转化后距离矩阵的PCoA分析</span></span><br><span class="line">spe.h.pcoa &lt;- pcoa(dist(spe.h))</span><br><span class="line">par(<span class="attribute">mfrow</span>=c(1,2))</span><br><span class="line"><span class="comment">#被动加入hellinger转化的物种数据</span></span><br><span class="line">biplot.pcoa(spe.h.pcoa, spe.h, dir.<span class="attribute">axis2</span>=-1)</span><br><span class="line">abline(<span class="attribute">h</span>=0, <span class="attribute">lty</span>=3)</span><br><span class="line">abline(<span class="attribute">v</span>=0, <span class="attribute">lty</span>=3)</span><br><span class="line"><span class="comment">#被动加入hellinger转化后标准化的物种数据</span></span><br><span class="line">spe.std &lt;- apply(spe.h, 2, scale)#等同于decostand(spe.h,<span class="string">"standardize"</span>)      </span><br><span class="line">biplot.pcoa(spe.h.pcoa, spe.std, dir.<span class="attribute">axis2</span>=-1)</span><br><span class="line">abline(<span class="attribute">h</span>=0, <span class="attribute">lty</span>=3)</span><br><span class="line">abline(<span class="attribute">v</span>=0, <span class="attribute">lty</span>=3)</span><br><span class="line"><span class="comment">#如果变量方差比较大，标准化对于优化排序图的视觉效果很有用。</span></span><br></pre></td></tr></table></figure>
+<p>10.pcoa.biplot<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/10.pcoa.biplot.png" alt="10"></p>
+<p>对于非欧氏距离，PCoA可能产生一些负特征根。函数pcoa()含有lingeous和cailliez校正可处理负特征根问题，并提供与断棍模型比较的特征根结果。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#基于Hellinger距离矩阵的PCoA</span><br><span class="line"><span class="keyword">is</span>.euclid(dist(<span class="keyword">spe</span>.h))#Is <span class="keyword">a</span> Distance Matrix Euclidean?</span><br><span class="line">summary(<span class="keyword">spe</span>.h.pcoa)</span><br><span class="line"><span class="keyword">spe</span>.h.pcoa$<span class="built_in">values</span></span><br><span class="line">#基于Bray-Curtis相异矩阵的PCoA</span><br><span class="line"><span class="keyword">is</span>.euclid(<span class="keyword">spe</span>.bray)</span><br><span class="line"><span class="keyword">spe</span>.bray.pcoa &lt;- pcoa(<span class="keyword">spe</span>.bray)</span><br><span class="line"><span class="keyword">spe</span>.bray.pcoa$<span class="built_in">values</span></span><br><span class="line">#基于Bray-Curtis相异矩阵平方根的PCoA</span><br><span class="line"><span class="keyword">is</span>.euclid(<span class="built_in">sqrt</span>(<span class="keyword">spe</span>.bray))</span><br><span class="line"><span class="keyword">spe</span>.braysq.pcoa &lt;- pcoa(<span class="built_in">sqrt</span>(<span class="keyword">spe</span>.bray))</span><br><span class="line"><span class="keyword">spe</span>.braysq.pcoa$<span class="built_in">values</span></span><br><span class="line">#基于Bray-Curtis相异矩阵的PCoA（Lingoes校正）</span><br><span class="line"><span class="keyword">spe</span>.brayl.pcoa &lt;- pcoa(<span class="keyword">spe</span>.bray, correction=<span class="string">"lingoes"</span>)</span><br><span class="line"><span class="keyword">spe</span>.brayl.pcoa$<span class="built_in">values</span></span><br><span class="line">#基于Bray-Curtis相异矩阵的PCoA（Cailliez校正）</span><br><span class="line"><span class="keyword">spe</span>.brayc.pcoa &lt;- pcoa(<span class="keyword">spe</span>.bray, correction=<span class="string">"cailliez"</span>)</span><br><span class="line"><span class="keyword">spe</span>.brayc.pcoa$values#观察特征根</span><br></pre></td></tr></table></figure>
+
+<h1 id="非度量多维尺度分析（NMDS）"><a href="#非度量多维尺度分析（NMDS）" class="headerlink" title="非度量多维尺度分析（NMDS）"></a>非度量多维尺度分析（NMDS）</h1><h2 id="引言-2"><a href="#引言-2" class="headerlink" title="引言"></a>引言</h2><p>如果排序的目的不是最大限度地保留对象之间实际的距离，只是反映对象之间的顺序关系，这个时候非度量多维尺度分析（nonmetrc multidimensional scaling, NMDS)可能是一种解决方案。<br>与PCoA一样，NMDS可以基于任何类型距离矩阵对对象（样方）进行排序。<br>与PCoA不同的是，NMDS不再基于距离矩阵数值，而是根据排位顺序进行计算。<br>NMDS不再是特征根排序技术，也不再以排序轴承载更多的变差为目的，因此NMDS排序图可以任意旋转、中心化和倒置。<br>NMDS计算需要不断迭代，对计算机的能力要求比较高，排序结果有时会依赖计算机技术。</p>
+<h2 id="鱼类数据NMDS分析（使用vegan包的metaMDS-函数"><a href="#鱼类数据NMDS分析（使用vegan包的metaMDS-函数" class="headerlink" title="鱼类数据NMDS分析（使用vegan包的metaMDS()函数)"></a>鱼类数据NMDS分析（使用vegan包的metaMDS()函数)</h2><p><code>metaMDS()</code>随机构建对象初始结构，并不断尝试以获得最佳的NMDS排序结果。<br>用<code>wascores()</code>函数将物种加入样方NMDS排序图中<br>示例：使用鱼类多度bray-curtis相异矩阵数据进行演示</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">spe</span>.nmds &lt;- metaMDS(<span class="keyword">spe</span>, distance=<span class="string">"bray"</span>)</span><br><span class="line"><span class="keyword">spe</span>.nmds</span><br><span class="line"><span class="keyword">spe</span>.nmds$stress</span><br><span class="line">plot(<span class="keyword">spe</span>.nmds, <span class="built_in">type</span>=<span class="string">"t"</span>, main=paste(<span class="string">"NMDS/Bray-Stress="</span>, <span class="built_in">round</span>(<span class="keyword">spe</span>.nmds$stress,<span class="number">3</span>)))</span><br></pre></td></tr></table></figure>
+<p>11.nmds<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/11.nmds.png" alt="11"></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#评估NMDS拟合度的shepard图</span></span><br><span class="line">par(<span class="attribute">mfrow</span>=c(1,2))</span><br><span class="line">stressplot(spe.nmds, <span class="attribute">main</span>=<span class="string">"Shepard plot"</span>)</span><br><span class="line">gof = goodness(spe.nmds)</span><br><span class="line">plot(spe.nmds, <span class="attribute">type</span>=<span class="string">"t"</span>, <span class="attribute">main</span>=<span class="string">"Goodness of fit"</span>)</span><br><span class="line">points(spe.nmds, <span class="attribute">display</span>=<span class="string">"sites"</span>, <span class="attribute">cex</span>=gof*200)#拟合度越差的点，气泡越大。</span><br></pre></td></tr></table></figure>
+<p>12.nmds.goodness<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/12.nmds.goodness.png" alt="12"></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#计算bray-curtis矩阵的ward聚类分析，然后提取4组，并在NMDS图内对属于不同组的样方进行标色。</span></span><br><span class="line">spe.bray.ward &lt;- hclust(spe.bray, <span class="string">"ward"</span>)</span><br><span class="line">spe.bw.groups &lt;- cutree(spe.bray.ward, <span class="attribute">k</span>=4)</span><br><span class="line">grp.lev &lt;- levels(factor(spe.bw.groups))</span><br><span class="line">sit.sc &lt;- scores(spe.nmds)</span><br><span class="line">p &lt;- ordiplot(sit.sc, <span class="attribute">type</span>=<span class="string">"n"</span>, <span class="attribute">main</span>=<span class="string">"NMDS/Bray + clusters Ward/Bray"</span>)</span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> 1:length(grp.lev)) &#123;</span><br><span class="line">	points(sit.sc[spe.bw.<span class="attribute">groups</span>==i,], pch=(14+i), <span class="attribute">cex</span>=2, <span class="attribute">col</span>=i+1)</span><br><span class="line">	&#125;</span><br><span class="line">text(sit.sc, row.names(spe), <span class="attribute">pos</span>=4, <span class="attribute">cex</span>=0.7)</span><br><span class="line">ordicluster(p, spe.bray.ward, <span class="attribute">col</span>=<span class="string">"dark grey"</span>)</span><br><span class="line">legend(locator(1), paste(<span class="string">"Group"</span>,c(1:length(grp.lev))),</span><br><span class="line">  <span class="attribute">pch</span>=14+c(1:length(grp.lev)), <span class="attribute">col</span>=1+c(1:length(grp.lev)), pt.<span class="attribute">cex</span>=2)</span><br></pre></td></tr></table></figure>
+<p>13.nmds.cluster<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/NumericalEcologywithR-5-unconstrainedordination/13.nmds.cluster.png" alt="13"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/R-Books/" rel="tag"># R.Books</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/21/NumericalEcologywithR-4-clustering/" rel="prev" title="笔记_数量生态学_4.聚类分析">
+      <i class="fa fa-chevron-left"></i> 笔记_数量生态学_4.聚类分析
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/27/NumericalEcologywithR-6-canonicalordination/" rel="next" title="笔记_数量生态学_6.典范排序">
+      笔记_数量生态学_6.典范排序 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目标"><span class="nav-number">1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#排序概述"><span class="nav-number">2.</span> <span class="nav-text">排序概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#多维空间"><span class="nav-number">2.1.</span> <span class="nav-text">多维空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#降维空间内的排序"><span class="nav-number">2.2.</span> <span class="nav-text">降维空间内的排序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主成分分析（PCA）"><span class="nav-number">3.</span> <span class="nav-text">主成分分析（PCA）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">3.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用rda-函数对Doubs环境数据进行PCA分析"><span class="nav-number">3.2.</span> <span class="nav-text">使用rda()函数对Doubs环境数据进行PCA分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据准备"><span class="nav-number">3.2.1.</span> <span class="nav-text">数据准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于相关矩阵的PCA"><span class="nav-number">3.2.2.</span> <span class="nav-text">基于相关矩阵的PCA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提取、解读和绘制vegan程序包输出的PCA结果"><span class="nav-number">3.2.3.</span> <span class="nav-text">提取、解读和绘制vegan程序包输出的PCA结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组合聚类分析结果和排序结果"><span class="nav-number">3.2.4.</span> <span class="nav-text">组合聚类分析结果和排序结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转化后的物种数据的PCA分析"><span class="nav-number">3.3.</span> <span class="nav-text">转化后的物种数据的PCA分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PCA应用领域"><span class="nav-number">3.4.</span> <span class="nav-text">PCA应用领域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用自编的PCA-函数进行PCA分析"><span class="nav-number">3.5.</span> <span class="nav-text">使用自编的PCA()函数进行PCA分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对应分析（CA）"><span class="nav-number">4.</span> <span class="nav-text">对应分析（CA）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">4.1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用vegan包里的cca-函数进行CA分析"><span class="nav-number">4.2.</span> <span class="nav-text">使用vegan包里的cca()函数进行CA分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用自编的CA-函数进行对应分析"><span class="nav-number">4.3.</span> <span class="nav-text">使用自编的CA()函数进行对应分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#弓形效应和去趋势对应分析（DCA）"><span class="nav-number">4.4.</span> <span class="nav-text">弓形效应和去趋势对应分析（DCA）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多重对应分析（MCA）"><span class="nav-number">4.5.</span> <span class="nav-text">多重对应分析（MCA）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主坐标分析（PCoA）"><span class="nav-number">5.</span> <span class="nav-text">主坐标分析（PCoA）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言-1"><span class="nav-number">5.1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用cmdscale-包和vegan包对Doubs数据进行PCoA分析"><span class="nav-number">5.2.</span> <span class="nav-text">利用cmdscale()包和vegan包对Doubs数据进行PCoA分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用pcoa-函数对Doubs数据进行PCoA分析"><span class="nav-number">5.3.</span> <span class="nav-text">使用pcoa()函数对Doubs数据进行PCoA分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#非度量多维尺度分析（NMDS）"><span class="nav-number">6.</span> <span class="nav-text">非度量多维尺度分析（NMDS）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言-2"><span class="nav-number">6.1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#鱼类数据NMDS分析（使用vegan包的metaMDS-函数"><span class="nav-number">6.2.</span> <span class="nav-text">鱼类数据NMDS分析（使用vegan包的metaMDS()函数)</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.bio-info-trainee.com/" title="http:&#x2F;&#x2F;www.bio-info-trainee.com&#x2F;" rel="noopener" target="_blank">生信菜鸟团</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

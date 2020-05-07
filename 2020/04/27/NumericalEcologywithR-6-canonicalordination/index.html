@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要： 主要介绍了几种典范排序：RDA（RDA分析和结果解读，每个轴的置换检验，偏RDA分析，前向选择筛选解释变量，方差分解，MANOVA，dbRDA和非线性关系的RDA）；典范对应分析（CCA）；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="笔记_数量生态学_6.典范排序">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/04/27/NumericalEcologywithR-6-canonicalordination/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="摘要： 主要介绍了几种典范排序：RDA（RDA分析和结果解读，每个轴的置换检验，偏RDA分析，前向选择筛选解释变量，方差分解，MANOVA，dbRDA和非线性关系的RDA）；典范对应分析（CCA）；">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-27T10:47:22.000Z">
+<meta property="article:modified_time" content="2020-04-28T10:46:54.609Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="R.Books">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/04/27/NumericalEcologywithR-6-canonicalordination/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>笔记_数量生态学_6.典范排序 | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/04/27/NumericalEcologywithR-6-canonicalordination/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          笔记_数量生态学_6.典范排序
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-27 12:47:22" itemprop="dateCreated datePublished" datetime="2020-04-27T12:47:22+02:00">2020-04-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-04-28 12:46:54" itemprop="dateModified" datetime="2020-04-28T12:46:54+02:00">2020-04-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>摘要：</strong> 主要介绍了几种典范排序：RDA（RDA分析和结果解读，每个轴的置换检验，偏RDA分析，前向选择筛选解释变量，方差分解，MANOVA，dbRDA和非线性关系的RDA）；典范对应分析（CCA）；</p>
+<a id="more"></a>
+<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>典范排序不再是被动加入解释变量，而是从排序开始直接加入解释变量进行运算。与非约束排序不同的是：典范排序只提取和展示与解释变量有关的数据结构，并可以通过统计检验方法检验解释变量和响应变量之间关系的显著性。<br>典范排序（canonical ordination）方法可以分为两组：对称(symmetrical)方法和非对称(asymmetrical)方法。<br>本章内容包括：</p>
+<ul>
+<li>学习如何选择典范排序技术：RDA, dbRDA, CCA, LDA, CCorA, CoIA和MFA。</li>
+<li>如何设定合适的参数值去运行这些排序方法和解读排序结果。</li>
+<li>用这些方法分析Doubs数据集。</li>
+<li>探索某些典范排序分析的特殊用法，例如变差分解(variation partitioning)和基于RDA的多元方差分析(MANOVA)。</li>
+</ul>
+<h1 id="典范排序概述"><a href="#典范排序概述" class="headerlink" title="典范排序概述"></a>典范排序概述</h1><p>典范排序同时使用解释变量和响应变量两个矩阵，一些情况两个矩阵对称，另一些情况不对称。</p>
+<ul>
+<li>非对称：RDA（redundancy analysis, 冗余分析）和CCA（典范对应分析）：均是多元回归与传统排序（PCA或CA）的组合。</li>
+<li>偏RDA分析和基于偏RDA分析的变差分解</li>
+<li>LDA（判别式分析）：寻找能够解释已经分组的对象的定量解释变量的组合。</li>
+<li>对称：CCorA（典范相关分析）、CoIA（协惯量分析）和MFA（多元因子分析）：计算能够表征两个或多个数据集共同结构的特征向量。</li>
+</ul>
+<h1 id="冗余分析-RDA"><a href="#冗余分析-RDA" class="headerlink" title="冗余分析(RDA)"></a>冗余分析(RDA)</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>RDA的目的是寻找能最大程度解释响应变量矩阵变差的一系列的解释变量的线性组合，因此RDA是被解释变量约束的排序。<br>在RDA中，可以检验响应变量矩阵Y与解释变量矩阵X的线性相关显著性；PCA分析中不存在这种情况。<br>RDA中通常使用标准化的解释变量，解释变量的标准化不会改变回归的拟合值和典范排序的结果。<br>RDA中，样方的个数必须大于环境因子的个数。<br>RDA可以用拟合值的协方差矩阵，也可以用相关矩阵进行计算。后者需要在函数<code>rda()</code>中设定参数<code>scale=TRUE</code>。</p>
+<h2 id="Doubs数据集RDA分析"><a href="#Doubs数据集RDA分析" class="headerlink" title="Doubs数据集RDA分析"></a>Doubs数据集RDA分析</h2><h3 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h3><p>加载程序包和函数-&gt;导入数据-&gt;删掉没有数据的样方以及不用的数据-&gt;生成含定性坡度变量的环境变量数据库-&gt;将解释变量分成两个子集-&gt;将物种数据hellinger转化</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#load</span> packages</span><br><span class="line"><span class="function"><span class="title">library</span><span class="params">(ade4)</span></span></span><br><span class="line"><span class="function"><span class="title">library</span><span class="params">(vegan)</span></span></span><br><span class="line"><span class="function"><span class="title">library</span><span class="params">(packfor)</span></span></span><br><span class="line"><span class="function"><span class="title">library</span><span class="params">(MASS)</span></span></span><br><span class="line"><span class="function"><span class="title">library</span><span class="params">(ellipse)</span></span></span><br><span class="line"><span class="function"><span class="title">library</span><span class="params">(FactoMineR)</span></span></span><br><span class="line"><span class="selector-id">#load</span> additional functions</span><br><span class="line"><span class="function"><span class="title">source</span><span class="params">(<span class="string">"evplot.R"</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">source</span><span class="params">(<span class="string">"hcoplot.R"</span>)</span></span></span><br><span class="line"><span class="selector-id">#import</span> data</span><br><span class="line">spe&lt;-read.csv(<span class="string">"DoubsSpe.csv"</span>,row<span class="selector-class">.names</span> = <span class="number">1</span>)</span><br><span class="line">env&lt;-read.csv(<span class="string">"DoubsEnv.csv"</span>,row<span class="selector-class">.names</span> = <span class="number">1</span>)</span><br><span class="line">spa&lt;-read.csv(<span class="string">"DoubsSpa.csv"</span>,row<span class="selector-class">.names</span> = <span class="number">1</span>)</span><br><span class="line"><span class="selector-id">#delete</span> sampling site <span class="number">8</span> where there is no data</span><br><span class="line">spe&lt;-spe[-<span class="number">8</span>,]</span><br><span class="line">env&lt;-env[-<span class="number">8</span>,]</span><br><span class="line">spa&lt;-spa[-<span class="number">8</span>,]</span><br><span class="line"><span class="selector-id">#extract</span> das (distance from source) <span class="keyword">in</span> env <span class="keyword">for</span> downstream analysis</span><br><span class="line">das&lt;-env[,<span class="number">1</span>]</span><br><span class="line"><span class="selector-id">#delete</span> das <span class="keyword">in</span> env</span><br><span class="line">env&lt;-env[,-<span class="number">1</span>]</span><br><span class="line">#将pen转化为因子（定性）变量</span><br><span class="line">pen2&lt;-rep(<span class="string">"very_steep"</span>,nrow(env))</span><br><span class="line">pen2[env<span class="variable">$pen</span>&lt;=quantile(env<span class="variable">$pen</span>)[<span class="number">4</span>]]=<span class="string">"steep"</span></span><br><span class="line">pen2[env<span class="variable">$pen</span>&lt;=quantile(env<span class="variable">$pen</span>)[<span class="number">3</span>]]=<span class="string">"moderate"</span></span><br><span class="line">pen2[env<span class="variable">$pen</span>&lt;=quantile(env<span class="variable">$pen</span>)[<span class="number">2</span>]]=<span class="string">"low"</span></span><br><span class="line">pen2&lt;-factor(pen2,levels=c(<span class="string">"low"</span>,<span class="string">"moderate"</span>,<span class="string">'steep'</span>,<span class="string">"very_steep"</span>))</span><br><span class="line"><span class="function"><span class="title">table</span><span class="params">(pen2)</span></span></span><br><span class="line">#生成一个含定性坡度变量的环境变量数据框env2</span><br><span class="line">env2&lt;-env</span><br><span class="line">env2<span class="variable">$pen</span>&lt;-pen2</span><br><span class="line">#将所有解释变量分为两个解释变量子集</span><br><span class="line">##地形变量（上下游梯度）子集</span><br><span class="line">envtopo&lt;-env[,c(<span class="number">1</span>:<span class="number">3</span>)]</span><br><span class="line"><span class="function"><span class="title">names</span><span class="params">(envtopo)</span></span> #提取数据框的标题名</span><br><span class="line">##水体化学属性变量子集</span><br><span class="line">envchem&lt;-env[,c(<span class="number">4</span>:<span class="number">10</span>)]</span><br><span class="line"><span class="function"><span class="title">names</span><span class="params">(envchem)</span></span></span><br><span class="line">#将物种数据hellinger转化</span><br><span class="line">spe.hel&lt;-decostand(spe,<span class="string">"hellinger"</span>)#是因为物种数据一般不适用于线性方法，但是通过将其进行转化了计算欧氏距离可以将其转化为非对称的关联测度，以用于很多线性方法（PCA、RDA等）。</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用vegan程序包运行RDA"><a href="#使用vegan程序包运行RDA" class="headerlink" title="使用vegan程序包运行RDA"></a>使用<code>vegan</code>程序包运行RDA</h3><p>vegan包运行RDA排序可以有两种不同模式：</p>
+<ul>
+<li>简单模式<code>simpleRDA&lt;-rda(Y,X,W)</code>：Y为响应变量矩阵，X为解释变量矩阵，W为偏RDA分析需要输入的协变量（covariable）矩阵。局限：解释变量和协变量矩阵不能含有因子变量（定性变量）。</li>
+<li>公式模式<code>formulaRDA&lt;-rda(Y ~ var1+factorA+var2*var3+Condition(var4),data=XWdata)</code>：Y为响应变量；解释变量有定量变量var1、因子变量factorA及变量2和变量3的交互作用项，协变量（var4）被放到参数<code>Condition()</code>里。所有的解释变量和协变量均存放在数据框XWdata中。</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spe<span class="selector-class">.rda</span> &lt;- rda(spe.hel~., env2)</span><br><span class="line"><span class="function"><span class="title">summary</span><span class="params">(spe.rda)</span></span> #默认<span class="number">2</span>型标尺</span><br><span class="line"><span class="function"><span class="title">coef</span><span class="params">(spe.rda)</span></span>#从rda()输出结果中获得典范系数（即模型的回归系数）</span><br></pre></td></tr></table></figure>
+<h3 id="提取、解读和绘制vegan包输出的RDA排序结果"><a href="#提取、解读和绘制vegan包输出的RDA排序结果" class="headerlink" title="提取、解读和绘制vegan包输出的RDA排序结果"></a>提取、解读和绘制vegan包输出的RDA排序结果</h3><p>RDA的R<sub>2</sub>也有偏差，需要进行校正，可以通过vegan包内的RsquareAdj()函数来获得。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(R2 &lt;- <span class="constructor">RsquareAdj(<span class="params">spe</span>.<span class="params">rda</span>)</span>$r.squared)#提取未校正的R2</span><br><span class="line">(R2adj &lt;- <span class="constructor">RsquareAdj(<span class="params">spe</span>.<span class="params">rda</span>)</span>$adj.r.squared)#提取校正的R2</span><br></pre></td></tr></table></figure>
+<p>可见，校正后的R<sub>2</sub>总是小于未校正的R<sub>2</sub>。校正R<sub>2</sub>作为被解释方差比例的无偏估计，后面的变差分解部分所用的也是校正后的R2.</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#绘制三序图（样方、响应变量和解释变量）</span></span><br><span class="line"><span class="comment">##样方坐标是物种的加权和（'wa')</span></span><br><span class="line">par(<span class="attribute">mfrow</span>=c(1,2))</span><br><span class="line"><span class="comment">###scaling=1</span></span><br><span class="line">plot(spe.rda, <span class="attribute">scaling</span>=1, <span class="attribute">main</span>=<span class="string">"Triplot RDA spe.hel~env2 - scaling 1 - wa scores"</span>)</span><br><span class="line">spe.sc &lt;- scores(spe.rda, <span class="attribute">choices</span>=1:2, <span class="attribute">scaling</span>=1, <span class="attribute">display</span>=<span class="string">"sp"</span>)#提取前两轴的坐标</span><br><span class="line">arrows(0, 0, spe.sc[, 1], spe.sc[, 2], <span class="attribute">length</span>=0, <span class="attribute">lty</span>=1, <span class="attribute">col</span>=<span class="string">"red"</span>)</span><br><span class="line"><span class="comment">###scaling=2</span></span><br><span class="line">plot(spe.rda, <span class="attribute">main</span>=<span class="string">"Triplot RDA spe.hel~env2 - scaling 2 - wa scores"</span>)</span><br><span class="line">spe2.sc &lt;- scores(spe.rda, <span class="attribute">choices</span>=1:2, <span class="attribute">display</span>=<span class="string">"sp"</span>)#默认scaling=2</span><br><span class="line">arrows(0, 0, spe2.sc[, 1], spe2.sc[, 2], <span class="attribute">length</span>=0, <span class="attribute">lty</span>=1, <span class="attribute">col</span>=<span class="string">"red"</span>)</span><br><span class="line"><span class="comment">##样方坐标是环境因子线性组合（'lc')</span></span><br><span class="line">plot(spe.rda, <span class="attribute">scaling</span>=1, <span class="attribute">display</span>=c("sp", <span class="string">"lc"</span>, <span class="string">"cn"</span>),</span><br><span class="line">	<span class="attribute">main</span>=<span class="string">"Triplot RDA spe.hel~env2 - scaling 1 - lc scores"</span>)#'sp'代表物种，'cn'代表约束成分即解释变量，'wa'代表使用物种加权和计算样方坐标，'lc'代表以拟合值（解释变量的线性组合）计算样方的坐标。</span><br><span class="line">arrows(0, 0, spe.sc[, 1], spe.sc[, 2], <span class="attribute">length</span>=0, <span class="attribute">lty</span>=1, <span class="attribute">col</span>=<span class="string">"red"</span>)</span><br><span class="line">plot(spe.rda, <span class="attribute">display</span>=c("sp", <span class="string">"lc"</span>, <span class="string">"cn"</span>),</span><br><span class="line">	<span class="attribute">main</span>=<span class="string">"Triplot RDA spe.hel~env2 - scaling 2 - lc scores"</span>)</span><br><span class="line">arrows(0, 0, spe2.sc[,1], spe2.sc[,2], <span class="attribute">length</span>=0, <span class="attribute">lty</span>=1, <span class="attribute">col</span>=<span class="string">"red"</span>)</span><br></pre></td></tr></table></figure>
+<p>1.rda.triplot.wa<img src="" alt="1"><br>2.rda.triplot.lc<img src="" alt="2"><br><strong>如何计算第一轴和第二轴分别解释了多少？<br>用校正后的R2乘以accmulated constrained eigenvalues中的proportion explained。</strong></p>
+<h3 id="RDA结果的置换检验"><a href="#RDA结果的置换检验" class="headerlink" title="RDA结果的置换检验"></a>RDA结果的置换检验</h3><p>生态学的数据普遍是非正态分布，因此传统的参数检验在生态学领域经常并不适合，这也是目前大部分生态学数据分析方法尽可能使用置换检验的缘故。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#RDA所有轴置换检验</span></span><br><span class="line">anova.cca(spe.rda, <span class="attribute">step</span>=1000)	#<span class="attribute">step</span>=1000表明置换次数为999次，可达到的显著性水平是0.001。</span><br><span class="line"><span class="comment">#每个典范轴逐一检验</span></span><br><span class="line">anova.cca(spe.rda, <span class="attribute">by</span>=<span class="string">"axis"</span>, <span class="attribute">step</span>=1000)#此处只能输入由公式模式获得的rda结果</span><br><span class="line"><span class="comment">##可见，只有前两轴是显著的。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="偏RDA分析"><a href="#偏RDA分析" class="headerlink" title="偏RDA分析"></a>偏RDA分析</h3><p>示例：固定地形变量影响后，水体化学属性的效应</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#简单模式</span></span><br><span class="line">spechem.physio &lt;- rda(spe.hel, envchem, envtopo)</span><br><span class="line">spechem.physio</span><br><span class="line">summary(spechem.physio)</span><br><span class="line"><span class="comment">#公式模式（结果同上）</span></span><br><span class="line">spechem.physio2 &lt;- rda(spe.hel ~ pH + dur + pho + nit + amm + oxy + dbo</span><br><span class="line"> + Condition(alt + pen + deb), <span class="attribute">data</span>=env)</span><br><span class="line">spechem.physio2</span><br><span class="line">summary(spechem.physio2)</span><br><span class="line"><span class="comment">#偏RDA检验</span></span><br><span class="line">anova.cca(spechem.physio2, <span class="attribute">step</span>=1000)</span><br><span class="line">anova.cca(spechem.physio2, <span class="attribute">step</span>=1000, <span class="attribute">by</span>=<span class="string">"axis"</span>)#选择前两轴</span><br><span class="line"><span class="comment">#偏RDA的三序图（使用拟合值的样方坐标'lc'）</span></span><br><span class="line">plot(spechem.physio2, <span class="attribute">scaling</span>=1, <span class="attribute">display</span>=c("sp", <span class="string">"lc"</span>, <span class="string">"cn"</span>),</span><br><span class="line"><span class="attribute">main</span>=<span class="string">"Triplot RDA spe.hel ~ chem |Tope-scaling 1- lc scores"</span>)</span><br><span class="line">spe3.sc &lt;- scores(spechem.physio2, <span class="attribute">choices</span>=1:2, <span class="attribute">scaling</span>=1, <span class="attribute">display</span>=<span class="string">"sp"</span>)</span><br><span class="line">arrows(0, 0, spe3.sc[, 1], spe3.sc[, 2], <span class="attribute">length</span>=0, <span class="attribute">lty</span>=1, <span class="attribute">col</span>=<span class="string">"red"</span>)</span><br><span class="line">plot(spechem.physio, <span class="attribute">display</span>=c("sp", <span class="string">"lc"</span>, <span class="string">"cn"</span>),</span><br><span class="line"><span class="attribute">main</span>=<span class="string">"Triplot RDA spe.hel ~ chem |Tope-scaling 2- lc scores"</span>)</span><br><span class="line">spe4.sc &lt;- scores(spechem.physio, <span class="attribute">choices</span>=1:2, <span class="attribute">display</span>=<span class="string">"sp"</span>)</span><br><span class="line">arrows(0, 0, spe4.sc[,1], spe4.sc[,2], <span class="attribute">length</span>=0, <span class="attribute">lty</span>=1, <span class="attribute">col</span>=<span class="string">"red"</span>)</span><br></pre></td></tr></table></figure>
+<p>3.partialrda.triplot.lc<img src="" alt="3"></p>
+<h3 id="解释变量前向选择（forward-selection）"><a href="#解释变量前向选择（forward-selection）" class="headerlink" title="解释变量前向选择（forward selection）"></a>解释变量前向选择（forward selection）</h3><p>要删减解释变量，一是因为解释变量太多，二是因为变量之间可能存在较强的线性相关，即共线性问题，可能会造成回归系数不稳定。<br>每个变量的共线性程度可以用变量的方差膨胀因子（variance inflation factors，VIF）度量。VIF是衡量一个解释变量的回归系数的方差由共线性引起的膨胀比例。如果VIF值超过20，表示共线性很严重。实际上，VIF值超过10则可能就会有共线性的问题，需要处理。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">vif.cca(spe.rda)#RDA</span><br><span class="line">vif.cca(spechem.physio2) #偏RDA</span><br><span class="line">#可见，一些变量的VIF超过了<span class="number">10</span>甚至是<span class="number">20</span>，需要进行剔除。</span><br><span class="line">#使用双终止准则前向选择解释变量</span><br><span class="line">#<span class="selector-id">#forward</span>.sel()函数暂时不能分析因子变量，所以此处使用原始的env数据进行演示。</span><br><span class="line">spe<span class="selector-class">.rda</span><span class="selector-class">.all</span> &lt;- rda(spe<span class="selector-class">.hel</span> ~ ., data=env)</span><br><span class="line">(R2a<span class="selector-class">.all</span> &lt;- RsquareAdj(spe<span class="selector-class">.rda</span>.all)<span class="variable">$adj</span><span class="selector-class">.r</span>.squared)</span><br><span class="line"><span class="function"><span class="title">library</span><span class="params">(packfor)</span></span></span><br><span class="line">forward.sel(spe<span class="selector-class">.hel</span>, env, adjR2thresh=R2a.all)#结果显示适度超过（<span class="number">0.5948</span>和<span class="number">0.5864</span>）时结果可以接受。通过计算表明，pen的输入增加了<span class="number">5.5%</span>，低于上述两值，违背了终止原则，所以pen变量最终不应该在被选变量的列表中。</span><br><span class="line">##使用vegan包内的ordistep()函数前向选择解释变量，该函数可以对因子变量进行选择，也可以运行解释变量的逐步选择和后向选择。</span><br><span class="line">step<span class="selector-class">.forward</span> &lt;- ordistep(rda(spe<span class="selector-class">.hel</span> ~ <span class="number">1</span>, data=env), scope = formula(spe<span class="selector-class">.rda</span>.all),</span><br><span class="line"><span class="attribute">direction</span>=<span class="string">"forward"</span>, pstep = <span class="number">1000</span>)#与上述结果相同</span><br><span class="line">###在ordistep()中使用adjR2thresh终止准则，需要手动逐步输入变量，然后检查校正后R2的变化。如本例中，如果校正后R2超过<span class="number">0.586435</span>，便可终止选择。</span><br><span class="line"><span class="function"><span class="title">RsquareAdj</span><span class="params">(rda(spe.hel ~ alt, data=env)</span></span>)<span class="variable">$adj</span><span class="selector-class">.r</span>.squared</span><br><span class="line"><span class="function"><span class="title">RsquareAdj</span><span class="params">(rda(spe.hel ~ alt+oxy, data=env)</span></span>)<span class="variable">$adj</span><span class="selector-class">.r</span>.squared</span><br><span class="line"><span class="function"><span class="title">RsquareAdj</span><span class="params">(rda(spe.hel ~ alt+oxy+dbo, data=env)</span></span>)<span class="variable">$adj</span><span class="selector-class">.r</span>.squared</span><br><span class="line"><span class="function"><span class="title">RsquareAdj</span><span class="params">(rda(spe.hel ~ alt+oxy+dbo+pen, data=env)</span></span>)<span class="variable">$adj</span><span class="selector-class">.r</span>.squared</span><br><span class="line">#简约的RDA分析</span><br><span class="line">spe<span class="selector-class">.rda</span><span class="selector-class">.pars</span> &lt;- rda(spe<span class="selector-class">.hel</span> ~ alt + oxy + dbo, data=env)</span><br><span class="line">spe<span class="selector-class">.rda</span>.pars</span><br><span class="line">anova.cca(spe<span class="selector-class">.rda</span><span class="selector-class">.pars</span>, step=<span class="number">1000</span>)</span><br><span class="line">anova.cca(spe<span class="selector-class">.rda</span><span class="selector-class">.pars</span>, step=<span class="number">1000</span>, by=<span class="string">"axis"</span>)</span><br><span class="line">vif.cca(spe<span class="selector-class">.rda</span>.pars)</span><br><span class="line">(R2a<span class="selector-class">.pars</span> &lt;- RsquareAdj(spe<span class="selector-class">.rda</span>.pars)<span class="variable">$adj</span><span class="selector-class">.r</span>.squared)</span><br><span class="line">#上述结果可见，有三个显著变量，且无明显共线性问题。有三个显著的典范轴。</span><br><span class="line"><span class="function"><span class="title">plot</span><span class="params">(spe.rda.pars, scaling=<span class="number">1</span>, display=c(<span class="string">"sp"</span>, <span class="string">"lc"</span>, <span class="string">"cn"</span>)</span></span>,</span><br><span class="line">	main=<span class="string">"Triplot RDA spe.hel ~ alt+oxy+dbo - scaling 1 - lc scores"</span>)</span><br><span class="line">spe4<span class="selector-class">.sc</span> = scores(spe<span class="selector-class">.rda</span><span class="selector-class">.pars</span>, choices=<span class="number">1</span>:<span class="number">2</span>, scaling=<span class="number">1</span>, <span class="attribute">display</span>=<span class="string">"sp"</span>)</span><br><span class="line"><span class="function"><span class="title">arrows</span><span class="params">(<span class="number">0</span>, <span class="number">0</span>, spe4.sc[, <span class="number">1</span>], spe4.sc[, <span class="number">2</span>], length=<span class="number">0</span>, lty=<span class="number">1</span>, col=<span class="string">"red"</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">plot</span><span class="params">(spe.rda.pars, display=c(<span class="string">"sp"</span>, <span class="string">"lc"</span>, <span class="string">"cn"</span>)</span></span>,</span><br><span class="line">	main=<span class="string">"Triplot RDA spe.hel ~ alt+oxy+dbo - scaling 1 - lc scores"</span>)</span><br><span class="line">spe5<span class="selector-class">.sc</span> = scores(spe<span class="selector-class">.rda</span><span class="selector-class">.pars</span>, choices=<span class="number">1</span>:<span class="number">2</span>, <span class="attribute">display</span>=<span class="string">"sp"</span>)</span><br><span class="line"><span class="function"><span class="title">arrows</span><span class="params">(<span class="number">0</span>, <span class="number">0</span>, spe5.sc[,<span class="number">1</span>], spe5.sc[,<span class="number">2</span>], length=<span class="number">0</span>, lty=<span class="number">1</span>, col=<span class="string">"red"</span>)</span></span></span><br></pre></td></tr></table></figure>
+<p>4.simplerda.triplot.lc<img src="" alt="4"></p>
+<h3 id="变差分解（variation-partitioning）"><a href="#变差分解（variation-partitioning）" class="headerlink" title="变差分解（variation partitioning）"></a>变差分解（variation partitioning）</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#变差分解说明图</span><br><span class="line"><span class="function"><span class="title">par</span><span class="params">(mfrow=c(<span class="number">1</span>,<span class="number">3</span>)</span></span>)</span><br><span class="line"><span class="function"><span class="title">showvarparts</span><span class="params">(<span class="number">2</span>)</span></span> #两组解释变量</span><br><span class="line"><span class="function"><span class="title">showvarparts</span><span class="params">(<span class="number">3</span>)</span></span> #三组解释变量</span><br><span class="line"><span class="function"><span class="title">showvarparts</span><span class="params">(<span class="number">4</span>)</span></span> #四组解释变量</span><br><span class="line">#带所有环境变量的变差分解</span><br><span class="line">spe<span class="selector-class">.part</span><span class="selector-class">.all</span> &lt;- varpart(spe<span class="selector-class">.hel</span>, envchem, envtopo)</span><br><span class="line">spe<span class="selector-class">.part</span>.all#看indivadual fractions部分</span><br><span class="line"><span class="function"><span class="title">plot</span><span class="params">(spe.part.all, digits=<span class="number">2</span>)</span></span> #注意：veen图的圆圈大小相同，并未与R2的大小成比例。</span><br></pre></td></tr></table></figure>
+<p>5.variationpartioning<img src="" alt="5"></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#分别对两组环境变量进行前向选择</span><br><span class="line">spe<span class="selector-class">.chem</span> &lt;- rda(spe<span class="selector-class">.hel</span>, envchem)</span><br><span class="line">(R2a<span class="selector-class">.all</span><span class="selector-class">.chem</span> &lt;- RsquareAdj(spe.chem)<span class="variable">$adj</span><span class="selector-class">.r</span>.squared)</span><br><span class="line">forward.sel(spe<span class="selector-class">.hel</span>, envchem, adjR2thresh=R2a<span class="selector-class">.all</span><span class="selector-class">.chem</span>, nperm=<span class="number">9999</span>)<span class="selector-id">#oxy</span>,dbo,nit</span><br><span class="line">spe<span class="selector-class">.topo</span> &lt;- rda(spe<span class="selector-class">.hel</span>, envtopo)</span><br><span class="line">(R2a<span class="selector-class">.all</span><span class="selector-class">.topo</span> &lt;- RsquareAdj(spe.topo)<span class="variable">$adj</span><span class="selector-class">.r</span>.squared)</span><br><span class="line">forward.sel(spe<span class="selector-class">.hel</span>, envtopo, adjR2thresh=R2a<span class="selector-class">.all</span><span class="selector-class">.topo</span>, nperm=<span class="number">9999</span>)<span class="selector-id">#alt</span>,pen(存疑)</span><br><span class="line">#解释变量简约组合（基于变量选择的结果）</span><br><span class="line"><span class="function"><span class="title">names</span><span class="params">(env)</span></span></span><br><span class="line">envchem<span class="selector-class">.pars</span> &lt;- envchem[, c(<span class="number">4</span>,<span class="number">6</span>,<span class="number">7</span>)]</span><br><span class="line">envtopo<span class="selector-class">.pars</span> &lt;- envtopo[, c(<span class="number">1</span>,<span class="number">2</span>)]</span><br><span class="line">#变差分解</span><br><span class="line">(spe<span class="selector-class">.part</span> &lt;- varpart(spe<span class="selector-class">.hel</span>, envchem<span class="selector-class">.pars</span>, envtopo.pars))</span><br><span class="line"><span class="function"><span class="title">plot</span><span class="params">(spe.part, digits=<span class="number">2</span>)</span></span></span><br><span class="line">#所有可测部分的置换检验</span><br><span class="line">#[a+b]部分的检验</span><br><span class="line">anova.cca(rda(spe<span class="selector-class">.hel</span>, envchem.pars), step=<span class="number">1000</span>)</span><br><span class="line">#[b+c]部分的检验</span><br><span class="line">anova.cca(rda(spe<span class="selector-class">.hel</span>, envtopo.pars), step=<span class="number">1000</span>)</span><br><span class="line">#[a+b+c]部分的检验</span><br><span class="line">env<span class="selector-class">.pars</span> &lt;- cbind(envchem<span class="selector-class">.pars</span>, envtopo.pars)</span><br><span class="line">anova.cca(rda(spe<span class="selector-class">.hel</span>, env.pars), step=<span class="number">1000</span>)</span><br><span class="line">#[a]部分的检验</span><br><span class="line">anova.cca(rda(spe<span class="selector-class">.hel</span>, envchem<span class="selector-class">.pars</span>, envtopo.pars), step=<span class="number">1000</span>)</span><br><span class="line">#[c]部分的检验</span><br><span class="line">anova.cca(rda(spe<span class="selector-class">.hel</span>, envtopo<span class="selector-class">.pars</span>, envchem.pars), step=<span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+<p>6.simplevariationpartioning<img src="" alt="6"></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#无变量nit的变差分解(根据全部变量前向选择后保留的三个变量，去除nit，看下结果变化)</span><br><span class="line">envchem<span class="selector-class">.pars2</span> &lt;- envchem[, c(<span class="number">6</span>,<span class="number">7</span>)]</span><br><span class="line">(spe<span class="selector-class">.part2</span> &lt;- varpart(spe<span class="selector-class">.hel</span>, envchem<span class="selector-class">.pars2</span>, envtopo.pars))</span><br><span class="line"><span class="function"><span class="title">plot</span><span class="params">(spe.part2, digits=<span class="number">2</span>)</span></span></span><br></pre></td></tr></table></figure>
+<p>7.6withourtnit<img src="" alt="7"><br>注意：</p>
+<ul>
+<li>变差分解的一个主要目的是计算共同解释的变差，但是在解读时必须非常谨慎，因为共同部分很难确定与哪组变量有关。</li>
+<li>先将所有变量组合在一起进行变量前向选择后再分组，这样的做法与变差分解的初衷相违背。除非需要确定到底哪些变量对共同解释部分有贡献。</li>
+<li>变差分解是由于解释变量共线性引起解释变差的重叠，不是协同作用的结果。</li>
+</ul>
+<h3 id="RDA作为多元方差分析（MANOVA）的工具"><a href="#RDA作为多元方差分析（MANOVA）的工具" class="headerlink" title="RDA作为多元方差分析（MANOVA）的工具"></a>RDA作为多元方差分析（MANOVA）的工具</h3><p>示例：基于RDA的双因素ANOVA[基于方差-协方差矩阵]</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">alt.fac &lt;- gl(<span class="number">3</span>, <span class="number">9</span>)#生成代表海拔的因子变量（<span class="number">3</span>个水平，每个水平含<span class="number">9</span>个样方）</span><br><span class="line">pH.fac &lt;- as.factor(c(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>,</span><br><span class="line">  <span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>))#生成近似模拟pH的因子变量</span><br><span class="line">table(alt.fac, pH.fac)#两个因子是否平衡？</span><br><span class="line">#用Helmert对照法编码因子和它们的交互作用项</span><br><span class="line">alt.pH.helm &lt;- model.matrix(~ alt.fac * pH.fac,</span><br><span class="line"> contrasts=list(alt.fac=<span class="string">"contr.helmert"</span>, pH.fac=<span class="string">"contr.helmert"</span>))</span><br><span class="line">alt.pH.helm#检查当前对照法产生的表格，哪一列代表海拔因子、pH和交互作用项？</span><br><span class="line">#检查Helmert对照表属性<span class="number">1</span>：每个变量的和为<span class="number">0</span></span><br><span class="line">apply(alt.pH.helm[, <span class="number">2</span>:<span class="number">9</span>], <span class="number">2</span>, sum)</span><br><span class="line">#检查Helmert对照表属性<span class="number">2</span>：变量之间不相关</span><br><span class="line">cor(alt.pH.helm[, <span class="number">2</span>:<span class="number">9</span>])</span><br><span class="line">#使用函数betadisper()(vegan包)(Marti Anderson检验)验证组内协方差矩阵的齐性</span><br><span class="line">spe.hel.d1 &lt;- dist(spe.hel[<span class="number">1</span>:<span class="number">27</span>,])</span><br><span class="line">#海拔因子</span><br><span class="line">(spe.hel.alt.MHV &lt;- betadisper(spe.hel.d1, alt.fac))</span><br><span class="line">anova(spe.hel.alt.MHV)#p&gt;<span class="number">0.05</span>，方差齐性</span><br><span class="line">permutest(spe.hel.alt.MHV) #置换检验</span><br><span class="line">#pH因子</span><br><span class="line">(spe.hel.pH.MHV &lt;- betadisper(spe.hel.d1, pH.fac))</span><br><span class="line">anova(spe.hel.pH.MHV)#p&gt;<span class="number">0.05</span>，方差齐性</span><br><span class="line">permutest(spe.hel.pH.MHV) #置换检验</span><br><span class="line">##组内协方差矩阵齐性，可以继续分析</span><br><span class="line">#首先检验交互作用项。海拔因子和pH因子构成协变量矩阵。</span><br><span class="line"><span class="built_in">int</span>eraction.rda &lt;- rda(spe.hel[<span class="number">1</span>:<span class="number">27</span>, ], alt.pH.helm[, <span class="number">6</span>:<span class="number">9</span>], alt.pH.helm[, <span class="number">2</span>:<span class="number">5</span>])</span><br><span class="line">anova(<span class="built_in">int</span>eraction.rda, step=<span class="number">1000</span>, perm.max=<span class="number">1000</span>) #交互作用是否显著？不显著。显著的交互作用表示一个因子的影响依赖另一个因子的水平，这将妨碍主因子变量的分析。</span><br><span class="line">#检查海拔因子的效应，此时pH因子和交互作用项作为协变量矩阵</span><br><span class="line">factor.alt.rda &lt;- rda(spe.hel[<span class="number">1</span>:<span class="number">27</span>, ], alt.pH.helm[, <span class="number">2</span>:<span class="number">3</span>], alt.pH.helm[, <span class="number">4</span>:<span class="number">9</span>])</span><br><span class="line">anova(factor.alt.rda, step=<span class="number">1000</span>, perm.max=<span class="number">1000</span>, strata=pH.fac) #海拔因子影响是否显著？显著</span><br><span class="line">#检查pH因子的效应，此时海拔因子和交互作用项作为协变量矩阵</span><br><span class="line">factor.pH.rda &lt;- rda(spe.hel[<span class="number">1</span>:<span class="number">27</span>, ], alt.pH.helm[, <span class="number">4</span>:<span class="number">5</span>],</span><br><span class="line">  alt.pH.helm[, c(<span class="number">2</span>:<span class="number">3</span>, <span class="number">6</span>:<span class="number">9</span>)])</span><br><span class="line">anova(factor.pH.rda, step=<span class="number">1000</span>, perm.max=<span class="number">1000</span>, strata=alt.fac) #pH影响是否显著？不显著</span><br><span class="line">#RDA和先祖影响的海拔因子三序图</span><br><span class="line">alt.rda.<span class="keyword">out</span> &lt;- rda(spe.hel[<span class="number">1</span>:<span class="number">27</span>,]~., as.data.frame(alt.fac))</span><br><span class="line">plot(alt.rda.<span class="keyword">out</span>, scaling=<span class="number">1</span>, display=c(<span class="string">"sp"</span>, <span class="string">"wa"</span>, <span class="string">"cn"</span>),</span><br><span class="line">	main=<span class="string">"Multivariate ANOVA, factor altitude - scaling 1 - wa scores"</span>)</span><br><span class="line">spe.manova.sc &lt;- scores(alt.rda.<span class="keyword">out</span>, choices=<span class="number">1</span>:<span class="number">2</span>, scaling=<span class="number">1</span>, display=<span class="string">"sp"</span>)</span><br><span class="line">arrows(<span class="number">0</span>, <span class="number">0</span>, spe.manova.sc[, <span class="number">1</span>], spe.manova.sc[, <span class="number">2</span>], length=<span class="number">0</span>, col=<span class="string">"red"</span>)</span><br></pre></td></tr></table></figure>
+<p>8.MANOVA<img src="" alt="8"></p>
+<h3 id="基于距离的RDA分析"><a href="#基于距离的RDA分析" class="headerlink" title="基于距离的RDA分析"></a>基于距离的RDA分析</h3><p>分析除了欧氏距离（弦距离、hellinger距离、卡方距离和ochiai距离）外的其他距离测度，如Jaccard系数、Sorensen系数、Bray-curtis系数、Gower系数等。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">spe.bray &lt;- vegdist(spe[1:27, ], <span class="string">"bray"</span>)</span><br><span class="line">spe.pcoa &lt;- cmdscale(spe.bray, <span class="attribute">k</span>=nrow(spe[1:27, ])-1, <span class="attribute">eig</span>=<span class="literal">TRUE</span>, <span class="attribute">add</span>=<span class="literal">TRUE</span>)</span><br><span class="line">spe.scores &lt;- spe.pcoa<span class="variable">$points</span></span><br><span class="line"><span class="comment">#交互作用的检验。从协变量矩阵获得helmert对照编码海拔因子和pH因子</span></span><br><span class="line">interact.dbrda &lt;- rda(spe.scores[1:27, ], alt.pH.helm[, 6:9], alt.pH.helm[, 2:5])</span><br><span class="line">anova(interact.dbrda, <span class="attribute">step</span>=1000, perm.<span class="attribute">max</span>=1000)</span><br><span class="line"></span><br><span class="line"><span class="comment">#直接使用vegan包内capscale()函数运行。只能以公式模式运行</span></span><br><span class="line"><span class="comment">##响应变量可以是原始数据矩阵</span></span><br><span class="line">interact.dbrda2 &lt;- capscale(spe[1:27,] ~ alt.fac*pH.fac + Condition(alt.fac+pH.fac), <span class="attribute">distance</span>=<span class="string">"bray"</span>, <span class="attribute">add</span>=<span class="literal">TRUE</span>)</span><br><span class="line">anova(interact.dbrda2, <span class="attribute">step</span>=1000, perm.<span class="attribute">max</span>=1000)</span><br><span class="line"><span class="comment">##响应变量也可以是相异矩阵</span></span><br><span class="line">interact.dbrda3 &lt;- capscale(spe.bray ~ alt.fac*pH.fac + Condition(alt.fac+pH.fac), <span class="attribute">add</span>=<span class="literal">TRUE</span>)</span><br><span class="line">anova(interact.dbrda3, <span class="attribute">step</span>=1000, perm.<span class="attribute">max</span>=1000)</span><br></pre></td></tr></table></figure>
+
+<h3 id="非线性关系的RDA"><a href="#非线性关系的RDA" class="headerlink" title="非线性关系的RDA"></a>非线性关系的RDA</h3><p>可以通过stats包内的poly()函数获得<br>记住所有的非线性RDA分析仅使用非转化的响应变量</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#二阶解释变量的RDA（一阶函数的平方）</span></span><br><span class="line"><span class="comment">#生成das和das正交二阶项（由poly()函数获得）矩阵</span></span><br><span class="line">das.df &lt;- poly(das, 2)</span><br><span class="line">colnames(das.df) &lt;- c(<span class="string">"das"</span>, <span class="string">"das2"</span>)</span><br><span class="line"><span class="comment">#验证两个变量是否显著</span></span><br><span class="line">forward.sel(spe, das.df)</span><br><span class="line"><span class="comment">#RDA和置换检验</span></span><br><span class="line">spe.das.rda &lt;- rda(spe ~ ., as.data.frame(das.df))</span><br><span class="line">anova(spe.das.rda)</span><br><span class="line"><span class="comment">#三序图（拟合的样方坐标，2型标尺）（对照第二章的鱼类分布图来看）</span></span><br><span class="line">plot(spe.das.rda, <span class="attribute">scaling</span>=2, <span class="attribute">display</span>=c("sp", <span class="string">"lc"</span>, <span class="string">"cn"</span>),</span><br><span class="line">	<span class="attribute">main</span>=<span class="string">"Triplot RDA spe ~ das+das2 - scaling 2 - lc scores"</span>)</span><br><span class="line">spe6.sc &lt;- scores(spe.das.rda, <span class="attribute">choices</span>=1:2, <span class="attribute">scaling</span>=2, <span class="attribute">display</span>=<span class="string">"sp"</span>)</span><br><span class="line">arrows(0, 0, spe6.sc[, 1], spe6.sc[, 2], <span class="attribute">length</span>=0, <span class="attribute">lty</span>=1, <span class="attribute">col</span>=<span class="string">"red"</span>)</span><br></pre></td></tr></table></figure>
+<p>9.rda.das.das2<img src="" alt="9"></p>
+<h1 id="典范对应分析（CCA）"><a href="#典范对应分析（CCA）" class="headerlink" title="典范对应分析（CCA）"></a>典范对应分析（CCA）</h1><p>###</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/R-Books/" rel="tag"># R.Books</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/24/NumericalEcologywithR-5-unconstrainedordination/" rel="prev" title="笔记_数量生态学_5.非约束排序">
+      <i class="fa fa-chevron-left"></i> 笔记_数量生态学_5.非约束排序
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/02/2020-13-nevergiveup/" rel="next" title="2020.13.永不言弃：特朗普自述">
+      2020.13.永不言弃：特朗普自述 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目标"><span class="nav-number">1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#典范排序概述"><span class="nav-number">2.</span> <span class="nav-text">典范排序概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#冗余分析-RDA"><span class="nav-number">3.</span> <span class="nav-text">冗余分析(RDA)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">3.1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Doubs数据集RDA分析"><span class="nav-number">3.2.</span> <span class="nav-text">Doubs数据集RDA分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据准备"><span class="nav-number">3.2.1.</span> <span class="nav-text">数据准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用vegan程序包运行RDA"><span class="nav-number">3.2.2.</span> <span class="nav-text">使用vegan程序包运行RDA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提取、解读和绘制vegan包输出的RDA排序结果"><span class="nav-number">3.2.3.</span> <span class="nav-text">提取、解读和绘制vegan包输出的RDA排序结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RDA结果的置换检验"><span class="nav-number">3.2.4.</span> <span class="nav-text">RDA结果的置换检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#偏RDA分析"><span class="nav-number">3.2.5.</span> <span class="nav-text">偏RDA分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解释变量前向选择（forward-selection）"><span class="nav-number">3.2.6.</span> <span class="nav-text">解释变量前向选择（forward selection）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变差分解（variation-partitioning）"><span class="nav-number">3.2.7.</span> <span class="nav-text">变差分解（variation partitioning）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RDA作为多元方差分析（MANOVA）的工具"><span class="nav-number">3.2.8.</span> <span class="nav-text">RDA作为多元方差分析（MANOVA）的工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于距离的RDA分析"><span class="nav-number">3.2.9.</span> <span class="nav-text">基于距离的RDA分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非线性关系的RDA"><span class="nav-number">3.2.10.</span> <span class="nav-text">非线性关系的RDA</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#典范对应分析（CCA）"><span class="nav-number">4.</span> <span class="nav-text">典范对应分析（CCA）</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.bio-info-trainee.com/" title="http:&#x2F;&#x2F;www.bio-info-trainee.com&#x2F;" rel="noopener" target="_blank">生信菜鸟团</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
