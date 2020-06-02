@@ -220,7 +220,8 @@
         <p><strong>摘要：</strong> Anvi’o教程简介，所用的数据集下载，以及数据集的相关信息介绍。</p>
 <a id="more"></a>
 <p><strong>NOTE</strong>：<a href="http://merenlab.org/tutorials/infant-gut/" target="_blank" rel="noopener">英文原版</a></p>
-<h3 id="教程简介"><a href="#教程简介" class="headerlink" title="教程简介"></a>教程简介</h3><p>本教程适用于anvi’o第六版及更高版本。通过键入<code>anvi-interactive -v</code>可以查看现在安装的版本。若使用的是旧版本，请及时更新到相应的版本。</p>
+<h3 id="教程简介">教程简介</h3>
+<p>本教程适用于anvi’o第六版及更高版本。通过键入<code>anvi-interactive -v</code>可以查看现在安装的版本。若使用的是旧版本，请及时更新到相应的版本。</p>
 <ul>
 <li>安装步骤见<a href="http://merenlab.org/2016/06/26/installation-v2/" target="_blank" rel="noopener">installing anvi’o</a></li>
 </ul>
@@ -246,19 +247,24 @@
 </ul>
 <p>所有章节均使用了<a href="https://www.ncbi.nlm.nih.gov/pubmed/22936250" target="_blank" rel="noopener">Sharon et al. 2013</a>中开放的宏基因组数据集，包含了一个早产儿的11个粪便样本，这些样本按时间顺序收集于其生命的第15到24天。下载原始序列之后，我们按照<a href="http://merenlab.org/2016/06/22/anvio-tutorial-v2/" target="_blank" rel="noopener">anvi’o宏基因组工作流程</a>共同组装了所有样本并使用anvi’o处理了产生的长度超过1K的contigs。选择此数据集的主要原因是其简单性：超过95%的宏基因组reads可以映射到contigs上，充分表明组装的contigs描述了该婴儿肠道微生物组的很大一部分。</p>
 <p>希望本教程对您有所帮助，并在有任何建议的情况下慷慨分享您的意见或建议。</p>
-<h3 id="下载打包好的婴儿肠道数据集"><a href="#下载打包好的婴儿肠道数据集" class="headerlink" title="下载打包好的婴儿肠道数据集"></a>下载打包好的婴儿肠道数据集</h3><ul>
-<li>下载数据集并解压缩，到解压缩的文件中：<br><code>wget https://ndownloader.figshare.com/files/18046139 -O INFANT-GUT-TUTORIAL.tar.gz
-tar -zxvf INFANT-GUT-TUTORIAL.tar.gz &amp;&amp; cd INFANT-GUT-TUTORIAL</code></li>
+<h3 id="下载打包好的婴儿肠道数据集">下载打包好的婴儿肠道数据集</h3>
+<ul>
+<li>下载数据集并解压缩，到解压缩的文件中：<br>
+<code>wget https://ndownloader.figshare.com/files/18046139 -O INFANT-GUT-TUTORIAL.tar.gz tar -zxvf INFANT-GUT-TUTORIAL.tar.gz &amp;&amp; cd INFANT-GUT-TUTORIAL</code></li>
 </ul>
-<h3 id="数据集的详细信息"><a href="#数据集的详细信息" class="headerlink" title="数据集的详细信息"></a>数据集的详细信息</h3><p>解压缩后的文件夹中包含一个anvi’o contigs数据库<code>CONTIGS.db</code>，一个anvi’o合并配置文件数据库（描述了11个宏基因组）<code>PROFILE.db</code>,以及本教程各个部分所需要的其他附加数据<code>AUXILIARY-DATA.db</code>和<code>additional-files</code>。下面是其中一些文件的简单说明以及如何生成它们。</p>
-<h4 id="contigs和profile数据库"><a href="#contigs和profile数据库" class="headerlink" title="contigs和profile数据库"></a>contigs和profile数据库</h4><p>我们使用程序<code>anvi-gen-contigs-database</code>生成anvi’o contigs数据库。这个特殊的anvi’o数据库含有与contigs相关的所有信息：ORF（open reading frames)的位置，每个contigs的kmer频率，基因的功能和分类注释，等。contigs数据库是与anvi’o宏基因组工作流程相关的所有工作的重要组成部分。我们也使用程序<code>anvi-profile</code>生成了一个合并的anvi’o profile数据库。与anvi’o contigs数据库相反，anvi’o profile数据库储存关于contigs的样本特定信息。使用anvi’o对BAM文件进行性能分析会创建一个配置文件，该配置文件会根据映射结果报告单个样本中每个contig的属性。每个profile数据库可以自动链接到contigs数据库中，anvi’o可以使用程序<code>anvi-merge</code>合并链接到同一个contigs的单个profile合并到一个anvi’o合并配置文件（本教程中使用的配置文件）中。</p>
+<h3 id="数据集的详细信息">数据集的详细信息</h3>
+<p>解压缩后的文件夹中包含一个anvi’o contigs数据库<code>CONTIGS.db</code>，一个anvi’o合并配置文件数据库（描述了11个宏基因组）<code>PROFILE.db</code>,以及本教程各个部分所需要的其他附加数据<code>AUXILIARY-DATA.db</code>和<code>additional-files</code>。下面是其中一些文件的简单说明以及如何生成它们。</p>
+<h4 id="contigs和profile数据库">contigs和profile数据库</h4>
+<p>我们使用程序<code>anvi-gen-contigs-database</code>生成anvi’o contigs数据库。这个特殊的anvi’o数据库含有与contigs相关的所有信息：ORF（open reading frames)的位置，每个contigs的kmer频率，基因的功能和分类注释，等。contigs数据库是与anvi’o宏基因组工作流程相关的所有工作的重要组成部分。我们也使用程序<code>anvi-profile</code>生成了一个合并的anvi’o profile数据库。与anvi’o contigs数据库相反，anvi’o profile数据库储存关于contigs的样本特定信息。使用anvi’o对BAM文件进行性能分析会创建一个配置文件，该配置文件会根据映射结果报告单个样本中每个contig的属性。每个profile数据库可以自动链接到contigs数据库中，anvi’o可以使用程序<code>anvi-merge</code>合并链接到同一个contigs的单个profile合并到一个anvi’o合并配置文件（本教程中使用的配置文件）中。</p>
 <ul>
 <li><a href="http://merenlab.org/2016/06/22/anvio-tutorial-v2/#creating-an-anvio-contigs-database" target="_blank" rel="noopener">Creating an anvi’o contigs database</a></li>
 <li><a href="http://merenlab.org/2016/06/22/anvio-tutorial-v2/#profiling-bam-files" target="_blank" rel="noopener">Creating an anvi’o profile database</a></li>
 <li><a href="http://merenlab.org/2016/06/22/anvio-tutorial-v2/#working-with-anvio-profiles" target="_blank" rel="noopener">Merging anvi’o profile databases</a></li>
 </ul>
-<h4 id="在contigs中鉴定单拷贝核心基因"><a href="#在contigs中鉴定单拷贝核心基因" class="headerlink" title="在contigs中鉴定单拷贝核心基因"></a>在contigs中鉴定单拷贝核心基因</h4><p>我们使用程序<code>anvi-run-hmms</code>来识别细菌、古菌和真核生物的单拷贝核心基因，以及IGD (Infant Gut Dataset) contigs中的核糖体RNAs序列。所有这些结果都储存在contigs数据库中。这些信息可使我们在动态的交互界面中了解新识别的bins的完成度和冗余估计。注意：如果在选定的bin中检测到给定域的所有单拷贝核心基因一次，完成度即为100%，冗余度为0%；如果一些基因被检测到多次，冗余值将增加；如果一些基因缺失了，完成值将降低。</p>
-<h4 id="基因的功能注释"><a href="#基因的功能注释" class="headerlink" title="基因的功能注释"></a>基因的功能注释</h4><p>在打包给你之前，我们还将在contigs数据库上运行<code>anvi-run-ncbi-cogs</code>，这可将基因的功能结果存储在contigs数据库中。分箱过程结束时，每个分箱中发生的功能将可用于下游分析。</p>
+<h4 id="在contigs中鉴定单拷贝核心基因">在contigs中鉴定单拷贝核心基因</h4>
+<p>我们使用程序<code>anvi-run-hmms</code>来识别细菌、古菌和真核生物的单拷贝核心基因，以及IGD (Infant Gut Dataset) contigs中的核糖体RNAs序列。所有这些结果都储存在contigs数据库中。这些信息可使我们在动态的交互界面中了解新识别的bins的完成度和冗余估计。注意：如果在选定的bin中检测到给定域的所有单拷贝核心基因一次，完成度即为100%，冗余度为0%；如果一些基因被检测到多次，冗余值将增加；如果一些基因缺失了，完成值将降低。</p>
+<h4 id="基因的功能注释">基因的功能注释</h4>
+<p>在打包给你之前，我们还将在contigs数据库上运行<code>anvi-run-ncbi-cogs</code>，这可将基因的功能结果存储在contigs数据库中。分箱过程结束时，每个分箱中发生的功能将可用于下游分析。</p>
 
     </div>
 
