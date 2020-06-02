@@ -228,7 +228,10 @@
     <a href="/2020/05/07/sampling-seasurfacemicrolayer/" rel="prev" title="Sea surface microlayer sampling">
       <i class="fa fa-chevron-left"></i> Sea surface microlayer sampling
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/02/markdown-demo-md/" rel="next" title="Markdown基本语法">
+      Markdown基本语法 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -415,7 +418,22 @@
 
 
 
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
 
+
+  
 
   
 
