@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要:文件搜索命令👉文件搜索命令(find -name&#x2F;size&#x2F;type&#x2F;user&#x2F;inum&#x2F;… -a&#x2F;r -exec&#x2F;ok {} ;, locate, grep)，路径查找命令(which, whereis)。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux常用命令3.文件搜索命令">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/06/02/4-3wenjiansousuomingling/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="摘要:文件搜索命令👉文件搜索命令(find -name&#x2F;size&#x2F;type&#x2F;user&#x2F;inum&#x2F;… -a&#x2F;r -exec&#x2F;ok {} ;, locate, grep)，路径查找命令(which, whereis)。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A43.%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4/findname.jpg">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A43.%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4/findinum.jpg">
+<meta property="article:published_time" content="2020-06-02T20:13:18.000Z">
+<meta property="article:modified_time" content="2020-06-02T20:38:15.051Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A43.%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4/findname.jpg">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/06/02/4-3wenjiansousuomingling/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Linux常用命令3.文件搜索命令 | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/06/02/4-3wenjiansousuomingling/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux常用命令3.文件搜索命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-02 22:13:18 / Modified: 22:38:15" itemprop="dateCreated datePublished" datetime="2020-06-02T22:13:18+02:00">2020-06-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>摘要</strong>:文件搜索命令👉文件搜索命令(find -name/size/type/user/inum/… -a/r -exec/ok {} ;, locate, grep)，路径查找命令(which, whereis)。</p>
+<a id="more"></a>
+<h1>文件搜索命令</h1>
+<h2 id="find"><code>find</code></h2>
+<ul>
+<li>语法：<code>find [搜索范围] [匹配条件]</code></li>
+</ul>
+<p>示例：<br>
+<strong>根据文件名</strong>:</p>
+<ul>
+<li><code>find . -name &quot;zhangsan&quot;</code> #在当前目录下搜索zhangsan的文件</li>
+<li><code>find . -name &quot;zhangsan*&quot;</code> #在当前目录下搜索以zhangsan开头的文件</li>
+<li><code>find . -name &quot;*zhangsan*&quot;</code> #在当前目录下搜索所有包含zhangsan的文件</li>
+<li><code>find . -name &quot;zhangsan?&quot;</code> #在当前目录下搜索以zhangsan开头后面还有一位的文件<br>
+<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A43.%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4/findname.jpg" alt="findname1"><br>
+<strong>根据文件大小</strong>:</li>
+<li><code>find . -size +204800</code> #204800是数据块。linux中一个数据块是512字节，即0.5k。如果要查找大于100M的文件，1M等于1024K，100M即102400K，即204800个数据块。+号表示大于，—号表示小于，不写表示等于。<br>
+<strong>根据所有者</strong>:</li>
+<li><code>find . user qiime2</code> #把属于所有者qiime2的文件找出来。<br>
+<strong>根据时间属性</strong>:</li>
+<li><code>find . -cmin -5</code> #查找5分钟内被修改过属性的文件和目录。<code>cmin</code>表示文件属性即<code>ls -l</code>列出来的内容，<code>amin</code>表示访问时间，<code>mmin</code>表示文件内容。<br>
+<strong>综合使用，连接选项</strong>:</li>
+<li><code>find . -cmin -5 -a -name &quot;zhangsan?&quot;</code> #<code>a</code>即and，表示两个条件同时满足；<code>o</code>即or，表示两个条件满足任意一个即可。<br>
+<strong>按照文件类型</strong>:</li>
+<li><code>find . -name &quot;*zhangsan*&quot; -a -type d</code> #<code>-type d</code>表示按照文件类型查找，<code>d</code>表示目录，<code>f</code>表示文件，<code>l</code>表示软链接文件。<br>
+<strong>对搜索结果执行操作</strong>:<br>
+<code>-exec/-ok   {} \;</code></li>
+<li><code>find . -name &quot;*zhangsan*&quot; -a -type f -exec rm -r &quot;zhangsan&quot; {} \;</code> #查找所有包含zhangsan的文件并把其删除。</li>
+<li><code>-exec</code>是直接执行，<code>-ok</code>是执行之前再确认一下。<br>
+<strong>根据i结点</strong>:</li>
+<li><code>find . -inum 59510705 -exec rm -r {} \;</code></li>
+<li><img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A43.%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4/findinum.jpg" alt="findinum"></li>
+</ul>
+<h2 id="locate"><code>locate</code></h2>
+<p>相对<code>find</code>查找速度快；<code>find</code>是实时查找，<code>locate</code>依赖于我们自己的资料库，新建的文件需要更新资料库<code>updatedb</code>之后使用<code>locate</code>才能找到。</p>
+<ul>
+<li>安装：<code>apt install mlocate</code>,</li>
+<li>更新：<code>sudo updatedb</code></li>
+<li>语法：<code>locate file.name</code></li>
+<li>补充：<code>locate -i file.name</code> 查找时对文件名不区分大小写</li>
+</ul>
+<h2 id="grep"><code>grep</code></h2>
+<ul>
+<li><code>grep 关键词 文件名</code> 在文件中查找某个关键词，之后会把这个关键词所在的行列出来。补充：<code>grep -i 关键词 文件名</code> 查找时对文件名不区分大小写</li>
+<li><code>grep -v ^# 文件名</code> 其中<code>-v</code>表示排除指定字符串，本条命令中表示排除句首以#开头的行，即注释行。</li>
+</ul>
+<h2 id="which"><code>which</code></h2>
+<p>列出绝对路径以及别名<br>
+使用的是ubuntu，只有绝对路径，没有别名。</p>
+<h2 id="whereis"><code>whereis</code></h2>
+<p>列出绝对路径以及帮助文档所在的路径</p>
+<p>学习视频<br>
+<a href="https://www.bilibili.com/video/av18156598/?p=19" target="_blank" rel="noopener">史上最牛的Linux视频课程</a>👉 P18-19</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/02/4-2quanxianguanlimingling/" rel="prev" title="Linux常用命令2.权限管理命令">
+      <i class="fa fa-chevron-left"></i> Linux常用命令2.权限管理命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/02/5vimchangyongcaozuoheshiyongjiqiao/" rel="next" title="Linux_5.文件编辑器vim">
+      Linux_5.文件编辑器vim <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">文件搜索命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#find"><span class="nav-number">1.1.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#locate"><span class="nav-number">1.2.</span> <span class="nav-text">locate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#grep"><span class="nav-number">1.3.</span> <span class="nav-text">grep</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#which"><span class="nav-number">1.4.</span> <span class="nav-text">which</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#whereis"><span class="nav-number">1.5.</span> <span class="nav-text">whereis</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.bio-info-trainee.com/" title="http:&#x2F;&#x2F;www.bio-info-trainee.com&#x2F;" rel="noopener" target="_blank">生信菜鸟团</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要: Shell基础 10.2脚本执行方式：1). echo输出命令，echo &#39;输出内容&#39;，echo -e &#39;输出内容&#39;。2). 脚本，创建或编辑脚本vi hello.sh，执行脚本sh hello.sh，不同系统脚本转换dos2unix 脚本文件名。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux_10.2-Shell基础-脚本执行方式">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/06/02/10-2shelljichujiaobenzhixingfangshi/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="摘要: Shell基础 10.2脚本执行方式：1). echo输出命令，echo &#39;输出内容&#39;，echo -e &#39;输出内容&#39;。2). 脚本，创建或编辑脚本vi hello.sh，执行脚本sh hello.sh，不同系统脚本转换dos2unix 脚本文件名。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/10.2-Shell%E5%9F%BA%E7%A1%80-%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F/1.%E6%8E%A7%E5%88%B6%E5%AD%97%E7%AC%A6%E5%8F%8A%E4%BD%9C%E7%94%A8.jpg">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/10.2-Shell%E5%9F%BA%E7%A1%80-%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F/2.%E5%AD%97%E7%AC%A6%E8%BD%AC%E6%8D%A2%E7%A4%BA%E4%BE%8B.jpg">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/10.2-Shell%E5%9F%BA%E7%A1%80-%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F/3.hello.sh%E8%84%9A%E6%9C%AC.jpg">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/10.2-Shell%E5%9F%BA%E7%A1%80-%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F/4.hello.sh%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C.jpg">
+<meta property="article:published_time" content="2020-06-02T20:58:12.000Z">
+<meta property="article:modified_time" content="2020-06-02T21:22:06.246Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Shell">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/10.2-Shell%E5%9F%BA%E7%A1%80-%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F/1.%E6%8E%A7%E5%88%B6%E5%AD%97%E7%AC%A6%E5%8F%8A%E4%BD%9C%E7%94%A8.jpg">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/06/02/10-2shelljichujiaobenzhixingfangshi/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Linux_10.2-Shell基础-脚本执行方式 | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/06/02/10-2shelljichujiaobenzhixingfangshi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux_10.2-Shell基础-脚本执行方式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-02 22:58:12 / Modified: 23:22:06" itemprop="dateCreated datePublished" datetime="2020-06-02T22:58:12+02:00">2020-06-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>摘要</strong>: Shell基础 10.2脚本执行方式：1). echo输出命令，<code>echo '输出内容'</code>，<code>echo -e '输出内容'</code>。2). 脚本，创建或编辑脚本<code>vi hello.sh</code>，执行脚本<code>sh hello.sh</code>，不同系统脚本转换<code>dos2unix 脚本文件名</code>。</p>
+<a id="more"></a>
+<h1>echo输出命令</h1>
+<ul>
+<li>语法：<code>echo '输出内容'</code></li>
+<li>语法：<code>echo -e '输出内容'</code> 支持反斜线控制的字符转换
+<ul>
+<li>字符转换<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/10.2-Shell%E5%9F%BA%E7%A1%80-%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F/1.%E6%8E%A7%E5%88%B6%E5%AD%97%E7%AC%A6%E5%8F%8A%E4%BD%9C%E7%94%A8.jpg" alt="控制字符及其作用">
+<ul>
+<li><a href="https://wenku.baidu.com/view/5f83988be53a580216fcfeac.html" target="_blank" rel="noopener">ASCII码表</a></li>
+<li>输出颜色：<code>echo -e '\e[1;颜色 输出内容\e[0m'</code> 30m=黑色；31m=红色；32m=绿色；33m=黄色；34m=蓝色；35m=洋红；36m=青色；37m=白色。</li>
+</ul>
+</li>
+<li>示例<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/10.2-Shell%E5%9F%BA%E7%A1%80-%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F/2.%E5%AD%97%E7%AC%A6%E8%BD%AC%E6%8D%A2%E7%A4%BA%E4%BE%8B.jpg" alt="字符转换示例"></li>
+</ul>
+</li>
+</ul>
+<h1>脚本</h1>
+<ul>
+<li><strong>创建或编辑脚本</strong>：<code>vi hello.sh</code> ，建议脚本都写成<code>.sh</code>。脚本的第一行一般都写上<code>#!/bin/bash</code>，这是不是注释，而是标称这里写的是shell脚本，不写的话运行中很可能会出问题。</li>
+<li><strong>执行脚本</strong>
+<ul>
+<li>通过bash调用执行脚本，<code>sh hello.sh</code>，只能在当前目录下执行。</li>
+<li>赋予执行权限<code>chmod 755 hello.sh</code>，直接运行其所在的路径<code>/home/qiime2/sh/hello.sh</code>，可在非当前目录下执行。</li>
+</ul>
+</li>
+<li><strong>不同系统脚本转换</strong>：windows和linux脚本后面的换行符不一致，可使用<code>cat -A 脚本文件名</code>查看。
+<ul>
+<li><code>dos2unix 脚本文件名</code> 将windows脚本转换成linux脚本格式。</li>
+</ul>
+</li>
+<li>示例
+<ul>
+<li>hello.sh脚本<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/10.2-Shell%E5%9F%BA%E7%A1%80-%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F/3.hello.sh%E8%84%9A%E6%9C%AC.jpg" alt="hello.sh脚本"></li>
+<li>执行hello.sh脚本<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/10.2-Shell%E5%9F%BA%E7%A1%80-%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F/4.hello.sh%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C.jpg" alt="执行hello.sh脚本"></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Shell/" rel="tag"># Shell</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/02/5vimchangyongcaozuoheshiyongjiqiao/" rel="prev" title="Linux_5.文件编辑器vim">
+      <i class="fa fa-chevron-left"></i> Linux_5.文件编辑器vim
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/02/10-3shelljichubashjibengongneng/" rel="next" title="Linux_10.3-Shell基础-Bash基本功能">
+      Linux_10.3-Shell基础-Bash基本功能 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">echo输出命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">脚本</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.bio-info-trainee.com/" title="http:&#x2F;&#x2F;www.bio-info-trainee.com&#x2F;" rel="noopener" target="_blank">生信菜鸟团</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

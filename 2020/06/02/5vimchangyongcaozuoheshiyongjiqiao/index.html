@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要: Vim常用操作👉Vim工作模式：命令模式(vi filename)，插入模式(a&#x2F;i&#x2F;o)，编辑模式(定位：:set no，: n；删除：x&#x2F;nx,dd&#x2F;ndd；复制和剪切：yy&#x2F;dd p&#x2F;P；替换和取消：r&#x2F;R u；搜索和搜索替换：&#x2F;string，n，%s or n1,n2s&#x2F;old_string&#x2F;new_string&#x2F;g)，保存和退出(:wq，ZZ，:q!)。Vim使用技巧👉复制文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux_5.文件编辑器vim">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/06/02/5vimchangyongcaozuoheshiyongjiqiao/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="摘要: Vim常用操作👉Vim工作模式：命令模式(vi filename)，插入模式(a&#x2F;i&#x2F;o)，编辑模式(定位：:set no，: n；删除：x&#x2F;nx,dd&#x2F;ndd；复制和剪切：yy&#x2F;dd p&#x2F;P；替换和取消：r&#x2F;R u；搜索和搜索替换：&#x2F;string，n，%s or n1,n2s&#x2F;old_string&#x2F;new_string&#x2F;g)，保存和退出(:wq，ZZ，:q!)。Vim使用技巧👉复制文">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-02T20:15:11.000Z">
+<meta property="article:modified_time" content="2020-06-02T20:56:12.570Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/06/02/5vimchangyongcaozuoheshiyongjiqiao/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Linux_5.文件编辑器vim | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/06/02/5vimchangyongcaozuoheshiyongjiqiao/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux_5.文件编辑器vim
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-02 22:15:11 / Modified: 22:56:12" itemprop="dateCreated datePublished" datetime="2020-06-02T22:15:11+02:00">2020-06-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>摘要</strong>: Vim常用操作👉Vim工作模式：命令模式(<code>vi filename</code>)，插入模式(<code>a/i/o</code>)，编辑模式(定位：<code>:set no</code>，<code>: n</code>；删除：<code>x/nx</code>,<code>dd/ndd</code>；复制和剪切：<code>yy/dd p/P</code>；替换和取消：<code>r/R u</code>；搜索和搜索替换：<code>/string</code>，<code>n</code>，<code>%s or n1,n2s/old_string/new_string/g</code>)，保存和退出(<code>:wq</code>，<code>ZZ</code>，<code>:q!</code>)。Vim使用技巧👉复制文件内容(<code>:r 文件名</code>)，导入命令执行结果(<code>:r !命令</code>)，定义快捷键(<code>:map 快捷键 触发命令</code>)，连续行注释(<code>:n1,n2s/^/#/g</code>)，替换(<code>:ab mymail nordicorge@hotmail.com</code>)。设置配置文件(<code>vi /home/qiime2/.vimrc</code>)👉在<code>.vimrc</code>中设置好。</p>
+<a id="more"></a>
+<h1>Vim常用操作</h1>
+<h2 id="Vim工作模式">Vim工作模式</h2>
+<h3 id="命令模式-进入，vi-filename">命令模式: 进入，<code>vi filename</code></h3>
+<h3 id="插入模式-i-a-o开始输入内容，esc键退出。">插入模式: <code>i/a/o</code>开始输入内容，<code>esc键</code>退出。</h3>
+<ul>
+<li><code>a</code>光标所在字符后插入</li>
+<li><code>A</code>光标所在行行尾插入</li>
+<li><code>i</code>光标所在字符前插入</li>
+<li><code>I</code>光标所在行行首插入</li>
+<li><code>o</code>光标下插入新行</li>
+<li><code>O</code>光标上插入新行</li>
+</ul>
+<h3 id="编辑模式-开始输入命令，以回车结束运行">编辑模式: <code>:</code>开始输入命令，以回车结束运行</h3>
+<ul>
+<li>定位命令
+<ul>
+<li><code>: set nu</code>设置行号</li>
+<li><code>: set nonu</code>取消行号</li>
+<li><code>: n</code>到第n行</li>
+<li><code>: $</code>移至行尾</li>
+<li><code>: 0</code>移至行首</li>
+</ul>
+</li>
+<li>删除命令
+<ul>
+<li>按<code>x键</code>删除光标所在处字符</li>
+<li>按<code>n(数字)+x键</code>删除光标所在处后n个字符</li>
+<li>按<code>n(数字)+dd键</code>删除光标所在行，ndd删除n行</li>
+<li>按<code>dG</code>删除光标所在行到文件末尾内容</li>
+<li>按<code>D</code>删除光标所在行到行尾内容</li>
+<li>按<code>: n1,n2d</code>删除指定范围的行,(n1,n2)表示n2及之前的行都删除。</li>
+</ul>
+</li>
+<li>复制和剪切命令
+<ul>
+<li>按<code>yy</code>复制当前行</li>
+<li>按<code>nyy</code>复制当前以下n行</li>
+<li>按<code>dd</code>剪切当前行</li>
+<li>按<code>ndd</code>剪切当前以下n行</li>
+<li>按<code>p</code>和<code>P</code>粘贴在当前光标所在行下或行上</li>
+</ul>
+</li>
+<li>替换和取消命令
+<ul>
+<li>按<code>r</code>取消光标所在处字符</li>
+<li>按<code>R</code>从光标所在处开始替换字符，按<code>esc键</code>结束</li>
+<li>按<code>u</code>取消上一步操作</li>
+</ul>
+</li>
+<li>搜索和搜索替换命令
+<ul>
+<li>按<code>/string</code>搜索指定字符串</li>
+<li>按<code>: set ic</code>搜索时忽略大小写；按<code>: set noic</code>搜索时不忽略大小写</li>
+<li>按<code>n键</code>搜索指定字符串的下一个出现位置</li>
+<li>按<code>: %s/old_string/new_string/g</code>全文替换指定字符串</li>
+<li>按<code>: n1,n2s/old_string/new_string/g</code>在一定范围内替换指定字符串</li>
+</ul>
+</li>
+</ul>
+<h2 id="保存和退出">保存和退出</h2>
+<ul>
+<li>按<code>:w</code>保存修改</li>
+<li>按<code>:w new_filename</code>另存为指定文件</li>
+<li>按<code>:wq</code>保存修改并退出</li>
+<li>按<code>ZZ</code>快捷键，保存修改并退出</li>
+<li>按<code>:q!</code>不保存修改退出</li>
+<li>按<code>:wq!</code>保存修改并退出（文件所有者及root可使用）</li>
+</ul>
+<h1>Vim使用技巧</h1>
+<h2 id="复制文件内容">复制文件内容</h2>
+<p>把“文件名”中的内容复制到当前文件中</p>
+<ul>
+<li>用法：<code>:r 文件名</code></li>
+<li>示例：<code>:r /home/qiime2/lisi</code></li>
+</ul>
+<h2 id="导入命令执行结果">导入命令执行结果</h2>
+<p>直接把命令执行的结果导入到当前的文件中</p>
+<ul>
+<li>用法：<code>:r !命令</code></li>
+<li>示例：<code>:r !date</code></li>
+</ul>
+<h2 id="定义快捷键">定义快捷键</h2>
+<ul>
+<li>用法：<code>:map 快捷键 触发命令</code></li>
+<li>示例：<code>:map ^P I#&lt;ESC&gt;</code>，表示快捷键Ctrl+V+P代表跳到光标所在行的行首加一个#号之后退出。<code>:map ^B 0x</code>，表示快捷键Ctrl+V+B代表跳到光标所在行的行首然后删掉第一个字符。</li>
+</ul>
+<h2 id="连续行注释">连续行注释</h2>
+<p>示例</p>
+<ul>
+<li><code>:n1,n2s/^/#/g</code>在n1到n4行的行首加上#</li>
+<li><code>:n1,n2s/#//g</code>将n1到n4行的#替换为空</li>
+<li><code>:n1,n2s/^#//g</code>将n1到n4行行首的#替换为空</li>
+</ul>
+<h2 id="替换">替换</h2>
+<p>示例</p>
+<ul>
+<li><code>:ab mymail nordicorge@hotmail.com</code>表示输入mymail后回车显示的是nordicorge@hotmail.com</li>
+</ul>
+<h2 id="设置配置文件">设置配置文件</h2>
+<p>配置文件一般放在根目录或访客的目录下，文件名为<code>.vimrc</code>,只有在配置文件中设置好了，再创建文件的时候，输入快捷键或替换等才会统一。</p>
+<ul>
+<li>用法：<code>vi /root/.vimrc</code>或<code>vi /home/qiime2/.vimrc</code></li>
+<li>用法：<code>.vimrc</code>中定义内容时不加冒号:，只写后面的内容。</li>
+</ul>
+<p>学习视频</p>
+<blockquote>
+<p><a href="https://www.bilibili.com/video/av18156598/?p=25" target="_blank" rel="noopener">史上最牛的Linux视频课程</a>👉P25-26</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/02/4-3wenjiansousuomingling/" rel="prev" title="Linux常用命令3.文件搜索命令">
+      <i class="fa fa-chevron-left"></i> Linux常用命令3.文件搜索命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/02/10-2shelljichujiaobenzhixingfangshi/" rel="next" title="Linux_10.2-Shell基础-脚本执行方式">
+      Linux_10.2-Shell基础-脚本执行方式 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">Vim常用操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Vim工作模式"><span class="nav-number">1.1.</span> <span class="nav-text">Vim工作模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#命令模式-进入，vi-filename"><span class="nav-number">1.1.1.</span> <span class="nav-text">命令模式: 进入，vi filename</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入模式-i-a-o开始输入内容，esc键退出。"><span class="nav-number">1.1.2.</span> <span class="nav-text">插入模式: i&#x2F;a&#x2F;o开始输入内容，esc键退出。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑模式-开始输入命令，以回车结束运行"><span class="nav-number">1.1.3.</span> <span class="nav-text">编辑模式: :开始输入命令，以回车结束运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保存和退出"><span class="nav-number">1.2.</span> <span class="nav-text">保存和退出</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">Vim使用技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#复制文件内容"><span class="nav-number">2.1.</span> <span class="nav-text">复制文件内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入命令执行结果"><span class="nav-number">2.2.</span> <span class="nav-text">导入命令执行结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义快捷键"><span class="nav-number">2.3.</span> <span class="nav-text">定义快捷键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连续行注释"><span class="nav-number">2.4.</span> <span class="nav-text">连续行注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#替换"><span class="nav-number">2.5.</span> <span class="nav-text">替换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置配置文件"><span class="nav-number">2.6.</span> <span class="nav-text">设置配置文件</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.bio-info-trainee.com/" title="http:&#x2F;&#x2F;www.bio-info-trainee.com&#x2F;" rel="noopener" target="_blank">生信菜鸟团</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

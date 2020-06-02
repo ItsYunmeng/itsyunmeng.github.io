@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要: linux常用命令👉目录处理命令(ls, mkdir, cd, pwd, rm, cp, mv)，文件处理命令(touch, cat, more, less, head, tail)和链接命令(ln)。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux常用命令1.文件处理命令">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/06/02/4-1wenjianchulimingling/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="摘要: linux常用命令👉目录处理命令(ls, mkdir, cd, pwd, rm, cp, mv)，文件处理命令(touch, cat, more, less, head, tail)和链接命令(ln)。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-02T20:12:52.000Z">
+<meta property="article:modified_time" content="2020-06-02T20:19:56.366Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/06/02/4-1wenjianchulimingling/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Linux常用命令1.文件处理命令 | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/06/02/4-1wenjianchulimingling/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux常用命令1.文件处理命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-02 22:12:52 / Modified: 22:19:56" itemprop="dateCreated datePublished" datetime="2020-06-02T22:12:52+02:00">2020-06-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>摘要</strong>: linux常用命令👉目录处理命令(ls, mkdir, cd, pwd, rm, cp, mv)，文件处理命令(touch, cat, more, less, head, tail)和链接命令(ln)。</p>
+<a id="more"></a>
+<h1>目录处理命令</h1>
+<h2 id="ls，list显示"><code>ls</code>，list<a href="https://www.cnblogs.com/bydzhangxiaowei/p/8136335.html" target="_blank" rel="noopener">显示</a></h2>
+<ul>
+<li><code>ls -a</code> #显示所有文件，包括隐藏文件</li>
+<li><code>ls -l</code> #详细信息显示
+<ul>
+<li><code>-rw-r--r--</code> #共十个字符
+<ul>
+<li>第一个字符<code>-</code>，表示文件类型。（-二进制文件，d目录，l软链接文件)</li>
+<li>后面九个字符<code>rw-r--r--</code>，表示权限。（r可读，w可写，x可执行）分成三部分，分别对应（u所有者，g所属组，o其他人）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>ls -d</code> #查看目录属性，即显示当前目录本身，而不显示它的文件。</li>
+</ul>
+<h2 id="mkdir，make-directories创建目录"><code>mkdir</code>，make directories创建目录</h2>
+<ul>
+<li><code>mkdir zhangsan</code> #创建一个目录</li>
+<li><code>mkdir -p lisi/children</code> #创建一个目录及下面的子目录，用到<code>-p</code>，递归创建</li>
+</ul>
+<h2 id="cd，change-directory切换目录"><code>cd</code>，change directory切换目录</h2>
+<ul>
+<li><code>cd lisi</code> #后面直接加上想要切换的目录名</li>
+<li><code>cd ..</code> #回到上一级目录</li>
+</ul>
+<h2 id="pwd，Print-working-directory显示当前目录"><code>pwd</code>，Print working directory显示当前目录</h2>
+<h2 id="rm-，remove删除"><code>rm</code> ，remove删除</h2>
+<ul>
+<li><code>rm -r zhangsan/daughter</code> #递归删除
+<ul>
+<li><code>-r</code>删除目录</li>
+<li><code>-f</code>强制执行</li>
+<li><code>-rf</code>强制删除目录或文件</li>
+</ul>
+</li>
+</ul>
+<h2 id="cp，copy复制"><code>cp</code>，copy复制</h2>
+<ul>
+<li><code>cp -r lisi/son zhangsan</code> #递归复制</li>
+<li><code>cp -r lisi/son zhangsan/daughter</code> #把lisi的son复制到zhangsan下并改名为daughter，即复制的同时改名</li>
+</ul>
+<h2 id="mv，move移动或剪切"><code>mv</code>，move移动或剪切</h2>
+<ul>
+<li><code>mv lisi zhangsan</code> #如果lisi和zhangsan都存在，表示把lisi移动到zhangsan下；如果zhangsan不存在，表示把lisi移动到当前目录并改名为zhangsan。</li>
+</ul>
+<h1>文件处理命令</h1>
+<h2 id="touch，创建文件"><code>touch</code>，创建文件</h2>
+<ul>
+<li><code>touch file1</code> #不同与目录显示蓝色，文件显示的是白色</li>
+</ul>
+<h2 id="cat，查看文件"><code>cat</code>，查看文件</h2>
+<ul>
+<li><code>cat file1</code> #查看文件</li>
+</ul>
+<h2 id="more，分页显示文件内容"><code>more</code>，分页显示文件内容</h2>
+<ul>
+<li>空格键，翻页</li>
+<li>换行键，一页一页往下翻</li>
+</ul>
+<h2 id="less，分页显示文件内容"><code>less</code>，分页显示文件内容</h2>
+<p>可向上翻页</p>
+<ul>
+<li><code>/</code>，搜索</li>
+</ul>
+<h2 id="head，查看文件开头的内容"><code>head</code>，查看文件开头的内容</h2>
+<ul>
+<li><code>head -n file1</code> #不加<code>-n</code>时默认前十行</li>
+</ul>
+<h2 id="tail，查看文件末尾的内容"><code>tail</code>，查看文件末尾的内容</h2>
+<p>同上</p>
+<h1>链接命令</h1>
+<h2 id="ln，建立链接"><code>ln</code>，建立链接</h2>
+<ul>
+<li><code>ln file1 zhangsan/file1.hard</code> #创建file1的硬链接到zhangsan
+<ul>
+<li>相当于复制了该文件过去，其中某一个变化了，另一个同步更新。</li>
+<li>源文件删除后，使用不受影响。</li>
+</ul>
+</li>
+<li><code>ln -s file1 zhangsan/file1.soft</code> #创建file1的软链接到zhangsan。
+<ul>
+<li>软链接类似windows的快捷方式，只是一个源文件的链接指向。标记为<code>lrwxrwxrwx</code>。</li>
+<li>软链接是红色的，有一个箭头指向。</li>
+<li>源文件删除后，无法使用。</li>
+</ul>
+</li>
+<li><code>ls -i</code> #除了以上差异，也可通过i节点识别软链接和硬链接。</li>
+</ul>
+<p>学习视频</p>
+<blockquote>
+<p><a href="https://www.bilibili.com/video/av18156598" target="_blank" rel="noopener">史上最牛的Linux视频课程</a> 👉 P12-15</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/02/markdown-demo-md/" rel="prev" title="Markdown基本语法">
+      <i class="fa fa-chevron-left"></i> Markdown基本语法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/02/4-2quanxianguanlimingling/" rel="next" title="Linux常用命令2.权限管理命令">
+      Linux常用命令2.权限管理命令 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">目录处理命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ls，list显示"><span class="nav-number">1.1.</span> <span class="nav-text">ls，list显示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mkdir，make-directories创建目录"><span class="nav-number">1.2.</span> <span class="nav-text">mkdir，make directories创建目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cd，change-directory切换目录"><span class="nav-number">1.3.</span> <span class="nav-text">cd，change directory切换目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pwd，Print-working-directory显示当前目录"><span class="nav-number">1.4.</span> <span class="nav-text">pwd，Print working directory显示当前目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rm-，remove删除"><span class="nav-number">1.5.</span> <span class="nav-text">rm ，remove删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cp，copy复制"><span class="nav-number">1.6.</span> <span class="nav-text">cp，copy复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mv，move移动或剪切"><span class="nav-number">1.7.</span> <span class="nav-text">mv，move移动或剪切</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">文件处理命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#touch，创建文件"><span class="nav-number">2.1.</span> <span class="nav-text">touch，创建文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cat，查看文件"><span class="nav-number">2.2.</span> <span class="nav-text">cat，查看文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#more，分页显示文件内容"><span class="nav-number">2.3.</span> <span class="nav-text">more，分页显示文件内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#less，分页显示文件内容"><span class="nav-number">2.4.</span> <span class="nav-text">less，分页显示文件内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#head，查看文件开头的内容"><span class="nav-number">2.5.</span> <span class="nav-text">head，查看文件开头的内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tail，查看文件末尾的内容"><span class="nav-number">2.6.</span> <span class="nav-text">tail，查看文件末尾的内容</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">链接命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ln，建立链接"><span class="nav-number">3.1.</span> <span class="nav-text">ln，建立链接</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.bio-info-trainee.com/" title="http:&#x2F;&#x2F;www.bio-info-trainee.com&#x2F;" rel="noopener" target="_blank">生信菜鸟团</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
