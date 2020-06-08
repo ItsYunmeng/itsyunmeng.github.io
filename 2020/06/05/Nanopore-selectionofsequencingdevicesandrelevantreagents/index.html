@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Abstract: This paper introduces nanopore sequencing products, needed IT devices and other supporting equipment. calculation of output data amount and evaluation of needed data amount also have been in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nanopore_2. Selection of sequencing devices and relevant reagents">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/06/05/Nanopore-selectionofsequencingdevicesandrelevantreagents/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="Abstract: This paper introduces nanopore sequencing products, needed IT devices and other supporting equipment. calculation of output data amount and evaluation of needed data amount also have been in">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/Nanopore/8.products.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/Nanopore/8.products2.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/Nanopore/9.comparisons.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/Nanopore/10.sequencingsaturationofRNASeq.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/Nanopore/11.sequencingreadsandgenomecoverage.png">
+<meta property="article:published_time" content="2020-06-05T10:52:22.000Z">
+<meta property="article:modified_time" content="2020-06-05T20:54:34.716Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="Nanopore">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/Nanopore/8.products.png">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/06/05/Nanopore-selectionofsequencingdevicesandrelevantreagents/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Nanopore_2. Selection of sequencing devices and relevant reagents | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/06/05/Nanopore-selectionofsequencingdevicesandrelevantreagents/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Nanopore_2. Selection of sequencing devices and relevant reagents
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-05 12:52:22 / Modified: 22:54:34" itemprop="dateCreated datePublished" datetime="2020-06-05T12:52:22+02:00">2020-06-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bioinformatics/" itemprop="url" rel="index"><span itemprop="name">Bioinformatics</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>Abstract:</strong> This paper introduces nanopore sequencing products, needed IT devices and other supporting equipment. calculation of output data amount and evaluation of needed data amount also have been introduced.</p>
+<a id="more"></a>
+<h1><a href="https://nanoporetech.com/products" target="_blank" rel="noopener">Nanopore sequencing products</a></h1>
+<p><img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/Nanopore/8.products.png" alt="8.products"><br>
+<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/Nanopore/8.products2.png" alt="8.products2"></p>
+<ol>
+<li>How to calculate the amount of output data?<br>
+<em>Note: 1) each channel has four nanopores, but only one nanopore works at one time; 2) the amount of output calculated below is the theoretical maximum, which might be halved actually.</em></li>
+</ol>
+<ul>
+<li>sequencing data of each nanopore: 450 bp/second; 450 * 60=27 kb/min; 27 * 60=1.62 M/h; 1.62 * 24=38.88 M/d.</li>
+<li>sequencing data of different nanopores per day: 126 channels, 126 * 38.88≈4.90 G; 512 channels, 512 * 38.88≈19.91 G; 3000 channels, 3000 * 38.88=116.64 G.</li>
+</ul>
+<ol start="2">
+<li><a href="https://nanoporetech.com/products/comparison" target="_blank" rel="noopener">Comparisons among different products</a><br>
+<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/Nanopore/9.comparisons.png" alt="9.comparisons"></li>
+</ol>
+<ul>
+<li>sequencers:
+<ul>
+<li><a href="https://nanoporetech.com/products/flongle" target="_blank" rel="noopener">Flongle</a>: 126 channels, 1.8 G data. | SmidgION: smaller than Flongle, can connect with iphone</li>
+<li><a href="https://nanoporetech.com/products/minion" target="_blank" rel="noopener">MinION Mk1B</a>: 512 channels, 10-30 G data, need a laptop (processor, &gt;= Intel Core i7; memory card, &gt;16G; disk, &gt;1T; screen) for real-time, powerful analyses or <em>MinIT</em>+ a screen. | <a href="https://nanoporetech.com/products/minion-mk1c" target="_blank" rel="noopener">MinION Mk1C</a>: a product combining MinION Mk1B and MinIT.</li>
+<li><a href="https://nanoporetech.com/products/gridion" target="_blank" rel="noopener">GridION Mk1</a>: 5 * 512 channels, maximum 150 G data.</li>
+<li><a href="https://nanoporetech.com/products/promethion" target="_blank" rel="noopener">PromethION 24/48</a>: 24/48 sequencing chips, ultra-high throughput.</li>
+</ul>
+</li>
+<li>others:
+<ul>
+<li><a href="https://nanoporetech.com/products/voltrax" target="_blank" rel="noopener">VolTRAX</a>: perform library preparation automatically.</li>
+<li><a href="https://nanoporetech.com/products/minit" target="_blank" rel="noopener">MinIT</a>: equivalent to a laptop.</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>How much data do you need?</li>
+</ol>
+<ul>
+<li>whether cover all targeted zones</li>
+<li>depends on different analysis purposes</li>
+<li>more is better</li>
+<li>judge based on experience</li>
+<li>check literature information<br>
+Detected gene number ~ Reads number<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/Nanopore/10.sequencingsaturationofRNASeq.png" alt="10.sequencingsaturationofRNASeq"><br>
+Reads number ~ uncovered genome ~ coverage rate of genome<br>
+<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/Nanopore/11.sequencingreadsandgenomecoverage.png" alt="11.sequencingreadsandgenomecoverage"></li>
+</ul>
+<ol start="4">
+<li>Brief introduction to sequencing workflow<br>
+DNA extraction -&gt; library preparation -&gt; nanopore sequencing -&gt; <a href="https://community.nanoporetech.com/knowledge/bioinformatics" target="_blank" rel="noopener">data analysis</a><br>
+software:</li>
+</ol>
+<ul>
+<li>MinKNOW: driver software of all nanopore sequencing platforms
+<ul>
+<li>create an experiment file</li>
+<li>select sample types, and kit of library preparation</li>
+<li>basecalling: two base recognition modes based on Flip-Flop algorithm, 1) high accuracy model (HAC); 2) fast basecalling run options</li>
+<li>set running parameters: running time, initial voltage, etc.</li>
+<li>set types of output file: Fast5 or Fastq</li>
+</ul>
+</li>
+</ul>
+<h1>IT devices</h1>
+<ul>
+<li>high-performance laptop</li>
+<li>tower server/blade server (considering CPU, RAM, disk, diaplay card and UPS (uninterruptible power system)) vs. cloud server</li>
+<li>computer cluster</li>
+</ul>
+<h1>Other supporting equipment</h1>
+<ul>
+<li>Quantify DNA or RNA concentration accurately: Qubit fluorometer <em>NOTE: RNA/DNA contamination</em></li>
+<li>quality of DNA or RNA: Nanodrop
+<ul>
+<li>DNA: A260/A280 = ~1.8，A260/A230=~2.0-2.2</li>
+<li>RNA: A260/A280 = ~2.0，A260/A230=~2.0-2.2</li>
+</ul>
+</li>
+<li>length of DNA or RNA fragment: Qsep series，Agilent Bioanalyzer/Tapestation，PFGE，fragment analyzer，FEMTO pulse, etc.</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Nanopore/" rel="tag"># Nanopore</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/04/developmentofsequencingtechnology/" rel="prev" title="Development of sequencing technologies">
+      <i class="fa fa-chevron-left"></i> Development of sequencing technologies
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/05/Bioconda/" rel="next" title="Bioconda - A channel for the conda package manager">
+      Bioconda - A channel for the conda package manager <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">Nanopore sequencing products</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">IT devices</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">Other supporting equipment</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Yunmeng_Li" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Yunmeng_Li" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/itsyunmeng" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;itsyunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yunmengli@hotmail.com" title="E-Mail → mailto:yunmengli@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

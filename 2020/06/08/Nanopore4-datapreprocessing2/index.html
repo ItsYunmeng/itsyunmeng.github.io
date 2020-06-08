@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Abstract: This paper shows how to do sequence alignment using minimap2 (get sam file), and visualization of alignment results using samtools (convert sam file to bam file) and tablet. The usage of seq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nanopore_4.data preprocessing-2.sequence alignment">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/06/08/Nanopore4-datapreprocessing2/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="Abstract: This paper shows how to do sequence alignment using minimap2 (get sam file), and visualization of alignment results using samtools (convert sam file to bam file) and tablet. The usage of seq">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-08T11:00:51.000Z">
+<meta property="article:modified_time" content="2020-06-08T19:42:21.501Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="Nanopore">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/06/08/Nanopore4-datapreprocessing2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Nanopore_4.data preprocessing-2.sequence alignment | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/06/08/Nanopore4-datapreprocessing2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Nanopore_4.data preprocessing-2.sequence alignment
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-08 13:00:51 / Modified: 21:42:21" itemprop="dateCreated datePublished" datetime="2020-06-08T13:00:51+02:00">2020-06-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bioinformatics/" itemprop="url" rel="index"><span itemprop="name">Bioinformatics</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>Abstract:</strong> This paper shows how to do sequence alignment using minimap2 (get sam file), and visualization of alignment results using samtools (convert sam file to bam file) and tablet. The usage of seqkit is also introduced.</p>
+<a id="more"></a>
+<h1>Introduction</h1>
+<p>Processing of fastq file</p>
+<ul>
+<li>fastq -&gt; <a href="https://en.wikipedia.org/wiki/SAM_(file_format)" target="_blank" rel="noopener">sam</a>/<a href="https://genome.sph.umich.edu/wiki/BAM" target="_blank" rel="noopener">bam</a> -&gt; <a href="https://en.wikipedia.org/wiki/Variant_Call_Format" target="_blank" rel="noopener">vcf</a></li>
+<li>fastq -&gt; <a href="https://en.wikipedia.org/wiki/FASTA_format" target="_blank" rel="noopener">fasta</a> -&gt; genome</li>
+</ul>
+<h1>Sequence alignment</h1>
+<p>Short-read sequence (of second-generation sequencing) alignment is to relocate sequenced reads to the genome, which is also called mapping.<br>
+Characteristics:</p>
+<ul>
+<li>cover the whole genome</li>
+<li>short read length</li>
+<li>exist some error rate</li>
+<li>high depth</li>
+<li>pair-end data</li>
+</ul>
+<p>why do sequence alignment?</p>
+<ul>
+<li>Calculate genome coverage ratio: how many genes were detected</li>
+<li>Calculate the coverage depth of each gene site: how many times each gene site was measured</li>
+<li>Calculate the alignment rate of sequencing data: how many sequence can be aligned; why some sequences can not be aligned, is it wrong or reference sequences don’t exist?</li>
+<li>Check the conditions of the alignment of each site: see the details of each site, such as sequencing error, mutation, etc.</li>
+<li>Used for mutation detection</li>
+<li>find the consensus sequences: a sequence of DNA having similar structure and function in different organisms</li>
+</ul>
+<h2 id="input-files">input files</h2>
+<p>needed files:</p>
+<ul>
+<li>Reference sequence: nucleic acid sequence in the format of fasta</li>
+<li>Sequencing data: first and second generation sequencing data in the format of fastq</li>
+</ul>
+<h2 id="using-Minimap2-to-do-sequencing-alignment">using Minimap2 to do sequencing alignment</h2>
+<p><a href="https://github.com/lh3/minimap2" target="_blank" rel="noopener">Minimap2</a> is a versatile sequence alignment program that aligns DNA or mRNA sequences against a large reference database. Typical use cases include: (1) mapping PacBio or Oxford Nanopore genomic reads to the human genome; (2) finding overlaps between long reads with error rate up to ~15%; (3) splice-aware alignment of PacBio Iso-Seq or Nanopore cDNA or Direct RNA reads against a reference genome; (4) aligning Illumina single- or paired-end reads; (5) assembly-to-assembly alignment; (6) full-genome alignment between two closely related species with divergence below ~15%.<br>
+<em>Note: Hisat2 can cut reads for alignment; bwa is mainly for short-read sequences, can not cut reads, and can not be used for RNASeq analysis; minimap2 is mainly for pacbio and nanopore data.</em><br>
+input files:</p>
+<ul>
+<li>sequencing reads in the format of fastq or fasta</li>
+<li>reference genome in the format of fasta</li>
+</ul>
+<p>output files:</p>
+<ul>
+<li>paf (default) or sam files
+<blockquote>
+<p>see the details of <a href="https://en.wikipedia.org/wiki/SAM_(file_format)" target="_blank" rel="noopener">sam file</a></p>
+</blockquote>
+</li>
+</ul>
+<p>usage:</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">Usage: minimap2 [options] &lt;target.fa&gt;|&lt;target.idx&gt; [query.fa] [...]</span><br><span class="line">Options:</span><br><span class="line">  Indexing:</span><br><span class="line">    -<span class="ruby">H           use homopolymer-compressed k-mer (preferrable <span class="keyword">for</span> PacBio)</span></span><br><span class="line"><span class="ruby">    -k INT       k-mer size (no larger than <span class="number">28</span>) [<span class="number">15</span>]</span></span><br><span class="line"><span class="ruby">    -w INT       minimizer window size [<span class="number">10</span>]</span></span><br><span class="line"><span class="ruby">    -I NUM       split index <span class="keyword">for</span> every ~NUM input bases [<span class="number">4</span>G]</span></span><br><span class="line"><span class="ruby">    -d FILE      dump index to FILE []</span></span><br><span class="line"><span class="ruby">  <span class="symbol">Mapping:</span></span></span><br><span class="line"><span class="ruby">    -f FLOAT     filter out top FLOAT fraction of repetitive minimizers [<span class="number">0</span>.<span class="number">0002</span>]</span></span><br><span class="line"><span class="ruby">    -g NUM       stop chain enlongation <span class="keyword">if</span> there are no minimizers <span class="keyword">in</span> INT-bp [<span class="number">5000</span>]</span></span><br><span class="line"><span class="ruby">    -G NUM       max intron length (effective with -xsplice; changing -r) [<span class="number">200</span>k]</span></span><br><span class="line"><span class="ruby">    -F NUM       max fragment length (effective with -xsr <span class="keyword">or</span> <span class="keyword">in</span> the fragment mode) [<span class="number">800</span>]</span></span><br><span class="line"><span class="ruby">    -r NUM       bandwidth used <span class="keyword">in</span> chaining <span class="keyword">and</span> DP-based alignment [<span class="number">500</span>]</span></span><br><span class="line"><span class="ruby">    -n INT       minimal number of minimizers on a chain [<span class="number">3</span>]</span></span><br><span class="line"><span class="ruby">    -m INT       minimal chaining score (matching bases minus log gap penalty) [<span class="number">40</span>]</span></span><br><span class="line"><span class="ruby">    -X           skip <span class="keyword">self</span> <span class="keyword">and</span> dual mappings (<span class="keyword">for</span> the all-vs-all mode)</span></span><br><span class="line"><span class="ruby">    -p FLOAT     min secondary-to-primary score ratio [<span class="number">0</span>.<span class="number">8</span>]</span></span><br><span class="line"><span class="ruby">    -N INT       retain at most INT secondary alignments [<span class="number">5</span>]</span></span><br><span class="line"><span class="ruby">  <span class="symbol">Alignment:</span></span></span><br><span class="line"><span class="ruby">    -A INT       matching score [<span class="number">2</span>]</span></span><br><span class="line"><span class="ruby">    -B INT       mismatch penalty [<span class="number">4</span>]</span></span><br><span class="line"><span class="ruby">    -O INT[,INT] gap open penalty [<span class="number">4</span>,<span class="number">24</span>]</span></span><br><span class="line"><span class="ruby">    -E INT[,INT] gap extension penalty; a k-long gap costs min&#123;O1+k*E1,O2+k*E2&#125; [<span class="number">2</span>,<span class="number">1</span>]</span></span><br><span class="line"><span class="ruby">    -z INT[,INT] Z-drop score <span class="keyword">and</span> inversion Z-drop score [<span class="number">400</span>,<span class="number">200</span>]</span></span><br><span class="line"><span class="ruby">    -s INT       minimal peak DP alignment score [<span class="number">80</span>]</span></span><br><span class="line"><span class="ruby">    -u CHAR      how to find GT-AG. <span class="symbol">f:</span>transcript strand, <span class="symbol">b:</span>both strands, <span class="symbol">n:</span>don<span class="string">'t match GT-AG [n]</span></span></span><br><span class="line"><span class="ruby">  Input/<span class="symbol">Output:</span></span></span><br><span class="line"><span class="ruby">    -a           output <span class="keyword">in</span> the SAM format (PAF by default)</span></span><br><span class="line"><span class="ruby">    -o FILE      output alignments to FILE [stdout]</span></span><br><span class="line"><span class="ruby">    -L           write CIGAR with &gt;<span class="number">65535</span> ops at the CG tag</span></span><br><span class="line"><span class="ruby">    -R STR       SAM read group line <span class="keyword">in</span> a format like <span class="string">'@RG\tID:foo\tSM:bar'</span> []</span></span><br><span class="line"><span class="ruby">    -c           output CIGAR <span class="keyword">in</span> PAF</span></span><br><span class="line"><span class="ruby">    --cs[=STR]   output the cs tag; STR is <span class="string">'short'</span> (<span class="keyword">if</span> absent) <span class="keyword">or</span> <span class="string">'long'</span> [none]</span></span><br><span class="line"><span class="ruby">    --MD         output the MD tag</span></span><br><span class="line"><span class="ruby">    --eqx        write =<span class="regexp">/X CIGAR operators</span></span></span><br><span class="line"><span class="ruby">    -Y           use soft clipping <span class="keyword">for</span> supplementary alignments</span></span><br><span class="line"><span class="ruby">    -t INT       number of threads [<span class="number">3</span>]</span></span><br><span class="line"><span class="ruby">    -K NUM       minibatch size <span class="keyword">for</span> mapping [<span class="number">500</span>M]</span></span><br><span class="line"><span class="ruby">    --version    show version number</span></span><br><span class="line"><span class="ruby">  <span class="symbol">Preset:</span></span></span><br><span class="line"><span class="ruby">    -x STR       preset (always applied before other options; see minimap2.<span class="number">1</span> <span class="keyword">for</span> details) []</span></span><br><span class="line"><span class="ruby">                 - map-pb/map-<span class="symbol">ont:</span> PacBio/Nanopore vs reference mapping</span></span><br><span class="line"><span class="ruby">                 - ava-pb/ava-<span class="symbol">ont:</span> PacBio/Nanopore read overlap</span></span><br><span class="line"><span class="ruby">                 - asm5/asm1<span class="number">0</span>/<span class="symbol">asm20:</span> asm-to-ref mapping, <span class="keyword">for</span> ~<span class="number">0</span>.<span class="number">1</span>/<span class="number">1</span>/<span class="number">5</span>% sequence divergence</span></span><br><span class="line"><span class="ruby">                 - <span class="symbol">splice:</span> long-read spliced alignment</span></span><br><span class="line"><span class="ruby">                 - <span class="symbol">sr:</span> genomic short-read mapping</span></span><br></pre></td></tr></table></figure>
+<h2 id="using-samtools-to-process-sam-file">using samtools to process sam file</h2>
+<p><a href="https://github.com/samtools/samtools" target="_blank" rel="noopener">samtools</a> provide various utilities for manipulating alignments in the SAM format, including sorting, merging, indexing and generating alignments in a per-position format.<br>
+Usage:</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">Usage:   samtools &lt;command&gt; [options]</span><br><span class="line">Commands:</span><br><span class="line">  -- Indexing</span><br><span class="line">     dict           create a sequence dictionary file</span><br><span class="line">     faidx          index/extract FASTA</span><br><span class="line">     fqidx          index/extract FASTQ</span><br><span class="line">     index          index alignment</span><br><span class="line">  -- Editing</span><br><span class="line">     calmd          recalculate MD/NM tags <span class="keyword">and</span> <span class="string">'='</span> bases</span><br><span class="line">     fixmate        fix mate information</span><br><span class="line">     reheader       replace BAM header</span><br><span class="line">     targetcut      cut fosmid regions (<span class="keyword">for</span> fosmid<span class="built_in"> pool </span>only)</span><br><span class="line">     addreplacerg   adds <span class="keyword">or</span> replaces RG tags</span><br><span class="line">     markdup        mark duplicates</span><br><span class="line">  -- File operations</span><br><span class="line">     collate        shuffle <span class="keyword">and</span><span class="built_in"> group </span>alignments by name</span><br><span class="line">     cat            concatenate BAMs</span><br><span class="line">     merge          merge sorted alignments</span><br><span class="line">     mpileup        multi-way pileup</span><br><span class="line">     sort           sort alignment file</span><br><span class="line">     split          splits a file by read group</span><br><span class="line">     quickcheck     quickly check <span class="keyword">if</span> SAM/BAM/CRAM file appears intact</span><br><span class="line">     fastq          converts a BAM <span class="keyword">to</span> a FASTQ</span><br><span class="line">     fasta          converts a BAM <span class="keyword">to</span> a FASTA</span><br><span class="line">  -- Statistics</span><br><span class="line">     bedcov         read depth per BED region</span><br><span class="line">     depth          compute the depth</span><br><span class="line">     flagstat      <span class="built_in"> simple </span>stats</span><br><span class="line">     idxstats       BAM index stats</span><br><span class="line">     phase          phase heterozygotes</span><br><span class="line">     stats          generate stats (former bamcheck)</span><br><span class="line">  -- Viewing</span><br><span class="line">     flags          explain BAM flags</span><br><span class="line">     tview          text alignment viewer</span><br><span class="line">     view           SAM&lt;-&gt;BAM&lt;-&gt;CRAM conversion</span><br><span class="line">     depad          convert padded BAM <span class="keyword">to</span> unpadded BAM</span><br></pre></td></tr></table></figure>
+<h2 id="using-Tablet-to-do-visualization">using <a href="https://ics.hutton.ac.uk/tablet/download-tablet/" target="_blank" rel="noopener">Tablet</a> to do visualization</h2>
+<p><em>Note:</em> see what the base is like at a macro perspective. there is no need to study it very detailly.<br>
+input files</p>
+<ul>
+<li>sorted bam: bam</li>
+<li>bam index: bai</li>
+<li>reference sequence: fasta</li>
+<li>reference sequence index: fai</li>
+<li>optional：genome feature file, such as gff</li>
+</ul>
+<p>usage: see details of <a href="http://tablet.hutton.ac.uk/en/latest/quickstart.html#tablet-overview" target="_blank" rel="noopener">tablet</a></p>
+<h2 id="Sup-seqkit">Sup. seqkit</h2>
+<p>The efficiency and usability of <a href="https://bioinf.shenwei.me/seqkit/" target="_blank" rel="noopener">Seqkit</a> enable researchers to rapidly accomplish common FASTA/Q file manipulations.<br>
+usage:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">Usage:</span><br><span class="line">  seqkit [command]</span><br><span class="line">Available Commands:</span><br><span class="line">  amplicon        retrieve amplicon (or specific region around it) via primer(s)</span><br><span class="line">  bam             monitoring and online histograms of BAM record features</span><br><span class="line">  common          find common sequences of multiple files by id/name/sequence</span><br><span class="line">  concat          concatenate sequences <span class="keyword">with</span> same <span class="keyword">ID</span> <span class="keyword">from</span> multiple files</span><br><span class="line">  <span class="keyword">convert</span>         <span class="keyword">convert</span> FASTQ quality <span class="keyword">encoding</span> <span class="keyword">between</span> Sanger, Solexa <span class="keyword">and</span> Illumina</span><br><span class="line">  <span class="keyword">duplicate</span>       <span class="keyword">duplicate</span> sequences N times</span><br><span class="line">  faidx           <span class="keyword">create</span> FASTA <span class="keyword">index</span> <span class="keyword">file</span> <span class="keyword">and</span> <span class="keyword">extract</span> subsequence</span><br><span class="line">  fish            look <span class="keyword">for</span> <span class="keyword">short</span> sequences <span class="keyword">in</span> larger sequences <span class="keyword">using</span> <span class="keyword">local</span> alignment</span><br><span class="line">  fq2fa           <span class="keyword">convert</span> FASTQ <span class="keyword">to</span> FASTA</span><br><span class="line">  fx2tab          <span class="keyword">convert</span> FASTA/Q <span class="keyword">to</span> tabular <span class="keyword">format</span> (<span class="keyword">with</span> <span class="keyword">length</span>/GC <span class="keyword">content</span>/GC skew)</span><br><span class="line">  genautocomplete generate shell autocompletion script</span><br><span class="line">  grep            <span class="keyword">search</span> sequences <span class="keyword">by</span> <span class="keyword">ID</span>/<span class="keyword">name</span>/<span class="keyword">sequence</span>/<span class="keyword">sequence</span> motifs, mismatch allowed</span><br><span class="line">  <span class="keyword">head</span>            print <span class="keyword">first</span> N FASTA/Q <span class="keyword">records</span></span><br><span class="line">  <span class="keyword">help</span>            <span class="keyword">Help</span> about <span class="keyword">any</span> command</span><br><span class="line">  <span class="keyword">locate</span>          <span class="keyword">locate</span> subsequences/motifs, mismatch allowed</span><br><span class="line">  mutate          edit <span class="keyword">sequence</span> (point mutation, insertion, deletion)</span><br><span class="line">  <span class="keyword">range</span>           print FASTA/Q <span class="keyword">records</span> <span class="keyword">in</span> a <span class="keyword">range</span> (<span class="keyword">start</span>:<span class="keyword">end</span>)</span><br><span class="line">  <span class="keyword">rename</span>          <span class="keyword">rename</span> duplicated IDs</span><br><span class="line">  <span class="keyword">replace</span>         <span class="keyword">replace</span> <span class="keyword">name</span>/<span class="keyword">sequence</span> <span class="keyword">by</span> regular expression</span><br><span class="line">  restart         <span class="keyword">reset</span> <span class="keyword">start</span> <span class="keyword">position</span> <span class="keyword">for</span> circular genome</span><br><span class="line">  rmdup           remove duplicated sequences <span class="keyword">by</span> <span class="keyword">id</span>/<span class="keyword">name</span>/<span class="keyword">sequence</span></span><br><span class="line">  <span class="keyword">sample</span>          <span class="keyword">sample</span> sequences <span class="keyword">by</span> <span class="built_in">number</span> <span class="keyword">or</span> proportion</span><br><span class="line">  sana            sanitize broken single line fastq files</span><br><span class="line">  seq             transform sequences (revserse, complement, <span class="keyword">extract</span> ID...)</span><br><span class="line">  shuffle         shuffle sequences</span><br><span class="line">  sliding         sliding sequences, circular genome supported</span><br><span class="line">  <span class="keyword">sort</span>            <span class="keyword">sort</span> sequences <span class="keyword">by</span> <span class="keyword">id</span>/<span class="keyword">name</span>/<span class="keyword">sequence</span>/<span class="keyword">length</span></span><br><span class="line">  <span class="keyword">split</span>           <span class="keyword">split</span> sequences <span class="keyword">into</span> files <span class="keyword">by</span> <span class="keyword">id</span>/seq region/<span class="keyword">size</span>/parts (mainly <span class="keyword">for</span> FASTA)</span><br><span class="line">  split2          <span class="keyword">split</span> sequences <span class="keyword">into</span> files <span class="keyword">by</span> <span class="keyword">size</span>/parts (FASTA, PE/SE FASTQ)</span><br><span class="line">  stats           simple <span class="keyword">statistics</span> <span class="keyword">of</span> FASTA/Q files</span><br><span class="line">  subseq          <span class="keyword">get</span> subsequences <span class="keyword">by</span> region/gtf/bed, <span class="keyword">including</span> flanking sequences</span><br><span class="line">  tab2fx          <span class="keyword">convert</span> tabular <span class="keyword">format</span> <span class="keyword">to</span> FASTA/Q <span class="keyword">format</span></span><br><span class="line">  <span class="keyword">translate</span>       <span class="keyword">translate</span> DNA/RNA <span class="keyword">to</span> protein <span class="keyword">sequence</span> (supporting ambiguous bases)</span><br><span class="line">  <span class="keyword">version</span>         print <span class="keyword">version</span> information <span class="keyword">and</span> <span class="keyword">check</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br><span class="line">  watch           <span class="keyword">monitoring</span> <span class="keyword">and</span> <span class="keyword">online</span> histograms <span class="keyword">of</span> <span class="keyword">sequence</span> features</span><br><span class="line">Flags:</span><br><span class="line">      <span class="comment">--alphabet-guess-seq-length int   length of sequence prefix of the first FASTA record based on which seqkit guesses the sequence type (0 for whole seq) (default 10000)</span></span><br><span class="line">  -h, <span class="comment">--help                            help for seqkit</span></span><br><span class="line">      <span class="comment">--id-ncbi                         FASTA head is NCBI-style, e.g. &gt;gi|110645304|ref|NC_002516.2| Pseud...</span></span><br><span class="line">      <span class="comment">--id-regexp string                regular expression for parsing ID (default "^(\\S+)\\s?")</span></span><br><span class="line">      <span class="comment">--infile-list string              file of input files list (one file per line), if given, they are appended to files from cli arguments</span></span><br><span class="line">  -w, <span class="comment">--line-width int                  line width when outputing FASTA format (0 for no wrap) (default 60)</span></span><br><span class="line">  -o, <span class="comment">--out-file string                 out file ("-" for stdout, suffix .gz for gzipped out) (default "-")</span></span><br><span class="line">      <span class="comment">--quiet                           be quiet and do not show extra information</span></span><br><span class="line">  -t, <span class="comment">--seq-type string                 sequence type (dna|rna|protein|unlimit|auto) (for auto, it automatically detect by the first sequence) (default "auto")</span></span><br><span class="line">  -j, <span class="comment">--threads int                     number of CPUs. (default value: 1 for single-CPU PC, 2 for others) (default 2)</span></span><br></pre></td></tr></table></figure>
+<h1>Examples</h1>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mkdir</span> <span class="number">060</span>8</span><br><span class="line">cd <span class="number">060</span>8</span><br><span class="line">cp -r  /ifs1/TestDatas/namikong/<span class="number">060</span>8/* .</span><br><span class="line">seqkit stats lambda_ref.fasta <span class="comment">#using seqkit to count the sequence informations</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#sequence alignment, using minimap2</span></span><br><span class="line"><span class="comment">##first step: establish index</span></span><br><span class="line">minimap2 -d lambda_ref.min lambda_ref.fasta <span class="comment">#-d: dump index to FILE []; index file: lambda_ref.min</span></span><br><span class="line"><span class="comment">##second step: alignment</span></span><br><span class="line">minimap2 -ax <span class="keyword">map</span>-ont lambda_ref.min all.fastq.gz &gt;lambda_ref.sam <span class="comment">#map-ont means nanopore data；-a: output in the sam format</span></span><br><span class="line">less -S lambda_ref.sam <span class="comment">#see the sam file, the column 5 is the quality value defined by minimap2, the bigger the better.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#convert sam to bam, using samtools</span></span><br><span class="line">samtools <span class="keyword">sort</span> -@ <span class="number">4</span> -O bam -o lambda_ref.sorted.bam lambda_ref.sam <span class="comment">#convert sam to bam, and sort basing on reference sequence sites; -O: file format；-o: output file name；</span></span><br><span class="line">samtools <span class="keyword">index</span> lambda_ref.sorted.bam <span class="comment">#establish index of sequencing data</span></span><br><span class="line">samtools faidx lambda_ref.fasta <span class="comment">#establish index of reference sequence</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#data visualization, using tablet</span></span><br><span class="line"><span class="comment">##input files: fasta, fai, bam, and bai</span></span><br><span class="line"><span class="comment">###open tablet -&gt; input bam and fasta</span></span><br></pre></td></tr></table></figure>
+<p>use cases of seqkit:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">cd</span> <span class="selector-tag">fastq</span></span><br><span class="line"><span class="selector-tag">gzip</span> <span class="selector-tag">all</span><span class="selector-class">.fastq</span></span><br><span class="line"><span class="selector-tag">seqkit</span> <span class="selector-tag">stats</span> <span class="selector-tag">all</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span></span><br><span class="line"><span class="selector-id">#data</span> <span class="selector-tag">statistics</span></span><br><span class="line"><span class="selector-tag">seqkit</span> <span class="selector-tag">fq2fa</span> <span class="selector-tag">all</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span> &gt;<span class="selector-tag">all</span><span class="selector-class">.fasta</span>  </span><br><span class="line"><span class="selector-id">#convert</span> <span class="selector-tag">fastq</span> <span class="selector-tag">to</span> <span class="selector-tag">fasta</span> <span class="selector-tag">for</span> <span class="selector-tag">alignment</span></span><br><span class="line"><span class="selector-tag">seqkit</span> <span class="selector-tag">rmdup</span> <span class="selector-tag">all</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span> &gt;<span class="selector-tag">all</span><span class="selector-class">.rmdup</span><span class="selector-class">.fastq</span></span><br><span class="line"><span class="selector-id">#delete</span> <span class="selector-tag">duplicate</span> <span class="selector-tag">sequences</span></span><br><span class="line"><span class="selector-tag">seqkit</span> <span class="selector-tag">sort</span> <span class="selector-tag">-l</span> <span class="selector-tag">-r</span> <span class="selector-tag">all</span><span class="selector-class">.rmdup</span><span class="selector-class">.fastq</span> &gt;<span class="selector-tag">all</span><span class="selector-class">.sorted</span><span class="selector-class">.fastq</span></span><br><span class="line"><span class="selector-id">#sort</span> <span class="selector-tag">by</span> <span class="selector-tag">length</span>, <span class="selector-tag">descending</span></span><br><span class="line"><span class="selector-tag">head</span> <span class="selector-tag">-4</span> <span class="selector-tag">all</span><span class="selector-class">.sorted</span><span class="selector-class">.fastq</span> &gt;<span class="selector-tag">longest</span><span class="selector-class">.fastq</span> <span class="selector-id">#choose</span> <span class="selector-tag">the</span> <span class="selector-tag">longest</span> <span class="selector-tag">sequence</span></span><br><span class="line"><span class="selector-tag">seqkit</span> <span class="selector-tag">seq</span> <span class="selector-tag">-m</span> 1000 <span class="selector-tag">all</span><span class="selector-class">.rmdup</span><span class="selector-class">.fastq</span> &gt;<span class="selector-tag">all</span><span class="selector-class">.more_than_1000</span><span class="selector-class">.fastq</span></span><br><span class="line"><span class="selector-id">#choose</span> <span class="selector-tag">the</span> <span class="selector-tag">sequences</span> &gt;1000<span class="selector-tag">bp</span></span><br><span class="line"><span class="selector-tag">seqkit</span> <span class="selector-tag">sample</span> <span class="selector-tag">-p</span> 0<span class="selector-class">.1</span> <span class="selector-tag">all</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span> &gt;0<span class="selector-class">.1</span><span class="selector-class">.fastq</span></span><br><span class="line"><span class="selector-id">#choose</span> <span class="selector-tag">sample</span> <span class="selector-tag">by</span> <span class="selector-tag">proportion</span> <span class="selector-tag">of</span> <span class="selector-tag">sequences</span> <span class="selector-tag">randomly</span></span><br><span class="line"><span class="selector-tag">seqkit</span> <span class="selector-tag">sample</span> <span class="selector-tag">-n</span> 1000 <span class="selector-tag">all</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span> &gt;1000<span class="selector-class">.fastq</span></span><br><span class="line"><span class="selector-id">#chosse</span> <span class="selector-tag">sample</span> <span class="selector-tag">by</span> <span class="selector-tag">number</span> <span class="selector-tag">of</span> <span class="selector-tag">sequences</span> <span class="selector-tag">randomly</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Nanopore/" rel="tag"># Nanopore</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/07/Nanopore4-datapreprocessing/" rel="prev" title="Nanopore_4.data preprocessing-1.data splitting, basecalling, quality control and filtering">
+      <i class="fa fa-chevron-left"></i> Nanopore_4.data preprocessing-1.data splitting, basecalling, quality control and filtering
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">Sequence alignment</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#input-files"><span class="nav-number">2.1.</span> <span class="nav-text">input files</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#using-Minimap2-to-do-sequencing-alignment"><span class="nav-number">2.2.</span> <span class="nav-text">using Minimap2 to do sequencing alignment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#using-samtools-to-process-sam-file"><span class="nav-number">2.3.</span> <span class="nav-text">using samtools to process sam file</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#using-Tablet-to-do-visualization"><span class="nav-number">2.4.</span> <span class="nav-text">using Tablet to do visualization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sup-seqkit"><span class="nav-number">2.5.</span> <span class="nav-text">Sup. seqkit</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">Examples</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Yunmeng_Li" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Yunmeng_Li" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/itsyunmeng" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;itsyunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yunmengli@hotmail.com" title="E-Mail → mailto:yunmengli@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

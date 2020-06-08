@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Abstract: This paper introduces how to install packages using conda and download ‘sra’ sequencing data on Linux.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nanopore_3.Install packages and download sequencing data">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/06/06/Nanopore3-installsoftwaresanddownloaddata/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="Abstract: This paper introduces how to install packages using conda and download ‘sra’ sequencing data on Linux.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-06T18:15:38.000Z">
+<meta property="article:modified_time" content="2020-06-07T11:27:23.888Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="Nanopore">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/06/06/Nanopore3-installsoftwaresanddownloaddata/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Nanopore_3.Install packages and download sequencing data | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/06/06/Nanopore3-installsoftwaresanddownloaddata/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Nanopore_3.Install packages and download sequencing data
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-06 20:15:38" itemprop="dateCreated datePublished" datetime="2020-06-06T20:15:38+02:00">2020-06-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-07 13:27:23" itemprop="dateModified" datetime="2020-06-07T13:27:23+02:00">2020-06-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bioinformatics/" itemprop="url" rel="index"><span itemprop="name">Bioinformatics</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>Abstract:</strong> This paper introduces how to install packages using conda and download ‘sra’ sequencing data on Linux.</p>
+<a id="more"></a>
+<h1>Software for data analysis</h1>
+<h2 id="Sources">Sources</h2>
+<ul>
+<li><a href="https://github.com/nanoporetech/" target="_blank" rel="noopener">Official website of Oxford Nanopore Technologies</a></li>
+<li><a href="https://nanoporetech.com/community" target="_blank" rel="noopener">Nanopore community</a></li>
+<li><a href="https://nanoporetech.com/resource-centre#resource-centre=%7B%22tags%22%3A%5B%7B%22value%22%3A%22Tools%22%2C%22checked%22%3A2%7D%5D%7D&amp;resource-centre-panel-0=%7B%22currentPage%22%3A0%2C%22totalPages%22%3A14%2C%22searchIndex%22%3A%22cws_english_resources_en_featured_desc%22%7D" target="_blank" rel="noopener">Nanopore resource center - Tools</a></li>
+</ul>
+<h2 id="Common-software">Common software</h2>
+<ul>
+<li>Base recognition: minknow, albacore, guppy, etc.</li>
+<li>Quality control: NanoQC, minion_QC, seqkit, seqtk, nanoplot, etc.</li>
+<li>Data filtering: NanoFilt, filtlong, porechop, etc.</li>
+<li>Sequence alignment: minimap2, nglmr, last, graphmap, marginalign, etc.</li>
+<li>Genome Stitching: canu, flye, miniasm, wtdbg2, smartdenovo, NextDenovo, tulip, etc.</li>
+<li>Base error correction: racon, pilon, medaka, nextpolish, etc.</li>
+<li>Mutation detection: sniffles, nanosv, longshot, nanovar, etc.</li>
+</ul>
+<h1>Installation</h1>
+<p>search the name of software in <a href="https://bioconda.github.io/" target="_blank" rel="noopener">bioconda</a>, then you will see how to install them.</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="keyword">install </span>-y <span class="keyword">bwa </span>samtools <span class="keyword">bcftools </span><span class="keyword">sra-tools </span>seqkit minimap2 miniasm seqtk</span><br><span class="line">conda create -n medaka -c conda-forge -c <span class="keyword">bioconda </span>medaka</span><br><span class="line">conda <span class="keyword">install </span>-y pomoxis</span><br><span class="line">conda <span class="keyword">install </span>-c <span class="keyword">bioconda </span><span class="string">"pychopper&gt;=2.0"</span></span><br><span class="line">conda <span class="keyword">install </span>-c <span class="keyword">bioconda </span>ont-tombo</span><br><span class="line">conda <span class="keyword">install </span>-y canu flye</span><br><span class="line">conda <span class="keyword">install </span>-c <span class="keyword">bioconda </span>nglmr</span><br><span class="line">conda create -n nanoplot -y -c <span class="keyword">bioconda </span>nanoplot</span><br></pre></td></tr></table></figure>
+<h1>Download sequencing data</h1>
+<h2 id="SRA-database"><a href="https://www.ncbi.nlm.nih.gov/sra" target="_blank" rel="noopener">SRA database</a></h2>
+<p>Sequence Read Archive (SRA) data, available through multiple cloud providers and NCBI servers, is the largest publicly available repository of high throughput sequencing data. The archive accepts data from all branches of life as well as metagenomic and environmental surveys.<br>
+<a href="https://www.ncbi.nlm.nih.gov/sra/docs/submitmeta/" target="_blank" rel="noopener">Anatomy of SRA data</a>:</p>
+<ul>
+<li>Studies: accession in the form of SRP#</li>
+<li>Experiments: accession in the form of SRX#</li>
+<li>Samples: accession in the form of SRS#</li>
+<li>Runs: accession in the form of SRR#</li>
+<li>SUBMISSION has a non-public accession in the form of SRA#</li>
+</ul>
+<h2 id="Download-PRJNA422511">Download <a href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA422511" target="_blank" rel="noopener">PRJNA422511</a></h2>
+<p>Use <a href="http://ncbi.github.io/sra-tools/" target="_blank" rel="noopener">sra-tools</a> to manage SRA database</p>
+<ul>
+<li>frequencetly used tools:
+<ul>
+<li><a href="https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&amp;f=prefetch" target="_blank" rel="noopener">prefetch</a>: download sra data</li>
+<li><a href="http://ncbi.github.io/sra-tools/fastq-dump.html" target="_blank" rel="noopener">fastq-dump</a>: transfer the form of data from sra to fastq</li>
+<li>fasterq-dump: faster than fastq-dump</li>
+</ul>
+</li>
+</ul>
+<p>Use <a href="http://asperasoft.com/" target="_blank" rel="noopener">aspera</a> to download sequencing data ultra fast<br>
+install aspera:<br>
+<code>conda install -c hcc aspera-cli</code><br>
+or</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https:<span class="comment">//download.asperasoft.com/download/sw/connect/3.8.1/ibm-aspera-connect-3.8.1.161274-linux-g2.12-64.tar.gz</span></span><br><span class="line">tar -zxvf ibm-aspera-connect<span class="number">-3.8</span><span class="number">.1</span><span class="number">.161274</span>-linux-g2<span class="number">.1264</span>.tar.gz</span><br><span class="line">sh aspera-connect<span class="number">-3.7</span><span class="number">.4</span><span class="number">.147727</span>-linux<span class="number">-64.</span>sh</span><br></pre></td></tr></table></figure>
+<p>Download:</p>
+<ul>
+<li><a href="https://www.ncbi.nlm.nih.gov/books/NBK179288/" target="_blank" rel="noopener">Entrez Direct</a>
+<ul>
+<li>esearch: perform a new Entrez search using terms in indexed fields</li>
+<li>efetch:  download records or reports in a designated format</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">esearch -<span class="keyword">db</span> sra -<span class="keyword">query</span> PRJNA422511 | efetch -<span class="keyword">format</span> runinfo &gt; info.csv</span><br><span class="line">cut -<span class="keyword">d</span> , -f 1 info.csv | grep <span class="string">"SRR"</span> | awk '&#123;<span class="keyword">print</span> <span class="string">"prefetch "</span><span class="variable">$1</span> <span class="string">" -O ./ "</span>&#125;' &gt;prefetch.<span class="keyword">sh</span></span><br><span class="line"><span class="keyword">sh</span> prefetch.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Nanopore/" rel="tag"># Nanopore</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/05/Bioconda/" rel="prev" title="Bioconda - A channel for the conda package manager">
+      <i class="fa fa-chevron-left"></i> Bioconda - A channel for the conda package manager
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/07/Nanopore4-datapreprocessing/" rel="next" title="Nanopore_4.data preprocessing-1.data splitting, basecalling, quality control and filtering">
+      Nanopore_4.data preprocessing-1.data splitting, basecalling, quality control and filtering <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">Software for data analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Sources"><span class="nav-number">1.1.</span> <span class="nav-text">Sources</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Common-software"><span class="nav-number">1.2.</span> <span class="nav-text">Common software</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">Installation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">Download sequencing data</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SRA-database"><span class="nav-number">3.1.</span> <span class="nav-text">SRA database</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Download-PRJNA422511"><span class="nav-number">3.2.</span> <span class="nav-text">Download PRJNA422511</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Yunmeng_Li" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Yunmeng_Li" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/itsyunmeng" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;itsyunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yunmengli@hotmail.com" title="E-Mail → mailto:yunmengli@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
