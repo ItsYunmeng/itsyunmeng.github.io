@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Abstract: This paper introduces the principle of rapid identification of pathogenic microorganisms, the advantages and disadvantages of amplicon sequencing and metagenomics, using nanopore sequencing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nanopore_5.Rapid identification of pathogenic microorganisms">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/06/09/Nanopore-5-Rapididentificationofpathogenicmicroorganisms/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="Abstract: This paper introduces the principle of rapid identification of pathogenic microorganisms, the advantages and disadvantages of amplicon sequencing and metagenomics, using nanopore sequencing">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-09T11:31:37.000Z">
+<meta property="article:modified_time" content="2020-06-09T22:36:22.431Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="Nanopore">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/06/09/Nanopore-5-Rapididentificationofpathogenicmicroorganisms/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Nanopore_5.Rapid identification of pathogenic microorganisms | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/06/09/Nanopore-5-Rapididentificationofpathogenicmicroorganisms/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Nanopore_5.Rapid identification of pathogenic microorganisms
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-09 13:31:37" itemprop="dateCreated datePublished" datetime="2020-06-09T13:31:37+02:00">2020-06-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-10 00:36:22" itemprop="dateModified" datetime="2020-06-10T00:36:22+02:00">2020-06-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bioinformatics/" itemprop="url" rel="index"><span itemprop="name">Bioinformatics</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>Abstract:</strong> This paper introduces the principle of rapid identification of pathogenic microorganisms, the advantages and disadvantages of amplicon sequencing and metagenomics, using nanopore sequencing to identify microorganisms (for pure culture sample, using BLAST; for mixed sample, using Kraken2 and braken), and the use of software MEGAN (visualize the blast results).</p>
+<a id="more"></a>
+<h1>Introduction to taxonomy</h1>
+<p>Domain -&gt; Kingdom -&gt; Phylum -&gt; Class -&gt; Order -&gt; Family -&gt; Genus -&gt; Species<br>
+Species evolution in nature may be continuous, which is a quantitative concept. Classification is a qualitative concept. Therefore, there will be many special cases in the intermediate state, e.g. the classification is both close to A and close to B.<br>
+Species is the basic taxonomic unit, and the concept of species is still a problem that has not yet been fully solved in biology. In higher organisms, species are usually seen as natural populations that can reproduce by crossing each other. Because prokaryotes lack sexual reproduction in a strict sense, it is difficult to determine the concept of “species” in prokaryotes.<br>
+At present, strains with DNA hybridization homology above 70% and 16S sequence homology above 97% are generally identified as the same species.<br>
+clink <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/index.cgi?chapter=statistics&amp;uncultured=hide&amp;unspecified=hide" target="_blank" rel="noopener">here</a> to see the current whole number of species and its distribution on different ranks.</p>
+<h2 id="Microbial-identification-methods">Microbial identification methods</h2>
+<ul>
+<li>morphology</li>
+<li>physiology</li>
+<li>serotyping: e.g. identification of <em>Salmonella</em> in the food industry</li>
+<li>DNA base composition: the proportion of each base</li>
+<li>DNA hybridization</li>
+<li>amplicon sequencing</li>
+<li>metagenomic sequencing</li>
+</ul>
+<p>The rapid identification of microorganisms through genomes is mainly through rapid sequence comparison between sequencing data and known data to find out the differences in genomes and the phylogenetic relationship, and whether they have common or unique genes.</p>
+<h3 id="amplicon-sequencing-vs-metagenomics">amplicon sequencing vs. metagenomics</h3>
+<p>same point:</p>
+<ul>
+<li>can be used to identify microorganisms</li>
+<li>both qualitatively and quantitively</li>
+</ul>
+<p>differences：</p>
+<ul>
+<li>metagenomics: bacteria, fungi, virus, etc; 16S, bacteria</li>
+<li>metagenomics: DNA -&gt; sequencing; 16S, DNA -&gt; PCR -&gt; sequencing</li>
+<li>metagenomics: whole genome; 16S: only rRNA</li>
+<li>metagenomics: high throughput, expensive; 16S: cheap</li>
+<li>metagenomics: difficult for data analysis; 16S: relatively easy</li>
+</ul>
+<p>questions:</p>
+<ul>
+<li>why there are some differences in species identified by metagenomics and 16S? &lt;= database</li>
+<li>why some species can be identified by PCR but can not by metagenomics? &lt;= relative abundance</li>
+<li>choose 16S or metagenomics? &lt;= research purpose
+<blockquote>
+<p><a href="https://www.ebi.ac.uk/metagenomics/" target="_blank" rel="noopener">mNGS</a></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="third-generation-metagenome-sequencing">third-generation metagenome sequencing</h3>
+<p>advantages:</p>
+<ul>
+<li>get 16S or the whole ribosomal operon, high resolution</li>
+<li>library preparation and sequencing faster</li>
+<li>longer reads length, easier to reach saturation (the number of reads)</li>
+</ul>
+<h1>Taxonomy database</h1>
+<p>NCBI: <a href="https://www.ncbi.nlm.nih.gov/taxonomy" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/taxonomy</a></p>
+<ul>
+<li>nt: nucleotide database</li>
+<li>nr: protein database</li>
+</ul>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#download nt Database</span></span><br><span class="line">update_blastdb.pl <span class="params">--help</span> <span class="comment">#see the usage</span></span><br><span class="line">update_blastdb.pl <span class="params">--showall</span> <span class="comment">#see all database in NCBI</span></span><br><span class="line">update_blastdb.pl nt <span class="comment">#download</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#see the id in nt Database</span></span><br><span class="line">grep <span class="string">"&gt;"</span> <span class="string">/ifs1/Database/nt_makeblastdb/nt</span> | le</span><br></pre></td></tr></table></figure>
+<h2 id="Principle">Principle</h2>
+<p>unknown sequence -&gt; blast in NCBI nt/nr databse -&gt; get Accession ID -&gt; get taxid -&gt; get taxonomy information</p>
+<h2 id="Online-tools">Online tools</h2>
+<p>BLAST: <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi" target="_blank" rel="noopener">https://blast.ncbi.nlm.nih.gov/Blast.cgi</a><br>
+or use BLAST in Linux (see below)</p>
+<h1>Microorganism identification</h1>
+<h2 id="Pure-culture-sample">Pure-culture sample</h2>
+<p>Using BLAST<br>
+<a href="https://www.exoscale.com/syslog/blast/" target="_blank" rel="noopener">Bioinformatics: introduction to using BLAST with Ubuntu</a></p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#stats the unknow sequences</span><br><span class="line">seqkit stats nanopore.fastq.gz</span><br><span class="line"></span><br><span class="line">#<span class="keyword">sort</span> long <span class="keyword">read</span> sequence and output fasta <span class="keyword">file</span></span><br><span class="line">seqkit <span class="keyword">sort</span> -<span class="keyword">l</span> -r nanopore.fastq.gz | head -4 | seqkit fq2fa &gt;<span class="keyword">query</span>.fasta</span><br><span class="line">seqkit stats <span class="keyword">query</span>.fasta</span><br><span class="line"></span><br><span class="line">#blast to nt database: /ifs1/Database/nt_makeblastdb/nt</span><br><span class="line">blastn -<span class="keyword">query</span> <span class="keyword">query</span>.fasta -<span class="keyword">db</span> /ifs1/Database/nt_makeblastdb/nt -<span class="keyword">out</span> blastn.<span class="keyword">out</span> -outfmt 0 -evalue 1e-5 -num_threads 1</span><br><span class="line">##change -num_threads such <span class="keyword">as</span> 64 to <span class="keyword">run</span> faster, you can put `time` <span class="keyword">on</span> the top to stats the <span class="keyword">run</span> time.</span><br><span class="line"></span><br><span class="line">#see the results</span><br><span class="line"><span class="keyword">cat</span>  blastn.<span class="keyword">out</span></span><br><span class="line"></span><br><span class="line">#visualize the result using MEGAN</span><br><span class="line">##<span class="keyword">open</span> MEGAN -&gt; import blast <span class="keyword">file</span>: blastn.<span class="keyword">out</span> -&gt; <span class="keyword">plot</span></span><br></pre></td></tr></table></figure>
+<p>MEGAN (MEtaGenome ANalyzer) is a new computer program that allows laptop analysis of large metagenomic datasets. In a preprocessing step, the set of DNA reads (or contigs) is compared against databases of known sequences using BLAST or another comparison tool. MEGAN can then be used to compute and interactively explore the taxonomical content of the dataset, employing the NCBI taxonomy to summarize and order the results.</p>
+<ul>
+<li>download: <a href="https://software-ab.informatik.uni-tuebingen.de/download/megan6/welcome.html" target="_blank" rel="noopener">https://software-ab.informatik.uni-tuebingen.de/download/megan6/welcome.html</a></li>
+</ul>
+<h2 id="Mixed-sample">Mixed sample</h2>
+<h3 id="Kraken2">Kraken2</h3>
+<p>Kraken2 is the newest version of Kraken, <u>a taxonomic classification system</u> using exact k-mer matches to achieve high accuracy and fast classification speeds. This classifier matches each k-mer within a query sequence to the lowest common ancestor (LCA) of all genomes containing the given k-mer. The k-mer assignments inform the classification algorithm.<br>
+download software: <a href="https://anaconda.org/bioconda/kraken2" target="_blank" rel="noopener">https://anaconda.org/bioconda/kraken2</a><br>
+download database: <a href="ftp://ftp.ccb.jhu.edu/pub/data/kraken2_dbs/">ftp://ftp.ccb.jhu.edu/pub/data/kraken2_dbs/</a><br>
+usage:</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">Need <span class="built_in">to</span> specify input filenames!</span><br><span class="line">Usage: kraken2 [options] &lt;filename(s)&gt;</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  <span class="comment">--db NAME               Name for Kraken 2 DB</span></span><br><span class="line">                          (default: <span class="literal">none</span>)</span><br><span class="line">  <span class="comment">--threads NUM           Number of threads (default: 1)</span></span><br><span class="line">  <span class="comment">--quick                 Quick operation (use first hit or hits)</span></span><br><span class="line">  <span class="comment">--unclassified-out FILENAME</span></span><br><span class="line">                          Print unclassified sequences <span class="built_in">to</span> filename</span><br><span class="line">  <span class="comment">--classified-out FILENAME</span></span><br><span class="line">                          Print classified sequences <span class="built_in">to</span> filename</span><br><span class="line">  <span class="comment">--output FILENAME       Print output to filename (default: stdout); "-" will</span></span><br><span class="line">                          suppress <span class="keyword">normal</span> output</span><br><span class="line">  <span class="comment">--confidence FLOAT      Confidence score threshold (default: 0.0); must be</span></span><br><span class="line">                          <span class="keyword">in</span> [<span class="number">0</span>, <span class="number">1</span>].</span><br><span class="line">  <span class="comment">--minimum-base-quality NUM</span></span><br><span class="line">                          Minimum base quality used <span class="keyword">in</span> classification (def: <span class="number">0</span>,</span><br><span class="line">                          only <span class="keyword">effective</span> <span class="keyword">with</span> FASTQ input).</span><br><span class="line">  <span class="comment">--report FILENAME       Print a report with aggregrate counts/clade to file</span></span><br><span class="line">  <span class="comment">--use-mpa-style         With --report, format report output like Kraken 1's</span></span><br><span class="line">                          kraken-mpa-report</span><br><span class="line">  <span class="comment">--report-zero-counts    With --report, report counts for ALL taxa, even if</span></span><br><span class="line">                          counts are <span class="literal">zero</span></span><br><span class="line">  <span class="comment">--memory-mapping        Avoids loading database into RAM</span></span><br><span class="line">  <span class="comment">--paired                The filenames provided have paired-end reads</span></span><br><span class="line">  <span class="comment">--use-names             Print scientific names instead of just taxids</span></span><br><span class="line">  <span class="comment">--gzip-compressed       Input files are compressed with gzip</span></span><br><span class="line">  <span class="comment">--bzip2-compressed      Input files are compressed with bzip2</span></span><br><span class="line">  <span class="comment">--minimum-hit-groups NUM</span></span><br><span class="line">                          Minimum <span class="built_in">number</span> <span class="keyword">of</span> hit groups (overlapping k-mers</span><br><span class="line">                          sharing <span class="keyword">the</span> same minimizer) needed <span class="built_in">to</span> make <span class="keyword">a</span> call</span><br><span class="line">                          (default: <span class="number">2</span>)</span><br><span class="line">  <span class="comment">--help                  Print this message</span></span><br><span class="line">  <span class="comment">--version               Print version information</span></span><br><span class="line"></span><br><span class="line">If <span class="literal">none</span> <span class="keyword">of</span> <span class="keyword">the</span> *-compressed flags are specified, <span class="keyword">and</span> <span class="keyword">the</span> filename provided</span><br><span class="line">is <span class="keyword">a</span> regular <span class="built_in">file</span>, automatic <span class="built_in">format</span> detection is attempted.</span><br></pre></td></tr></table></figure>
+<h3 id="Bracken">Bracken</h3>
+<p>Bracken (Bayesian Reestimation of Abundance with KrakEN) is a highly accurate statistical method that computes the abundance of species in DNA sequences from a metagenomics sample. Braken uses the taxonomy labels assigned by Kraken, a highly accurate metagenomics classification algorithm, to estimate the number of reads originating from each species present in a sample. Kraken classifies reads to the best matching location in the taxonomic tree, but does not estimate abundances of species. <u>We use the Kraken database itself to derive probabilities that describe how much sequence from each genome is identical to other genomes in the database, and combine this information with the assignments for a particular sample to estimate abundance at the species level, the genus level, or above.</u> Combined with the Kraken classifier, Bracken produces accurate species- and genus-level abundance estimates even when a sample contains two or more near-identical species.<br>
+see the manual: <a href="https://ccb.jhu.edu/software/bracken/" target="_blank" rel="noopener">https://ccb.jhu.edu/software/bracken/</a></p>
+<h3 id="Use-cases">Use cases</h3>
+<p>Using Kraken2 and Braken</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">time kraken2 --db <span class="regexp">/ifs1/</span>Database<span class="regexp">/metagenomics/</span>database<span class="regexp">/minikraken2_v1_8GB/</span> --threads <span class="number">4</span> <span class="regexp">/ifs1/</span>TestDatas<span class="regexp">/namikong/</span><span class="number">0609</span><span class="regexp">/data/</span>SRR9847857.sra.fastq --report report.xls --output output.txt;</span><br><span class="line"><span class="regexp">/ifs1/</span>Software<span class="regexp">/biosoft/</span>Bracken<span class="regexp">/bracken -d /i</span>fs1<span class="regexp">/Database/m</span>etagenomics<span class="regexp">/database/mi</span>nikraken2_v1_8GB<span class="regexp">/ -i report.xls -o bracken.report -t 8</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Nanopore/" rel="tag"># Nanopore</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/08/Nanopore4-datapreprocessing2/" rel="prev" title="Nanopore_4.data preprocessing-2.sequence alignment">
+      <i class="fa fa-chevron-left"></i> Nanopore_4.data preprocessing-2.sequence alignment
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">Introduction to taxonomy</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Microbial-identification-methods"><span class="nav-number">1.1.</span> <span class="nav-text">Microbial identification methods</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#amplicon-sequencing-vs-metagenomics"><span class="nav-number">1.1.1.</span> <span class="nav-text">amplicon sequencing vs. metagenomics</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#third-generation-metagenome-sequencing"><span class="nav-number">1.1.2.</span> <span class="nav-text">third-generation metagenome sequencing</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">Taxonomy database</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Principle"><span class="nav-number">2.1.</span> <span class="nav-text">Principle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Online-tools"><span class="nav-number">2.2.</span> <span class="nav-text">Online tools</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">Microorganism identification</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pure-culture-sample"><span class="nav-number">3.1.</span> <span class="nav-text">Pure-culture sample</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mixed-sample"><span class="nav-number">3.2.</span> <span class="nav-text">Mixed sample</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Kraken2"><span class="nav-number">3.2.1.</span> <span class="nav-text">Kraken2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bracken"><span class="nav-number">3.2.2.</span> <span class="nav-text">Bracken</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Use-cases"><span class="nav-number">3.2.3.</span> <span class="nav-text">Use cases</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Yunmeng_Li" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Yunmeng_Li" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/itsyunmeng" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;itsyunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yunmengli@hotmail.com" title="E-Mail → mailto:yunmengli@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
