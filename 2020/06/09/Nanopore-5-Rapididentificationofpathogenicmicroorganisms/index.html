@@ -28,7 +28,7 @@
 <meta property="og:description" content="Abstract: This paper introduces the principle of rapid identification of pathogenic microorganisms, the advantages and disadvantages of amplicon sequencing and metagenomics, using nanopore sequencing">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-06-09T11:31:37.000Z">
-<meta property="article:modified_time" content="2020-06-09T22:36:22.431Z">
+<meta property="article:modified_time" content="2020-06-10T12:21:28.709Z">
 <meta property="article:author" content="Yunmeng">
 <meta property="article:tag" content="Nanopore">
 <meta name="twitter:card" content="summary">
@@ -194,7 +194,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-10 00:36:22" itemprop="dateModified" datetime="2020-06-10T00:36:22+02:00">2020-06-10</time>
+                <time title="Modified: 2020-06-10 14:21:28" itemprop="dateModified" datetime="2020-06-10T14:21:28+02:00">2020-06-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -284,6 +284,9 @@ or use BLAST in Linux (see below)</p>
 <p>Using BLAST<br>
 <a href="https://www.exoscale.com/syslog/blast/" target="_blank" rel="noopener">Bioinformatics: introduction to using BLAST with Ubuntu</a></p>
 <figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#stats the unknow sequences</span><br><span class="line">seqkit stats nanopore.fastq.gz</span><br><span class="line"></span><br><span class="line">#<span class="keyword">sort</span> long <span class="keyword">read</span> sequence and output fasta <span class="keyword">file</span></span><br><span class="line">seqkit <span class="keyword">sort</span> -<span class="keyword">l</span> -r nanopore.fastq.gz | head -4 | seqkit fq2fa &gt;<span class="keyword">query</span>.fasta</span><br><span class="line">seqkit stats <span class="keyword">query</span>.fasta</span><br><span class="line"></span><br><span class="line">#blast to nt database: /ifs1/Database/nt_makeblastdb/nt</span><br><span class="line">blastn -<span class="keyword">query</span> <span class="keyword">query</span>.fasta -<span class="keyword">db</span> /ifs1/Database/nt_makeblastdb/nt -<span class="keyword">out</span> blastn.<span class="keyword">out</span> -outfmt 0 -evalue 1e-5 -num_threads 1</span><br><span class="line">##change -num_threads such <span class="keyword">as</span> 64 to <span class="keyword">run</span> faster, you can put `time` <span class="keyword">on</span> the top to stats the <span class="keyword">run</span> time.</span><br><span class="line"></span><br><span class="line">#see the results</span><br><span class="line"><span class="keyword">cat</span>  blastn.<span class="keyword">out</span></span><br><span class="line"></span><br><span class="line">#visualize the result using MEGAN</span><br><span class="line">##<span class="keyword">open</span> MEGAN -&gt; import blast <span class="keyword">file</span>: blastn.<span class="keyword">out</span> -&gt; <span class="keyword">plot</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>other software: diamond, etc.</p>
+</blockquote>
 <p>MEGAN (MEtaGenome ANalyzer) is a new computer program that allows laptop analysis of large metagenomic datasets. In a preprocessing step, the set of DNA reads (or contigs) is compared against databases of known sequences using BLAST or another comparison tool. MEGAN can then be used to compute and interactively explore the taxonomical content of the dataset, employing the NCBI taxonomy to summarize and order the results.</p>
 <ul>
 <li>download: <a href="https://software-ab.informatik.uni-tuebingen.de/download/megan6/welcome.html" target="_blank" rel="noopener">https://software-ab.informatik.uni-tuebingen.de/download/megan6/welcome.html</a></li>
@@ -299,8 +302,33 @@ usage:</p>
 <p>Bracken (Bayesian Reestimation of Abundance with KrakEN) is a highly accurate statistical method that computes the abundance of species in DNA sequences from a metagenomics sample. Braken uses the taxonomy labels assigned by Kraken, a highly accurate metagenomics classification algorithm, to estimate the number of reads originating from each species present in a sample. Kraken classifies reads to the best matching location in the taxonomic tree, but does not estimate abundances of species. <u>We use the Kraken database itself to derive probabilities that describe how much sequence from each genome is identical to other genomes in the database, and combine this information with the assignments for a particular sample to estimate abundance at the species level, the genus level, or above.</u> Combined with the Kraken classifier, Bracken produces accurate species- and genus-level abundance estimates even when a sample contains two or more near-identical species.<br>
 see the manual: <a href="https://ccb.jhu.edu/software/bracken/" target="_blank" rel="noopener">https://ccb.jhu.edu/software/bracken/</a></p>
 <h3 id="Use-cases">Use cases</h3>
-<p>Using Kraken2 and Braken</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">time kraken2 --db <span class="regexp">/ifs1/</span>Database<span class="regexp">/metagenomics/</span>database<span class="regexp">/minikraken2_v1_8GB/</span> --threads <span class="number">4</span> <span class="regexp">/ifs1/</span>TestDatas<span class="regexp">/namikong/</span><span class="number">0609</span><span class="regexp">/data/</span>SRR9847857.sra.fastq --report report.xls --output output.txt;</span><br><span class="line"><span class="regexp">/ifs1/</span>Software<span class="regexp">/biosoft/</span>Bracken<span class="regexp">/bracken -d /i</span>fs1<span class="regexp">/Database/m</span>etagenomics<span class="regexp">/database/mi</span>nikraken2_v1_8GB<span class="regexp">/ -i report.xls -o bracken.report -t 8</span></span><br></pre></td></tr></table></figure>
+<p>Using Kraken2 and Bracken</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">time kraken2 --db <span class="regexp">/ifs1/</span>Database<span class="regexp">/metagenomics/</span>database<span class="regexp">/minikraken2_v1_8GB/</span> --threads <span class="number">4</span> <span class="regexp">/ifs1/</span>TestDatas<span class="regexp">/namikong/</span><span class="number">0609</span><span class="regexp">/data/</span>SRR9847857.sra.fastq --report report.xls --output output.txt</span><br><span class="line"><span class="regexp">/ifs1/</span>Software<span class="regexp">/biosoft/</span>Bracken<span class="regexp">/bracken -d /i</span>fs1<span class="regexp">/Database/m</span>etagenomics<span class="regexp">/database/mi</span>nikraken2_v1_8GB<span class="regexp">/ -i report.xls -o bracken.report -t 8</span></span><br></pre></td></tr></table></figure>
+<p>sample reports<br>
+The output of kraken-report (<code>report.xls</code>) is tab-delimited, with one line per taxon. The fields of the output, from left-to-right, are as follows:</p>
+<ul>
+<li>Percentage of reads covered by the clade rooted at this taxon</li>
+<li>Number of reads covered by the clade rooted at this taxon</li>
+<li>Number of reads assigned directly to this taxon</li>
+<li>A rank code, indicating (U)nclassified, (D)omain, (K)ingdom, §hylum, ©lass, (O)rder, (F)amily, (G)enus, or (S)pecies. All other ranks are simply ‘-’.</li>
+<li>NCBI taxonomy ID</li>
+<li>indented scientific name</li>
+</ul>
+<p>Bracken Output File Format:(<code>bracken.report</code>)<br>
+(bracken output file; tab-delimited columns)</p>
+<ul>
+<li>Name</li>
+<li>Taxonomy ID</li>
+<li>Level ID (S=Species, G=Genus, O=Order, F=Family, P=Phylum, K=Kingdom)</li>
+<li>Kraken Assigned Reads</li>
+<li>Added Reads with Abundance Reestimation</li>
+<li>Total Reads after Abundance Reestimation</li>
+<li>Fraction of Total Reads</li>
+</ul>
+<blockquote>
+<p>tips:<br>
+ll -rt #sort by time</p>
+</blockquote>
 
     </div>
 
@@ -322,7 +350,10 @@ see the manual: <a href="https://ccb.jhu.edu/software/bracken/" target="_blank" 
     <a href="/2020/06/08/Nanopore4-datapreprocessing2/" rel="prev" title="Nanopore_4.data preprocessing-2.sequence alignment">
       <i class="fa fa-chevron-left"></i> Nanopore_4.data preprocessing-2.sequence alignment
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/10/Nanopore6-analysisofcoronavirusdata/" rel="next" title="Nanopore_6.Analysis of coronavirus data">
+      Nanopore_6.Analysis of coronavirus data <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -398,7 +429,7 @@ see the manual: <a href="https://ccb.jhu.edu/software/bracken/" target="_blank" 
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

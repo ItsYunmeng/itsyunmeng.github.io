@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Abstract: 本文介绍了1.nanopore数据SV检测原理及意义，2.当前三种SV检测方法比较，3.三代测序检测SV的常用软件，以及4.利用IGV可视化变异结果。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nanopore_10.Variation detection 长片段变异检测">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/06/14/9-variationdetection/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="Abstract: 本文介绍了1.nanopore数据SV检测原理及意义，2.当前三种SV检测方法比较，3.三代测序检测SV的常用软件，以及4.利用IGV可视化变异结果。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-14T11:11:59.000Z">
+<meta property="article:modified_time" content="2020-06-17T21:47:28.502Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="Nanopore">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/06/14/9-variationdetection/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Nanopore_10.Variation detection 长片段变异检测 | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/06/14/9-variationdetection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Nanopore_10.Variation detection 长片段变异检测
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-14 13:11:59" itemprop="dateCreated datePublished" datetime="2020-06-14T13:11:59+02:00">2020-06-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-17 23:47:28" itemprop="dateModified" datetime="2020-06-17T23:47:28+02:00">2020-06-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bioinformatics/" itemprop="url" rel="index"><span itemprop="name">Bioinformatics</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>Abstract:</strong> 本文介绍了1.nanopore数据SV检测原理及意义，2.当前三种SV检测方法比较，3.三代测序检测SV的常用软件，以及4.利用IGV可视化变异结果。</p>
+<a id="more"></a>
+<p><strong>突变类型</strong><br>
+基因组上突变主要包括单碱基突变与染色体水平突变。其实基因组上所有的突变都可以称为基因组结构变化SV（Structure Variation）。</p>
+<ul>
+<li>SNP：（single nucletide polymorphsysm），即单核苷酸的多态性，是指等位基因发生了突变，致使不同等位型的出现。SNP分为转换与颠换。</li>
+<li>Indel：Insert+Deletion，小的插入缺失1-50bp；</li>
+<li>CNV：Copy Number Variation，拷贝数变化，倍增；</li>
+<li><u>SV：Structure Variation，大的插入，缺失，倍增，易位，倒位；一般大于50bp。</u></li>
+<li>SNV:单碱基突变，包括转换，颠换，插入，缺失。</li>
+</ul>
+<p><strong>SV检测国际难题</strong></p>
+<ul>
+<li>SV本身就包括多种类型</li>
+<li>一些SV变化比较大，基本定义是大于50bp，但是有些突变甚至可以达到几百k</li>
+<li>CNV，本身属于重复序列</li>
+</ul>
+<h1>nanopore数据SV检测原理及意义</h1>
+<h2 id="原理">原理</h2>
+<p>利用nanopore数据进行变异检测的操作步骤与利用二代测序类似，主要也是将测序数据 （fastq格式）与参考序列（fasta格式）进行比对，得到比对结果（bam格式）。然后再利用一些变异检测软件得到潜在变异结果（vcf格式），最终对结果进行进一步的验证。<br>
+<u>原始数据fast5格式-&gt; guppy碱基识别-&gt;fastq格式数据（fastq格式文件处理、nanoplot数据质控）-&gt;根据质量值和长度过滤数据+quast拼接评估-&gt;比对结果-&gt;可视化、SV检测、SNP检测</u></p>
+<h2 id="意义">意义</h2>
+<p>目前 nanopore 测序由于其测序质量还没有二代测序高，并且测序价格偏高，因此，主流的 SNP检测仍然使用二代测序，包括很多临床医学检验。nanopore测序还没有应用于临床医学检测。不过，<u>nanopore测序具有超长的读长，因此非常适用于大片段结构变化(SV)的检测，包括基因组大片段插入、缺失、倍增、易位等变化，还包括在临床上检测难度一直非常大的拷贝数变异CNV的检测，使用nanopore测序都有很好的检测结果。此外，由于长片段可以对整个转录组长片段进行测序，因此，也能够检测基因融合现象。</u>相信在不久的将来， nanopore的长读长优势将会越来越多的用于基因组结构变异的检测。<br>
+一般不使用三代数据找SNP，因为错误率比较高，但也可以尝试用一下，毕竟数据都在那里。用的软件是longshot，用于三代数据。</p>
+<h1>当前三种SV检测方法比较</h1>
+<ul>
+<li>利用基因组拼接结果 | 问题：参考序列很多不全</li>
+<li>利用二代测序数据pair end关系</li>
+<li>利用三代测序数据：超长读长、数据量大</li>
+</ul>
+<h1>三代测序检测SV的常用软件</h1>
+<h2 id="常用软件">常用软件</h2>
+<ul>
+<li><a href="https://github.com/lh3/minimap2" target="_blank" rel="noopener">MiniMap2</a></li>
+<li><a href="https://github.com/philres/ngmlr" target="_blank" rel="noopener">NGMLR</a></li>
+<li><a href="https://github.com/fritzsedlazeck/Sniffles" target="_blank" rel="noopener">sniffles</a><br>
+snpiffles软件在HG002基因组上达96%召回率(recall)和精确率(precision)。Sniffles内置多种统计模型，能更准确地识别SV信号。sniffles输入的也是排序后的bam文件，不过sniffles一般与NGMLR一起组合使用，NGMLR也是一款比对软件，将测序得到的数据比对到基因组上，与minimap2类似，能更准确地分辨长读长技术的测序错误，适合跨越复杂 SV 区域的长reads比对。</li>
+<li><a href="http://last.cbrc.jp/" target="_blank" rel="noopener">last</a></li>
+<li><a href="https://github.com/isovic/graphmap" target="_blank" rel="noopener">GraphMap</a></li>
+<li><a href="https://github.com/benedictpaten/marginAlign" target="_blank" rel="noopener">MarginAlign</a></li>
+<li><a href="https://github.com/pjedge/longshot" target="_blank" rel="noopener">longshot</a><br>
+Longshot is a variant calling tool for diploid genomes using long error prone reads such as Pacific Biosciences (PacBio) SMRT and Oxford Nanopore Technologies (ONT). It takes as input an aligned BAM file and outputs a phased VCF file with variants and haplotype information. It can also genotype and phase input VCF files. It can output haplotype-separated BAM files that can be used for downstream analysis. Currently, it only calls single nucleotide variants (SNVs), but it can genotype indels if they are given in an input VCF.</li>
+<li><a href="https://github.com/mroosmalen/nanosv" target="_blank" rel="noopener">nanoSV</a></li>
+</ul>
+<h2 id="examples">examples</h2>
+<h3 id="利用longshot检测SNP">利用longshot检测SNP</h3>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">conda install -y longshot</span><br><span class="line">#minimap2比对</span><br><span class="line">minimap2 -ax map-ont co92<span class="selector-class">.fna</span> /ifs1/TestDatas/namikong/<span class="number">0611</span>/rawdata/SRR8608880<span class="selector-class">.sra</span><span class="selector-class">.fastq</span> &gt;s1037.sam</span><br><span class="line"></span><br><span class="line">#对bam进行处理</span><br><span class="line">samtools sort -@ <span class="number">4</span> -O bam -o s1037<span class="selector-class">.sorted</span><span class="selector-class">.bam</span> s1037.sam</span><br><span class="line">samtools index s1037<span class="selector-class">.sorted</span>.bam</span><br><span class="line">samtools faidx co92.fna</span><br><span class="line"></span><br><span class="line">#检测SNP</span><br><span class="line">longshot --bam s1037<span class="selector-class">.sorted</span><span class="selector-class">.bam</span> --ref co92<span class="selector-class">.fna</span> --out longshot_output.vcf</span><br></pre></td></tr></table></figure>
+<p>查看统计vcf文件<br>
+<code>bcftools stats longshot_output.vcf</code></p>
+<h3 id="nglmr-sniffles组合检测SV">nglmr+sniffles组合检测SV</h3>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#ngmlr比对</span><br><span class="line">ngmlr -x ont -t <span class="number">24</span> -r co92<span class="selector-class">.fna</span> -<span class="selector-tag">q</span> /ifs1/TestDatas/namikong/<span class="number">0611</span>/rawdata/SRR8608880<span class="selector-class">.sra</span><span class="selector-class">.fastq</span> -o ngmlr.sam</span><br><span class="line"></span><br><span class="line">#samtool处理</span><br><span class="line">samtools sort -@ <span class="number">4</span> -O BAM -o ngmlr<span class="selector-class">.sorted</span><span class="selector-class">.bam</span> ngmlr.sam</span><br><span class="line">samtools index ngmlr<span class="selector-class">.sorted</span>.bam</span><br><span class="line"></span><br><span class="line">#SV检测</span><br><span class="line">sniffles  -m ngmlr<span class="selector-class">.sorted</span><span class="selector-class">.bam</span> -v sniffles<span class="selector-class">.vcf</span> -t <span class="number">24</span></span><br></pre></td></tr></table></figure>
+<h3 id="nglmr-nanoSV组合检测SV">nglmr+nanoSV组合检测SV</h3>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda install -y -c bioconda nanosv</span><br><span class="line">NanoSV -t <span class="number">12</span> -o nanosnv<span class="selector-class">.vcf</span> -c config<span class="selector-class">.ini</span> ../sniffles/ngmlr<span class="selector-class">.sorted</span>.bam</span><br></pre></td></tr></table></figure>
+<h1>利用IGV可视化变异结果</h1>
+<p><a href="http://software.broadinstitute.org/software/igv/home" target="_blank" rel="noopener">Integrative Genomics Viewer</a>交互式基因组浏览器，它是一种高性能的可视化工具，用来交互式地探索大型综合基因组数据。它支持各种数据类型，包括 array-based 的和下一代测序的数据和基因注释。<br>
+输入文件：参考基因组，bam文件，snp vcf文件，indel vcf文件。<br>
+操作：先点Genomes导入基因组，再点击file导入bam和vcf文件。</p>
+<blockquote>
+<p>tablet主要看bam，igv主要看vcf</p>
+</blockquote>
+<h2 id=""></h2>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Nanopore/" rel="tag"># Nanopore</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/13/Nanopore8-polishingafterstitching/" rel="prev" title="Nanopore_9.Polishing after stitching 拼接完优化">
+      <i class="fa fa-chevron-left"></i> Nanopore_9.Polishing after stitching 拼接完优化
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/18/Rplot-2020-1-howtomakebeautifultablesinR/" rel="next" title="1.How to Make Beautiful Tables in R">
+      1.How to Make Beautiful Tables in R <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">nanopore数据SV检测原理及意义</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">1.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#意义"><span class="nav-number">1.2.</span> <span class="nav-text">意义</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">当前三种SV检测方法比较</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">三代测序检测SV的常用软件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用软件"><span class="nav-number">3.1.</span> <span class="nav-text">常用软件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#examples"><span class="nav-number">3.2.</span> <span class="nav-text">examples</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#利用longshot检测SNP"><span class="nav-number">3.2.1.</span> <span class="nav-text">利用longshot检测SNP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nglmr-sniffles组合检测SV"><span class="nav-number">3.2.2.</span> <span class="nav-text">nglmr+sniffles组合检测SV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nglmr-nanoSV组合检测SV"><span class="nav-number">3.2.3.</span> <span class="nav-text">nglmr+nanoSV组合检测SV</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">4.</span> <span class="nav-text">利用IGV可视化变异结果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">4.1.</span> <span class="nav-text"></span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Yunmeng_Li" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Yunmeng_Li" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/itsyunmeng" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;itsyunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yunmengli@hotmail.com" title="E-Mail → mailto:yunmengli@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

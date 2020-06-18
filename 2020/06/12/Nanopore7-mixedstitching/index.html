@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Abstract: This paper introduces the stitching of illumina sequecning data (1.only use illumina data; 2.illumina + ONT), and use quast and BUSCO to evaluate the stitching results.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nanopore_8.Mixed stitching (of SGS and TGS data)">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/06/12/Nanopore7-mixedstitching/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="Abstract: This paper introduces the stitching of illumina sequecning data (1.only use illumina data; 2.illumina + ONT), and use quast and BUSCO to evaluate the stitching results.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-12T11:34:57.000Z">
+<meta property="article:modified_time" content="2020-06-17T10:51:31.014Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="Nanopore">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/06/12/Nanopore7-mixedstitching/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Nanopore_8.Mixed stitching (of SGS and TGS data) | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/06/12/Nanopore7-mixedstitching/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Nanopore_8.Mixed stitching (of SGS and TGS data)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-12 13:34:57" itemprop="dateCreated datePublished" datetime="2020-06-12T13:34:57+02:00">2020-06-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-17 12:51:31" itemprop="dateModified" datetime="2020-06-17T12:51:31+02:00">2020-06-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bioinformatics/" itemprop="url" rel="index"><span itemprop="name">Bioinformatics</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>Abstract:</strong> This paper introduces the stitching of illumina sequecning data (1.only use illumina data; 2.illumina + ONT), and use <code>quast</code> and <code>BUSCO</code> to evaluate the stitching results.</p>
+<a id="more"></a>
+<h1>training</h1>
+<h2 id="stitch-COVID-19-genome-using-flye">stitch COVID-19 genome using flye</h2>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/ifs1/</span>Software<span class="regexp">/bin/</span>flye --nano-raw <span class="regexp">/ifs1/</span>TestDatas<span class="regexp">/namikong/</span><span class="number">0610</span><span class="regexp">/ncov/</span>ERR4208070.sra.fastq --genome-<span class="keyword">size</span> <span class="number">30</span>k --out-dir ncov</span><br></pre></td></tr></table></figure>
+<p>failed! cannot stitch virus genome using de nova.</p>
+<h2 id="extract-the-longest-300-sequences-from-SRR8608880-sra-fastq-and-stitch-the-sequences-using-flye">extract the longest 300 sequences from SRR8608880.sra.fastq and stitch the sequences using flye</h2>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">seqkit <span class="keyword">sort</span> -l -r <span class="regexp">/ifs1/</span>TestDatas<span class="regexp">/namikong/</span><span class="number">0611</span><span class="regexp">/rawdata/</span>SRR8608880.sra.fastq | head -<span class="number">1200</span> &gt;first300.fastq</span><br><span class="line"><span class="regexp">/ifs1/</span>Software<span class="regexp">/bin/</span>flye --nano-raw first300.fastq --genome-<span class="keyword">size</span> <span class="number">4.6</span>m --out-dir result_300</span><br></pre></td></tr></table></figure>
+<h2 id="extract-0-1-0-2-and-0-3-data-from-SRR8608880-sra-fastq-and-stitch-the-sequences-using-flye">extract 0.1, 0.2 and 0.3 data from SRR8608880.sra.fastq and stitch the sequences using flye</h2>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#10%</span></span><br><span class="line">seqkit sample -p <span class="number">0.1</span> <span class="regexp">/ifs1/</span>TestDatas<span class="regexp">/namikong/</span><span class="number">0611</span><span class="regexp">/rawdata/</span>SRR8608880.sra.fastq &gt;p10.fastq</span><br><span class="line"><span class="regexp">/ifs1/</span>Software<span class="regexp">/bin/</span>flye --nano-raw p10.fastq --genome-size <span class="number">4.6</span>m --out-dir p10</span><br><span class="line"><span class="comment">#20%</span></span><br><span class="line">seqkit sample -p <span class="number">0.2</span> <span class="regexp">/ifs1/</span>TestDatas<span class="regexp">/namikong/</span><span class="number">0611</span><span class="regexp">/rawdata/</span>SRR8608880.sra.fastq &gt;p20.fastq</span><br><span class="line"><span class="regexp">/ifs1/</span>Software<span class="regexp">/bin/</span>flye --nano-raw p20.fastq --genome-size <span class="number">4.6</span>m --out-dir p20</span><br><span class="line"><span class="comment">#30%</span></span><br><span class="line">seqkit sample -p <span class="number">0.3</span> <span class="regexp">/ifs1/</span>TestDatas<span class="regexp">/namikong/</span><span class="number">0611</span><span class="regexp">/rawdata/</span>SRR8608880.sra.fastq &gt;p30.fastq</span><br><span class="line"><span class="regexp">/ifs1/</span>Software<span class="regexp">/bin/</span>flye --nano-raw p30.fastq --genome-size <span class="number">4.6</span>m --out-dir p30</span><br></pre></td></tr></table></figure>
+<h2 id="download-referenc-sequence-NC-003143-1">download referenc sequence NC_003143.1</h2>
+<p><a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_003143.1/" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/nuccore/NC_003143.1/</a></p>
+<h2 id="get-consensus-sequence-basing-on-the-reference-sequence-compare-reference-sequence-consensus-sequence-and-de-novo-sequences">get consensus sequence basing on the reference sequence, compare reference sequence, consensus sequence and de novo sequences</h2>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#alignment, using minimap</span></span><br><span class="line">minimap2 -d co92.min co92.fna</span><br><span class="line">minimap2 -ax map-ont co92.fna <span class="regexp">/ifs1/</span>TestDatas<span class="regexp">/namikong/</span><span class="number">0611</span><span class="regexp">/rawdata/</span>SRR8608880.sra.fastq &gt;s1037.sam</span><br><span class="line"></span><br><span class="line"><span class="comment">#convert sam to bam, using samtools</span></span><br><span class="line">samtools sort -@ <span class="number">4</span> -O bam -o s1037.sorted.bam s1037.sam</span><br><span class="line">samtools index s1037.sorted.bam</span><br><span class="line">samtools faidx co92.fna</span><br><span class="line"></span><br><span class="line"><span class="comment">#produce consensus sequence, using bcftools</span></span><br><span class="line">bcftools mpileup -Ou -f co92.fna s1037.sorted.bam | bcftools call -mv -Oz -o calls.vcf.gz</span><br><span class="line">bcftools index calls.vcf.gz</span><br><span class="line">bcftools consensus -f co92.fna calls.vcf.gz &gt;s1037_consensus.fnas</span><br><span class="line"></span><br><span class="line"><span class="comment">#stitching</span></span><br><span class="line"><span class="comment">##using flye</span></span><br><span class="line"><span class="regexp">/ifs1/</span>Software<span class="regexp">/bin/</span>flye --nano-raw <span class="regexp">/ifs1/</span>TestDatas<span class="regexp">/namikong/</span><span class="number">0611</span><span class="regexp">/rawdata/</span>SRR8608880.sra.fastq -g <span class="number">4.6</span>m -o flye -t <span class="number">24</span> -i <span class="number">3</span></span><br><span class="line"><span class="comment">##using minisam</span></span><br></pre></td></tr></table></figure>
+<h1>advantages and disadvantages of different sequencing platforms</h1>
+<ul>
+<li>FGS: high accuracy, long reads length, low throughput, high price;</li>
+<li>SGS: high accuracy, short reads length, high throughput, low price;</li>
+<li>TGS: low accuracy, long reads length, high throughput</li>
+</ul>
+<ul>
+<li>illumina：short reads length, high throughput, high accuracy</li>
+<li>ONT：long reads length, high throughput, low accuracy</li>
+<li>pacbio：between the illimina and ONT</li>
+</ul>
+<h1>mixed stitching of data from different sequencing platform</h1>
+<ul>
+<li>illumina stitching separately</li>
+<li>illumina stitching + ONT connect the frame</li>
+<li>ONT stitching seprartely</li>
+<li>ONT stitching + illumina correct (※)</li>
+</ul>
+<h1>evaluate the stitching results</h1>
+<ul>
+<li>accuracy
+<ul>
+<li>the genome size is close to the real size; if it is too large, there may be contamination.</li>
+<li>the GC content is close to the real GC content</li>
+<li>the genomic framework is accurate</li>
+<li>the accuracy of single base</li>
+</ul>
+</li>
+<li>integrity
+<ul>
+<li>the number of splicing sequences is close to chromosome data</li>
+<li>long fragment length</li>
+<li>long N50/N90</li>
+<li>high genetic integrity</li>
+</ul>
+</li>
+</ul>
+<h1>parameters of genome statistics</h1>
+<ul>
+<li>total number</li>
+<li>total length ※</li>
+<li>N50/N90 length ※</li>
+<li>maximum/minimum length</li>
+<li>average length</li>
+<li>Gap(N) length</li>
+<li>GC content： should be one circle center; two or more, there may be contamination</li>
+</ul>
+<h1>evaluate the accuracy and integrity</h1>
+<ul>
+<li>accuracy: <a href="http://quast.sourceforge.net/icarus.html" target="_blank" rel="noopener">quast: ICARUS</a><br>
+<code>/ifs1/Software/biosoft/quast-5.0.2/quast.py -r nanopore.fa canu.fa illumina.fa pacbio.fa mix.fa -o quast -o  --output-dir</code></li>
+<li>integrity: <a href="https://busco.ezlab.org/" target="_blank" rel="noopener">BUSCO</a>: <a href="https://www.orthodb.org/?page=filelist" target="_blank" rel="noopener">OrthoDB database</a>。</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">usage</span>: busco -i [SEQUENCE_FILE] -l [LINEAGE] -o [OUTPUT_NAME] -m [MODE] [OTHER OPTIONS]</span><br><span class="line"></span><br><span class="line">Welcome to BUSCO 4.0.4: the Benchmarking Universal Single-Copy Ortholog assessment tool.</span><br><span class="line">For more detailed usage information, please review the README file provided with this distribution and the BUSCO user guide.</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -i FASTA FILE, --in FASTA FILE</span><br><span class="line">                        Input sequence file in FASTA format. Can be an assembled genome or transcriptome (DNA), or protein sequences from an annotated gene set.</span><br><span class="line">  -c N, --cpu N         Specify the number (N=integer) of threads/cores to use.</span><br><span class="line">  -o OUTPUT, --out OUTPUT</span><br><span class="line">                        Give your analysis run a recognisable short name. Output folders and files will be labelled with this name. WARNING: do not provide a path</span><br><span class="line">  --out_path OUTPUT_PATH</span><br><span class="line">                        Optional location for results folder, excluding results folder name. Default is current working directory.</span><br><span class="line">  -e N, --evalue N      E-value cutoff for BLAST searches. Allowed formats, 0.001 or 1e-03 (Default: 1e-03)</span><br><span class="line">  -m MODE, --mode MODE  Specify which BUSCO analysis mode to run.</span><br><span class="line">                        There are three valid modes:</span><br><span class="line">                        - geno or genome, for genome assemblies (DNA)</span><br><span class="line">                        - tran or transcriptome, for transcriptome assemblies (DNA)</span><br><span class="line">                        - prot or proteins, for annotated gene sets (protein)</span><br><span class="line">  -l LINEAGE, --lineage_dataset LINEAGE</span><br><span class="line">                        Specify the name of the BUSCO lineage to be used.</span><br><span class="line">  -f, --force           Force rewriting of existing files. Must be used when output files with the provided name already exist.</span><br><span class="line">  --limit REGION_LIMIT  How many candidate regions (contig or transcript) to consider per BUSCO (default: 3)</span><br><span class="line">  --long                Optimization mode Augustus self-training (Default: Off) adds considerably to the run time, but can improve results for some non-model organisms</span><br><span class="line">  -q, --quiet           Disable the info logs, displays only errors</span><br><span class="line">  --augustus_parameters AUGUSTUS_PARAMETERS</span><br><span class="line">                        Pass additional arguments to Augustus. All arguments should be contained within a single pair of quotation marks, separated by commas. E.g. '--param1=1,--param2=2'</span><br><span class="line">  --augustus_species AUGUSTUS_SPECIES</span><br><span class="line">                        Specify a species for Augustus training.</span><br><span class="line">  --auto-lineage        Run auto-lineage to find optimum lineage path</span><br><span class="line">  --auto-lineage-prok   Run auto-lineage just on non-eukaryote trees to find optimum lineage path</span><br><span class="line">  --auto-lineage-euk    Run auto-placement just on eukaryote tree to find optimum lineage path</span><br><span class="line">  --update-data         Download and replace with last versions all lineages datasets and files necessary to their automated selection</span><br><span class="line">  --offline             To indicate that BUSCO cannot attempt to download files</span><br><span class="line">  --config CONFIG_FILE  Provide a config file</span><br><span class="line">  -v, --version         Show this version and exit</span><br><span class="line">  -h, --help            Show this help message and exit</span><br><span class="line">  --list-datasets       Print the list of available BUSCO datasets</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a href="https://xieduo7.github.io/2018-07-15-%E7%94%A8BUSCO%E6%9D%A5%E8%BF%9B%E8%A1%8C%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%AE%8C%E6%95%B4%E6%80%A7%E8%AF%84%E4%BC%B0.html" target="_blank" rel="noopener">使用BUSCO评估基因组组装完整性</a><br>
+Complete：完整性，在被评估的基因组中BUSCO基因的预测分数以及比对上的长度打到了要求，可具体划分为Complete and single-copy和Complete and duplicated。<br>
+Complete and single-copy：完整且在该基因组中只有一个拷贝的数目，该指标越高说明组装效果越好。<br>
+Complete and duplicated：完整且在该基因组中有多个拷贝的数目，由于BUSCO基因集中的基因都是单拷贝的基因，因此如果出现了多个拷贝，就说明在单体型组装过程中出现了错误，因此该指标越高说明组装效果越差。另外如果是多倍体组装的话，该值也可能大。<br>
+Fragmented：Fragmented的基因虽然达到了预测分数，但是长度并没达到要求。有可能基因组组装过程中没有将该片段组装出来，也有可能是基因预测的时候由于基因结构的特殊性没能完整地将该基因预测出来。该指标越低越好。<br>
+Missing：Fragmented的基因在基因组中完全没有找到，或者预测分数低于要求。有可能基因组组装过程中没有将该片段组装出来，也有可能是基因预测的时候由于基因结构的特殊性没能完整地将该基因预测出来。该指标越低越好</p>
+</blockquote>
+<h1>examples</h1>
+<h2 id="illmina-illumina-ONT">illmina/illumina+ONT</h2>
+<p>stitching of illumina sequencing data (pair ends)</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#software: [SPAdes](https:<span class="comment">//github.com/ablab/spades#sec1.1)</span></span><br><span class="line">wget http:<span class="comment">//cab.spbu.ru/files/release3.13.1/SPAdes-3.13.1-Linux.tar.gz</span></span><br><span class="line">tar -xzf SPAdes<span class="number">-3.13</span><span class="number">.1</span>-Linux.tar.gz</span><br><span class="line">cd SPAdes<span class="number">-3.13</span><span class="number">.1</span>-Linux/bin/</span><br><span class="line"></span><br><span class="line">#quality control, using fastqc</span><br><span class="line">mkdir qc</span><br><span class="line">fastqc -f fastq -o qc /ifs1/TestDatas/nanopore/day2-Assembly/<span class="number">2.</span>rawdata/illumina/SRR8608858.sra_1.fastq.gz /ifs1/TestDatas/nanopore/day2-Assembly/<span class="number">2.</span>rawdata/illumina/SRR8608858.sra_2.fastq.gz</span><br><span class="line"></span><br><span class="line">#filtering, using fastp</span><br><span class="line">fastp -i /ifs1/TestDatas/nanopore/day2-Assembly/<span class="number">2.</span>rawdata/illumina/SRR8608858.sra_1.fastq.gz -I /ifs1/TestDatas/nanopore/day2-Assembly/<span class="number">2.</span>rawdata/illumina/SRR8608858.sra_2.fastq.gz -o clean<span class="number">.1</span>.fq.gz -O clean<span class="number">.2</span>.fq.gz -z <span class="number">4</span> -q <span class="number">20</span> -u <span class="number">30</span> -n <span class="number">10</span> -f <span class="number">20</span> -t <span class="number">10</span> -F <span class="number">20</span> -T <span class="number">10</span> -h clean.html</span><br><span class="line"></span><br><span class="line">#quality control again</span><br><span class="line">mkdir clean</span><br><span class="line">fastqc -f fastq -o clean clean<span class="number">.1</span>.fq.gz clean<span class="number">.2</span>.fq.gz</span><br><span class="line"></span><br><span class="line">#stitching, using sapdes</span><br><span class="line">###only use illumina sequencing data</span><br><span class="line">###the <span class="keyword">final</span> results: scaffolds.fasta</span><br><span class="line">/ifs1/Software/biosoft/SPAdes<span class="number">-3.12</span><span class="number">.0</span>-Linux/bin/spades.py -o illumina -t <span class="number">24</span> <span class="number">-1</span> clean<span class="number">.1</span>.fq.gz <span class="number">-2</span> clean<span class="number">.2</span>.fq.gz <span class="number">1</span>&gt;spades.log <span class="number">2</span>&gt;spades.err</span><br><span class="line"></span><br><span class="line">###use illumina + ont sequencing data</span><br><span class="line">###the <span class="keyword">final</span> results: scaffolds.fasta</span><br><span class="line">/ifs1/Software/biosoft/SPAdes<span class="number">-3.12</span><span class="number">.0</span>-Linux/bin/spades.py -o illumina_minion -t <span class="number">24</span> <span class="number">-1</span> clean<span class="number">.1</span>.fq.gz <span class="number">-2</span> clean<span class="number">.2</span>.fq.gz --nanopore /ifs1/TestDatas/nanopore/day2-Assembly/<span class="number">4.f</span>ilter/clean.filtlong.fq.gz <span class="number">1</span>&gt;minion.log <span class="number">2</span>&gt;minion.err</span><br></pre></td></tr></table></figure>
+<h2 id="quast">quast</h2>
+<p><code>/ifs1/Software/biosoft/quast-5.0.2/quast.py -r illumina/scaffolds.fasta illumina_minion/scaffolds.fasta -o quast</code></p>
+<h2 id="BUSCO">BUSCO</h2>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="keyword">create</span> -n py3 python=<span class="number">3.6</span></span><br><span class="line">conda <span class="keyword">activate</span> py3</span><br><span class="line">conda <span class="keyword">install</span> -c bioconda -c conda-forge busco</span><br><span class="line">busco -h</span><br><span class="line">busco -i [<span class="keyword">input</span> fasta <span class="keyword">file</span>] -l [<span class="keyword">database</span> <span class="keyword">file</span>] -o [<span class="keyword">output</span> <span class="keyword">file</span>] -m [geno/tran/prot] <span class="comment">--cpu 24</span></span><br></pre></td></tr></table></figure>
+<p>how to choose the database file?<br>
+假如测试细菌物种名称为 <em>Bacillus subtilis</em>（枯草芽孢杆菌），系统分支大类属于“Firmicutes”（厚壁菌门）或“bacteria”（细菌），因此我们可选下载“firmicutes_odb9” 或直接使用“bacteria_odb9”。<br>
+wget <a href="http://busco.ezlab.org/v2/datasets/firmicutes_odb9.tar.gz" target="_blank" rel="noopener">http://busco.ezlab.org/v2/datasets/firmicutes_odb9.tar.gz</a><br>
+#或者<br>
+wget <a href="http://busco.ezlab.org/v2/datasets/bacteria_odb9.tar.gz" target="_blank" rel="noopener">http://busco.ezlab.org/v2/datasets/bacteria_odb9.tar.gz</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Nanopore/" rel="tag"># Nanopore</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/11/Nanopore7-genomestitching/" rel="prev" title="Nanopore_7.Genome stitching (of nanopore data)">
+      <i class="fa fa-chevron-left"></i> Nanopore_7.Genome stitching (of nanopore data)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/13/Nanopore8-polishingafterstitching/" rel="next" title="Nanopore_9.Polishing after stitching 拼接完优化">
+      Nanopore_9.Polishing after stitching 拼接完优化 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">training</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#stitch-COVID-19-genome-using-flye"><span class="nav-number">1.1.</span> <span class="nav-text">stitch COVID-19 genome using flye</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#extract-the-longest-300-sequences-from-SRR8608880-sra-fastq-and-stitch-the-sequences-using-flye"><span class="nav-number">1.2.</span> <span class="nav-text">extract the longest 300 sequences from SRR8608880.sra.fastq and stitch the sequences using flye</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#extract-0-1-0-2-and-0-3-data-from-SRR8608880-sra-fastq-and-stitch-the-sequences-using-flye"><span class="nav-number">1.3.</span> <span class="nav-text">extract 0.1, 0.2 and 0.3 data from SRR8608880.sra.fastq and stitch the sequences using flye</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#download-referenc-sequence-NC-003143-1"><span class="nav-number">1.4.</span> <span class="nav-text">download referenc sequence NC_003143.1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#get-consensus-sequence-basing-on-the-reference-sequence-compare-reference-sequence-consensus-sequence-and-de-novo-sequences"><span class="nav-number">1.5.</span> <span class="nav-text">get consensus sequence basing on the reference sequence, compare reference sequence, consensus sequence and de novo sequences</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">advantages and disadvantages of different sequencing platforms</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">mixed stitching of data from different sequencing platform</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">4.</span> <span class="nav-text">evaluate the stitching results</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">5.</span> <span class="nav-text">parameters of genome statistics</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">6.</span> <span class="nav-text">evaluate the accuracy and integrity</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">7.</span> <span class="nav-text">examples</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#illmina-illumina-ONT"><span class="nav-number">7.1.</span> <span class="nav-text">illmina&#x2F;illumina+ONT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#quast"><span class="nav-number">7.2.</span> <span class="nav-text">quast</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BUSCO"><span class="nav-number">7.3.</span> <span class="nav-text">BUSCO</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Yunmeng_Li" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Yunmeng_Li" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/itsyunmeng" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;itsyunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yunmengli@hotmail.com" title="E-Mail → mailto:yunmengli@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

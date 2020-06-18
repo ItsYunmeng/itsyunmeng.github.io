@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Abstract:  This paper introduces the characteristics of viral genome, how to find new virus (extract total DNA or RNA -&gt; remove the host gene -&gt; blast with the viral database -&gt; splice the wh">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nanopore_6.Analysis of coronavirus data">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/06/10/Nanopore6-analysisofcoronavirusdata/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="Abstract:  This paper introduces the characteristics of viral genome, how to find new virus (extract total DNA or RNA -&gt; remove the host gene -&gt; blast with the viral database -&gt; splice the wh">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-10T10:26:56.000Z">
+<meta property="article:modified_time" content="2020-06-11T10:23:13.392Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="Nanopore">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/06/10/Nanopore6-analysisofcoronavirusdata/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Nanopore_6.Analysis of coronavirus data | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/06/10/Nanopore6-analysisofcoronavirusdata/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Nanopore_6.Analysis of coronavirus data
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-10 12:26:56" itemprop="dateCreated datePublished" datetime="2020-06-10T12:26:56+02:00">2020-06-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-11 12:23:13" itemprop="dateModified" datetime="2020-06-11T12:23:13+02:00">2020-06-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bioinformatics/" itemprop="url" rel="index"><span itemprop="name">Bioinformatics</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>Abstract:</strong>  This paper introduces the characteristics of viral genome, how to find new virus (extract total DNA or RNA -&gt; remove the host gene -&gt; blast with the viral database -&gt; splice the whole genome sequence), how to stitch COVID-19 genome, and the workflow of ARTICNetwork.</p>
+<a id="more"></a>
+<h1>Introduction to viral genome</h1>
+<h2 id="Characteristics-of-viral-genome">Characteristics of viral genome</h2>
+<ul>
+<li>DNA Viruses, RNA viruses</li>
+<li>single-stranded chain, double-stranded chain</li>
+<li>genome size: 2K~2M</li>
+<li>majority of viruses: 10~30K</li>
+<li>highly heterozygous sequences</li>
+<li>highly fused gene</li>
+</ul>
+<h2 id="Why-is-it-difficult-to-splice-viral-genome">Why is it difficult to splice viral genome?</h2>
+<ul>
+<li>high heterozygosity of the viral genome</li>
+<li>excessive coverage</li>
+<li>effect of sequencing error: heterozygosity or error?</li>
+</ul>
+<h2 id="Why-is-the-viral-genome-small-but-difficult-to-analyze？">Why is the viral genome small but difficult to analyze？</h2>
+<ul>
+<li>unable to isolate, enrich and pure culture</li>
+<li>low relative abundance relative to host cells</li>
+<li>some viruses are RNA viruses</li>
+</ul>
+<h1>How to find new virus?</h1>
+<p>extract total DNA or RNA -&gt; remove the host gene -&gt; blast with the viral database -&gt; splice the whole genome sequence</p>
+<h2 id="Methods-to-enrich-viral-genome">Methods to enrich viral genome</h2>
+<ul>
+<li>method 1: centrifuge</li>
+<li>method 2: gel electrophoresis</li>
+<li>method 3: multiplex PCR</li>
+</ul>
+<h2 id="Bioinformatics-methods-to-remove-host-genome">Bioinformatics methods to remove host genome</h2>
+<ul>
+<li>method 1: alignment with the host genome, and extract the unaligned sequences. <code>samtools view -f 4 A1.sorted.bam</code></li>
+<li>method 2: alignment with viral database, and extract the aligned sequences. <code>samtools view -F A1.sorted.bam</code></li>
+</ul>
+<h2 id="Viral-database">Viral database</h2>
+<ul>
+<li>viral database in NCBI: <a href="https://ftp.ncbi.nlm.nih.gov/genomes/Viruses/" target="_blank" rel="noopener">https://ftp.ncbi.nlm.nih.gov/genomes/Viruses/</a></li>
+<li>extract all viral sequences from nt database</li>
+</ul>
+<h2 id="Get-viral-genome-sequences">Get viral genome sequences</h2>
+<p>genome stitching -&gt; get consensus sequence</p>
+<h1>COVID-19 genome</h1>
+<h2 id="Characteristics-of-COVID-19">Characteristics of COVID-19</h2>
+<ul>
+<li>corona virus</li>
+<li>single-stranded RNA virus</li>
+<li>genome size: ~30K</li>
+<li>close to SARS in phylogeny</li>
+</ul>
+<h2 id="How-to-amplify-the-sequences-of-COVID-19">How to amplify the sequences of COVID-19?</h2>
+<p>multiplex PCR to get the whole genome sequence (MN908947.3) by <a href="https://artic.network/" target="_blank" rel="noopener">ARTIC Network</a></p>
+<ul>
+<li>primer v3: <a href="https://github.com/artic-network/articncov2019/blob/master/primer_schemes/nCoV-2019/V3/nCoV2019.tsv" target="_blank" rel="noopener">https://github.com/artic-network/articncov2019/blob/master/primer_schemes/nCoV-2019/V3/nCoV2019.tsv</a></li>
+<li>article: <a href="https://www.biorxiv.org/content/10.1101/2020.03.10.985150v1.full" target="_blank" rel="noopener">https://www.biorxiv.org/content/10.1101/2020.03.10.985150v1.full</a></li>
+<li>protocol: <a href="https://www.protocols.io/view/ncov-2019-sequencing-protocolbbmuik6w" target="_blank" rel="noopener">https://www.protocols.io/view/ncov-2019-sequencing-protocolbbmuik6w</a></li>
+</ul>
+<h2 id="Download-raw-data-of-COVID-19-genome">Download raw data of COVID-19 genome</h2>
+<p><a href="https://www.ncbi.nlm.nih.gov/sars-cov-2/" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/sars-cov-2/</a></p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">prefetch SRR<span class="number">10902284</span> -O ./</span><br><span class="line">faster-dump SRR<span class="number">10902284</span>.sra</span><br></pre></td></tr></table></figure>
+<h2 id="Download-reference-genome-of-COVID-19">Download reference genome of COVID-19</h2>
+<ul>
+<li>
+<p>NCBI：<a href="https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?SeqType_s=Nucleotide&amp;VirusLineage_ss=Wuhan%20seafood%20market%20pneumonia%20virus,%20taxid:2697049" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?SeqType_s=Nucleotide&amp;VirusLineage_ss=Wuhan seafood market pneumonia virus, taxid:2697049</a></p>
+<blockquote>
+<p>download reference sequence from NCBI according to Accession Number<br>
+SARS genome：</p>
+<ul>
+<li>KF367457, Bat SARS-like coronavirus WIV1, complete genome</li>
+<li>KC881007, Bat SARS-like coronavirus WIV1 spike protein (S) gene,complete cds</li>
+<li>ATU80111, RNA-dependent RNA polymerase, partial SARS-related bat coronavirus RsSHC014</li>
+<li>KX285134, SARS-related bat coronavirus RsSHC014 PREDICT-EHA156-11-YN-SHC014 RNA-dependent RNA polymerase mRNA, partial cds</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>RefSeq data:</p>
+<ul>
+<li>NC_004718, SARS coronavirus, complete genome. Taxonomy id: 694009</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>Bat-derived SARS-like coronavirus isolate references:</p>
+<ul>
+<li>MG772933, bat-SL-CoVZC45</li>
+<li>MG772934, bat-SL-CoVZXC21</li>
+</ul>
+</blockquote>
+</li>
+<li>
+<p>GISAID: <a href="https://www.gisaid.org" target="_blank" rel="noopener">https://www.gisaid.org</a></p>
+</li>
+<li>
+<p>中国国家基因库CNDB: <a href="https://db.cngb.org/datamart/disease/DATAdis19/" target="_blank" rel="noopener">https://db.cngb.org/datamart/disease/DATAdis19/</a></p>
+</li>
+<li>
+<p>国家生物信息中心: <a href="https://bigd.big.ac.cn/ncov/release_genome" target="_blank" rel="noopener">https://bigd.big.ac.cn/ncov/release_genome</a></p>
+</li>
+</ul>
+<h2 id="Examples-of-stitching-COVID-19-genome">Examples of stitching COVID-19 genome</h2>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#download and stats the raw data</span></span><br><span class="line"><span class="attr">prefetch</span> <span class="string">ERR4208070 -O ./</span></span><br><span class="line"><span class="meta">fastq-dump</span> <span class="string">ERR4208070.sra --gzip</span></span><br><span class="line"><span class="attr">seqkit</span> <span class="string">stats ERR4208070.fastq.gz</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#alignment with reference sequence</span></span><br><span class="line"><span class="attr">minimap2</span> <span class="string">-d NC_045512.2.min NC_045512.2.fna</span></span><br><span class="line"><span class="attr">minimap2</span> <span class="string">-ax map-ont NC_045512.2.min ERR4208070.fastq.gz &gt;ncov.sam</span></span><br><span class="line"><span class="comment">#convert sam to bam</span></span><br><span class="line"><span class="attr">samtools</span> <span class="string">sort -@ 4 -O bam -o ncov.sorted.bam ncov.sam</span></span><br><span class="line"><span class="attr">samtools</span> <span class="string">index ncov.sorted.bam</span></span><br><span class="line"><span class="attr">samtools</span> <span class="string">faidx NC_045512.2.fna</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#visualization using tablet</span></span><br><span class="line"><span class="comment">##input file: bam, fna, bai, fam</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#produce consensus sequence</span></span><br><span class="line"><span class="attr">bcftools</span> <span class="string">mpileup -Ou -f NC_045512.2.fna ncov.sorted.bam | bcftools call -mv -Oz -o calls.vcf.gz</span></span><br><span class="line"><span class="attr">bcftools</span> <span class="string">index calls.vcf.gz</span></span><br><span class="line"><span class="attr">bcftools</span> <span class="string">consensus -f NC_045512.2.fna  calls.vcf.gz &gt;ncov.fna</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>bcftools</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">Program: bcftools (Tools for variant calling and manipulating VCFs and BCFs)</span><br><span class="line">License: GNU GPLv3+, due to <span class="keyword">use</span> <span class="keyword">of</span> the GNU Scientific <span class="keyword">Library</span></span><br><span class="line"><span class="keyword">Version</span>: <span class="number">1.9</span> (<span class="keyword">using</span> htslib <span class="number">1.9</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">Usage</span>:   bcftools [<span class="comment">--version|--version-only] [--help] &lt;command&gt; &lt;argument&gt;</span></span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line"></span><br><span class="line"><span class="comment">-- Indexing</span></span><br><span class="line">   <span class="keyword">index</span>        <span class="keyword">index</span> VCF/BCF files</span><br><span class="line"></span><br><span class="line"><span class="comment">-- VCF/BCF manipulation</span></span><br><span class="line">   annotate     annotate <span class="keyword">and</span> edit VCF/BCF files</span><br><span class="line">   <span class="keyword">concat</span>       concatenate VCF/BCF files <span class="keyword">from</span> the same <span class="keyword">set</span> <span class="keyword">of</span> samples</span><br><span class="line">   <span class="keyword">convert</span>      <span class="keyword">convert</span> VCF/BCF files <span class="keyword">to</span> different formats <span class="keyword">and</span> back</span><br><span class="line">   isec         intersections <span class="keyword">of</span> VCF/BCF files</span><br><span class="line">   <span class="keyword">merge</span>        <span class="keyword">merge</span> VCF/BCF files files <span class="keyword">from</span> non-overlapping <span class="keyword">sample</span> <span class="keyword">sets</span></span><br><span class="line">   norm         <span class="keyword">left</span>-align <span class="keyword">and</span> normalize indels</span><br><span class="line">   <span class="keyword">plugin</span>       <span class="keyword">user</span>-defined plugins</span><br><span class="line">   <span class="keyword">query</span>        transform VCF/BCF <span class="keyword">into</span> <span class="keyword">user</span>-defined formats</span><br><span class="line">   reheader     <span class="keyword">modify</span> VCF/BCF header, <span class="keyword">change</span> <span class="keyword">sample</span> <span class="keyword">names</span></span><br><span class="line">   <span class="keyword">sort</span>         <span class="keyword">sort</span> VCF/BCF <span class="keyword">file</span></span><br><span class="line">   <span class="keyword">view</span>         VCF/BCF conversion, <span class="keyword">view</span>, subset <span class="keyword">and</span> filter VCF/BCF files</span><br><span class="line"></span><br><span class="line"><span class="comment">-- VCF/BCF analysis</span></span><br><span class="line">   <span class="keyword">call</span>         SNP/indel <span class="keyword">calling</span></span><br><span class="line">   consensus    <span class="keyword">create</span> consensus <span class="keyword">sequence</span> <span class="keyword">by</span> applying VCF variants</span><br><span class="line">   cnv          HMM CNV <span class="keyword">calling</span></span><br><span class="line">   csq          <span class="keyword">call</span> variation consequences</span><br><span class="line">   filter       filter VCF/BCF files <span class="keyword">using</span> <span class="keyword">fixed</span> thresholds</span><br><span class="line">   gtcheck      <span class="keyword">check</span> <span class="keyword">sample</span> concordance, detect <span class="keyword">sample</span> swaps <span class="keyword">and</span> contamination</span><br><span class="line">   mpileup      multi-way pileup producing genotype likelihoods</span><br><span class="line">   polysomy     detect <span class="built_in">number</span> <span class="keyword">of</span> chromosomal copies</span><br><span class="line">   roh          identify runs <span class="keyword">of</span> autozygosity (HMM)</span><br><span class="line">   stats        produce VCF/BCF stats</span><br><span class="line"></span><br><span class="line">Most commands <span class="keyword">accept</span> VCF, bgzipped VCF, <span class="keyword">and</span> BCF <span class="keyword">with</span> the <span class="keyword">file</span> <span class="keyword">type</span> detected</span><br><span class="line">automatically even <span class="keyword">when</span> streaming <span class="keyword">from</span> a pipe. Indexed VCF <span class="keyword">and</span> BCF will <span class="keyword">work</span></span><br><span class="line"><span class="keyword">in</span> <span class="keyword">all</span> situations. Un-indexed VCF <span class="keyword">and</span> BCF <span class="keyword">and</span> streams will <span class="keyword">work</span> <span class="keyword">in</span> most but</span><br><span class="line"><span class="keyword">not</span> <span class="keyword">all</span> situations. </span><br></pre></td></tr></table></figure>
+</blockquote>
+<h1>Sup. ARTICNetwork workflow</h1>
+<p>ARTIC Network is used in conjunction with Nanopore sequencer. It can be minION or other models. The control software of the sequencer - MiniKnow - will generate sequencing data in real time and perform basecalling in real time. The main software used in this workflow is RAMPART. The software will read the data generated by MinKnow, and then make statistics, such as how much data is generated, how the data length is distributed, etc., and visualize it.</p>
+<p>Nanopore | bioinformatics<br>
+<a href="https://artic.network/ncov-2019/ncov2019-bioinformatics-sop.html" target="_blank" rel="noopener">nCoV-2019 novel coronavirus bioinformatics protocol</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Nanopore/" rel="tag"># Nanopore</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/09/Nanopore-5-Rapididentificationofpathogenicmicroorganisms/" rel="prev" title="Nanopore_5.Rapid identification of pathogenic microorganisms">
+      <i class="fa fa-chevron-left"></i> Nanopore_5.Rapid identification of pathogenic microorganisms
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/11/Nanopore7-genomestitching/" rel="next" title="Nanopore_7.Genome stitching (of nanopore data)">
+      Nanopore_7.Genome stitching (of nanopore data) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">Introduction to viral genome</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Characteristics-of-viral-genome"><span class="nav-number">1.1.</span> <span class="nav-text">Characteristics of viral genome</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-is-it-difficult-to-splice-viral-genome"><span class="nav-number">1.2.</span> <span class="nav-text">Why is it difficult to splice viral genome?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-is-the-viral-genome-small-but-difficult-to-analyze？"><span class="nav-number">1.3.</span> <span class="nav-text">Why is the viral genome small but difficult to analyze？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">How to find new virus?</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Methods-to-enrich-viral-genome"><span class="nav-number">2.1.</span> <span class="nav-text">Methods to enrich viral genome</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bioinformatics-methods-to-remove-host-genome"><span class="nav-number">2.2.</span> <span class="nav-text">Bioinformatics methods to remove host genome</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Viral-database"><span class="nav-number">2.3.</span> <span class="nav-text">Viral database</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Get-viral-genome-sequences"><span class="nav-number">2.4.</span> <span class="nav-text">Get viral genome sequences</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">COVID-19 genome</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Characteristics-of-COVID-19"><span class="nav-number">3.1.</span> <span class="nav-text">Characteristics of COVID-19</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-to-amplify-the-sequences-of-COVID-19"><span class="nav-number">3.2.</span> <span class="nav-text">How to amplify the sequences of COVID-19?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Download-raw-data-of-COVID-19-genome"><span class="nav-number">3.3.</span> <span class="nav-text">Download raw data of COVID-19 genome</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Download-reference-genome-of-COVID-19"><span class="nav-number">3.4.</span> <span class="nav-text">Download reference genome of COVID-19</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Examples-of-stitching-COVID-19-genome"><span class="nav-number">3.5.</span> <span class="nav-text">Examples of stitching COVID-19 genome</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">4.</span> <span class="nav-text">Sup. ARTICNetwork workflow</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Yunmeng_Li" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Yunmeng_Li" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/itsyunmeng" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;itsyunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yunmengli@hotmail.com" title="E-Mail → mailto:yunmengli@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
