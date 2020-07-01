@@ -30,8 +30,11 @@
 <meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/1.rawdata.png">
 <meta property="og:image" content="https://itsyunmeng.github.io/2020/07/01/nanopore-analysis-fulllength16Sdatabyflongle/index.html">
 <meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/2.qcat.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/4.rawdata_nanoplot.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/5.trimmed_sequence.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/6.trimmeddata_nanoplot.png">
 <meta property="article:published_time" content="2020-07-01T09:59:01.000Z">
-<meta property="article:modified_time" content="2020-07-01T13:14:30.673Z">
+<meta property="article:modified_time" content="2020-07-01T15:46:24.720Z">
 <meta property="article:author" content="Yunmeng">
 <meta property="article:tag" content="Nanopore">
 <meta property="article:tag" content="Flongle">
@@ -194,7 +197,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-07-01 11:59:01 / Modified: 15:14:30" itemprop="dateCreated datePublished" datetime="2020-07-01T11:59:01+02:00">2020-07-01</time>
+              <time title="Created: 2020-07-01 11:59:01 / Modified: 17:46:24" itemprop="dateCreated datePublished" datetime="2020-07-01T11:59:01+02:00">2020-07-01</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -227,9 +230,16 @@ Data: full-length 16S metabarcoding data in <code>*.fastq</code> format (<code>f
 <img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/1.rawdata.png" alt="1.rawdata.png"></p>
 <h1>Workflow</h1>
 <p><img src="?" alt="pipeline"><br>
-Demultiplexing: qcat</p>
+Demultiplexing: qcat<br>
+Quality control: nanoplot</p>
 <h2 id="Demultiplexing">Demultiplexing</h2>
 <p>qcat_results<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/2.qcat.png" alt="qcat_results"></p>
+<h2 id="Quality-control">Quality control</h2>
+<p><img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/4.rawdata_nanoplot.png" alt="4"></p>
+<h2 id="Filtering-and-Trimming">Filtering and Trimming</h2>
+<p><img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/5.trimmed_sequence.png" alt="5"></p>
+<h2 id="Quality-control-again">Quality control again</h2>
+<p><img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/6.trimmeddata_nanoplot.png" alt="6"></p>
 
     </div>
 
@@ -316,7 +326,7 @@ Demultiplexing: qcat</p>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">Basic information</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">Workflow</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Demultiplexing"><span class="nav-number">2.1.</span> <span class="nav-text">Demultiplexing</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">Basic information</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">Workflow</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Demultiplexing"><span class="nav-number">2.1.</span> <span class="nav-text">Demultiplexing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Quality-control"><span class="nav-number">2.2.</span> <span class="nav-text">Quality control</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Filtering-and-Trimming"><span class="nav-number">2.3.</span> <span class="nav-text">Filtering and Trimming</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Quality-control-again"><span class="nav-number">2.4.</span> <span class="nav-text">Quality control again</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -332,7 +342,7 @@ Demultiplexing: qcat</p>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -345,7 +355,7 @@ Demultiplexing: qcat</p>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
