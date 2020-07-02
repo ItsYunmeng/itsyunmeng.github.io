@@ -27,14 +27,13 @@
 <meta property="og:site_name" content="Yunmeng&#39;s Blog">
 <meta property="og:description" content="Abstract: Filtering and Trimming on *.fastq format data: filtering on quality and&#x2F;or read length, and optional trimming after passing filters.">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/5.trimmed_sequence.png">
-<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/6.trimmeddata_nanoplot.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/5.nanofilt_result.png">
 <meta property="article:published_time" content="2020-07-01T13:16:26.000Z">
-<meta property="article:modified_time" content="2020-07-01T15:39:41.498Z">
+<meta property="article:modified_time" content="2020-07-02T11:20:16.539Z">
 <meta property="article:author" content="Yunmeng">
 <meta property="article:tag" content="nanofilt">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/5.trimmed_sequence.png">
+<meta name="twitter:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/5.nanofilt_result.png">
 
 <link rel="canonical" href="https://itsyunmeng.github.io/2020/07/01/biosoft-nanofilt/">
 
@@ -189,10 +188,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-01 15:16:26 / Modified: 17:39:41" itemprop="dateCreated datePublished" datetime="2020-07-01T15:16:26+02:00">2020-07-01</time>
+              <time title="Created: 2020-07-01 15:16:26" itemprop="dateCreated datePublished" datetime="2020-07-01T15:16:26+02:00">2020-07-01</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-02 13:20:16" itemprop="dateModified" datetime="2020-07-02T13:20:16+02:00">2020-07-02</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -221,9 +226,8 @@
 <h1>Full usage</h1>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">usage: NanoFilt [-h] [-v] [--logfile LOGFILE] [-l LENGTH]</span><br><span class="line">                [--maxlength MAXLENGTH] [-q QUALITY] [--minGC MINGC]</span><br><span class="line">                [--maxGC MAXGC] [--headcrop HEADCROP] [--tailcrop TAILCROP]</span><br><span class="line">                [-s SUMMARY] [--readtype &#123;1D,2D,1D2&#125;]</span><br><span class="line">                [input]</span><br><span class="line"></span><br><span class="line">Perform quality <span class="keyword">and</span>/<span class="keyword">or</span> length <span class="keyword">and</span>/<span class="keyword">or</span> GC filtering of (long read) fastq data.           Reads on stdin.</span><br><span class="line"></span><br><span class="line">General options:</span><br><span class="line">  -h, --help            show the help <span class="keyword">and</span> exit</span><br><span class="line">  -v, --version         <span class="builtin-name">Print</span> version <span class="keyword">and</span> exit.</span><br><span class="line">  --logfile LOGFILE     Specify the path <span class="keyword">and</span> filename <span class="keyword">for</span> the log file.</span><br><span class="line">  input                 input, uncompressed fastq file</span><br><span class="line"></span><br><span class="line">Options <span class="keyword">for</span> filtering reads on.:</span><br><span class="line">  -l LENGTH, --length LENGTH</span><br><span class="line">                       <span class="built_in"> Filter </span>on a minimum read length</span><br><span class="line">  --maxlength MAXLENGTH</span><br><span class="line">                       <span class="built_in"> Filter </span>on a maximum read length</span><br><span class="line">  -q QUALITY, --quality QUALITY</span><br><span class="line">                       <span class="built_in"> Filter </span>on a minimum average read quality score</span><br><span class="line">  --minGC MINGC         Sequences must have GC content &gt;= <span class="keyword">to</span> this. Float between 0.0 <span class="keyword">and</span> 1.0. Ignored <span class="keyword">if</span></span><br><span class="line">                        using summary file.</span><br><span class="line">  --maxGC MAXGC         Sequences must have GC content &lt;= <span class="keyword">to</span> this. Float between 0.0 <span class="keyword">and</span> 1.0. Ignored <span class="keyword">if</span></span><br><span class="line">                        using summary file.</span><br><span class="line"></span><br><span class="line">Options <span class="keyword">for</span> trimming reads.:</span><br><span class="line">  --headcrop HEADCROP   Trim n nucleotides <span class="keyword">from</span> start of read</span><br><span class="line">  --tailcrop TAILCROP   Trim n nucleotides <span class="keyword">from</span> end of read</span><br><span class="line"></span><br><span class="line">Input options.:</span><br><span class="line">  -s SUMMARY, --summary SUMMARY</span><br><span class="line">                        Use albacore <span class="keyword">or</span> guppy summary file <span class="keyword">for</span> quality scores</span><br><span class="line">  --readtype &#123;1D,2D,1D2&#125;</span><br><span class="line">                        Which read<span class="built_in"> type </span><span class="keyword">to</span> extract information about <span class="keyword">from</span> summary. Options are 1D, 2D <span class="keyword">or</span></span><br><span class="line">                        1D2</span><br><span class="line"></span><br><span class="line">EXAMPLES:</span><br><span class="line">  gunzip -c reads.fastq.gz | NanoFilt -q 10 -l 500 --headcrop 50 | minimap2 genome.fa - | samtools sort -O BAM -@24 -o alignment.bam -</span><br><span class="line">  gunzip -c reads.fastq.gz | NanoFilt -q 12 --headcrop 75 | gzip &gt; trimmed-reads.fastq.gz</span><br><span class="line">  gunzip -c reads.fastq.gz | NanoFilt -q 10 | gzip &gt; highQuality-reads.fastq.gz</span><br></pre></td></tr></table></figure>
 <h1>Use cases</h1>
-<figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#filtering and trimming</span></span><br><span class="line"><span class="string">gunzip </span>-c <span class="string">all.</span><span class="string">fastq.</span><span class="string">gz </span>| <span class="string">NanoFilt </span>-q 7 -l <span class="string">500 </span><span class="built_in">--maxlength</span> <span class="string">1600 </span><span class="built_in">--headcrop</span> <span class="string">75 </span>| <span class="string">gzip </span>&gt; <span class="string">trimmed-reads.</span><span class="string">fastq.</span><span class="string">gz</span></span><br><span class="line"><span class="string">#</span><span class="string">quality </span><span class="string">control </span><span class="string">again</span></span><br><span class="line"><span class="string">conda </span><span class="string">activate </span><span class="string">nanoplot</span></span><br><span class="line"><span class="string">NanoPlot </span><span class="built_in">--fastq</span> <span class="string">trimmed-reads.</span><span class="string">fastq.</span><span class="string">gz </span><span class="built_in">--N50</span> -t <span class="string">12 </span><span class="built_in">--plots</span> <span class="string">hex </span><span class="string">dot </span><span class="string">pauvre </span><span class="string">kde </span>-o <span class="string">trimmed-reads.</span><span class="string">nanoplot</span></span><br><span class="line"><span class="string">conda </span><span class="string">deactivate</span></span><br></pre></td></tr></table></figure>
-<p>trimmed-sequences<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/5.trimmed_sequence.png" alt="5"><br>
-quality control again<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/6.trimmeddata_nanoplot.png" alt="6"></p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gunzip -c all.trimmed.fastq.gz | NanoFilt -l <span class="number">500</span> --maxlength <span class="number">1550</span> -q <span class="number">7</span> --headcrop <span class="number">50</span> --tailcrop <span class="number">50</span> |gzip &gt; all.filtered.fastq.gz</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/5.nanofilt_result.png" alt="5"></p>
 <p>Ref:</p>
 <blockquote>
 <p>nanofilt: <a href="https://github.com/wdecoster/nanofilt" target="_blank" rel="noopener">https://github.com/wdecoster/nanofilt</a></p>
@@ -328,20 +332,20 @@ quality control again<img src="https://github.com/ItsYunmeng/MyPostImages/raw/ma
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

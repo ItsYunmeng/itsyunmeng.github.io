@@ -27,14 +27,16 @@
 <meta property="og:site_name" content="Yunmeng&#39;s Blog">
 <meta property="og:description" content="Abstract: Demultiplex: It accepts basecalled FASTQ files and splits the reads into separate FASTQ files based on their barcode.">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/1.rawdata.png">
 <meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/2.qcat.png">
+<meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/3.qcat_result.png">
 <meta property="og:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/3.sequencing_summary_qcat.png">
 <meta property="article:published_time" content="2020-07-01T10:08:01.000Z">
-<meta property="article:modified_time" content="2020-07-01T13:11:58.316Z">
+<meta property="article:modified_time" content="2020-07-02T10:11:43.832Z">
 <meta property="article:author" content="Yunmeng">
 <meta property="article:tag" content="qcat">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/2.qcat.png">
+<meta name="twitter:image" content="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/1.rawdata.png">
 
 <link rel="canonical" href="https://itsyunmeng.github.io/2020/07/01/biosoft-qcat/">
 
@@ -189,10 +191,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-01 12:08:01 / Modified: 15:11:58" itemprop="dateCreated datePublished" datetime="2020-07-01T12:08:01+02:00">2020-07-01</time>
+              <time title="Created: 2020-07-01 12:08:01" itemprop="dateCreated datePublished" datetime="2020-07-01T12:08:01+02:00">2020-07-01</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-02 12:11:43" itemprop="dateModified" datetime="2020-07-02T12:11:43+02:00">2020-07-02</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -222,8 +230,10 @@
 <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">usage: qcat [-h] [-V] [-l LOG] [<span class="comment">--quiet] [-f FASTQ] [-b BARCODE_DIR]</span></span><br><span class="line">            [-o OUTPUT] [<span class="comment">--min-score MIN_QUAL] [--detect-middle] [-t THREADS]</span></span><br><span class="line">            [<span class="comment">--min-read-length MIN_LENGTH] [--tsv] [--trim]</span></span><br><span class="line">            [-k &#123;Auto,RAB204,RAB204/RAB214,VMK001,NBD114,DUAL,NBD103/NBD104,PBK004/LWB001,RAB214,RBK004,PBC096,PBC001,NBD104/NBD114,RPB004/RLB001,RBK001&#125;]</span><br><span class="line">            [<span class="comment">--list-kits] [--guppy | --epi2me | --dual | --simple]</span></span><br><span class="line">            [<span class="comment">--no-batch] [--filter-barcodes]</span></span><br><span class="line">            [<span class="comment">--simple-barcodes SIMPLE_BARCODES]</span></span><br><span class="line"></span><br><span class="line">Python command-line tool <span class="keyword">for</span> demultiplexing Oxford Nanopore reads <span class="keyword">from</span> FASTQ files</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -h, <span class="comment">--help            show this help message and exit</span></span><br><span class="line">  -V, <span class="comment">--version         show program's version number and exit</span></span><br><span class="line">  -l LOG, <span class="comment">--log LOG     Print debug information</span></span><br><span class="line">  <span class="comment">--quiet               Don't print summary</span></span><br><span class="line"></span><br><span class="line">General settings:</span><br><span class="line">  -f FASTQ, <span class="comment">--fastq FASTQ</span></span><br><span class="line">                        Barcoded <span class="built_in">read</span> <span class="built_in">file</span></span><br><span class="line">  -b BARCODE_DIR, <span class="comment">--barcode_dir BARCODE_DIR</span></span><br><span class="line">                        If specified, qcat will demultiplex reads <span class="keyword">to</span> this</span><br><span class="line">                        folder</span><br><span class="line">  -o OUTPUT, <span class="comment">--output OUTPUT</span></span><br><span class="line">                        Output <span class="built_in">file</span> trimmed reads will be written <span class="keyword">to</span> (default:</span><br><span class="line">                        stdout).</span><br><span class="line">  <span class="comment">--min-score MIN_QUAL  Minimum barcode score. Barcode calls with a lower</span></span><br><span class="line">                        score will be discarded. Must be <span class="keyword">between</span> <span class="number">0</span> <span class="keyword">and</span> <span class="number">100.</span></span><br><span class="line">                        (default: <span class="number">60</span>)</span><br><span class="line">  <span class="comment">--detect-middle       Search for adapters in the whole read</span></span><br><span class="line">  -t THREADS, <span class="comment">--threads THREADS</span></span><br><span class="line">                        Number <span class="keyword">of</span> threads. Only works <span class="keyword">with</span> <span class="keyword">in</span> guppy mode</span><br><span class="line">  <span class="comment">--min-read-length MIN_LENGTH</span></span><br><span class="line">                        Reads short than &lt;min-<span class="built_in">read</span>-<span class="built_in">length</span>&gt; <span class="keyword">after</span> trimming will</span><br><span class="line">                        be discarded.</span><br><span class="line">  <span class="comment">--tsv                 Prints a tsv file containing barcode information each</span></span><br><span class="line">                        <span class="built_in">read</span> <span class="keyword">to</span> stdout.</span><br><span class="line">  <span class="comment">--trim                Remove adapter and barcode sequences from reads.</span></span><br><span class="line">  -k &#123;Auto,RAB204,RAB204/RAB214,VMK001,NBD114,DUAL,NBD103/NBD104,PBK004/LWB001,RAB214,RBK004,PBC096,PBC001,NBD104/NBD114,RPB004/RLB001,RBK001&#125;, <span class="comment">--kit &#123;Auto,RAB204,RAB204/RAB214,VMK001,NBD114,DUAL,NBD103/NBD104,PBK004/LWB001,RAB214,RBK004,PBC096,PBC001,NBD104/NBD114,RPB004/RLB001,RBK001&#125;</span></span><br><span class="line">                        Sequencing kit. Specifying <span class="keyword">the</span> correct kit will</span><br><span class="line">                        improve sensitivity <span class="keyword">and</span> specificity <span class="keyword">and</span> runtime</span><br><span class="line">                        (default: auto)</span><br><span class="line">  <span class="comment">--list-kits           List all supported kits</span></span><br><span class="line"></span><br><span class="line">Demultiplexing modes:</span><br><span class="line">  <span class="comment">--guppy               Use Guppy's demultiplexing algorithm (default: false)</span></span><br><span class="line">  <span class="comment">--epi2me              Use EPI2ME's demultiplexing algorithm (default: true)</span></span><br><span class="line">  <span class="comment">--dual                Use dual barcoding algorithm</span></span><br><span class="line">  <span class="comment">--simple              Use simple demultiplexing algorithm. Only looks for</span></span><br><span class="line">                        barcodes, <span class="keyword">not</span> <span class="keyword">for</span> adapter sequences. Use only <span class="keyword">for</span></span><br><span class="line">                        testing purposes!</span><br><span class="line"></span><br><span class="line">EPI2ME options (only valid <span class="keyword">with</span> <span class="comment">--epi2me):</span></span><br><span class="line">  <span class="comment">--no-batch            Don't use information from multiple reads for kit</span></span><br><span class="line">                        detection (default: <span class="literal">false</span>)</span><br><span class="line">  <span class="comment">--filter-barcodes     Filter rare barcode calls when run in batch mode</span></span><br><span class="line"></span><br><span class="line">Simple options (only valid <span class="keyword">with</span> <span class="comment">--simple):</span></span><br><span class="line">  <span class="comment">--simple-barcodes SIMPLE_BARCODES</span></span><br><span class="line">                        Use <span class="number">12</span> (standard) <span class="keyword">or</span> <span class="number">96</span> (extended) barcodes <span class="keyword">for</span></span><br><span class="line">                        demultiplexing</span><br></pre></td></tr></table></figure>
 <h1>Use cases</h1>
 <p>Demultiplexing multiple fastq files from a folder</p>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat fastq_pass/*<span class="string">.fastq</span> | qcat -b demux_qcat -k PBK004/LWB001 <span class="params">--tsv</span> &gt;sequencing_summary.tsv</span><br><span class="line">mv sequencing_summary.tsv demux_qcat/</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/2.qcat.png" alt="2.qcat"><br>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">cat</span> <span class="string">fastq_pass/*.fastq | qcat -b demux_qcat -k PBK004/LWB001 --tsv &gt;sequencing_summary.tsv</span></span><br><span class="line"><span class="attr">mv</span> <span class="string">sequencing_summary.tsv demux_qcat/</span></span><br><span class="line"><span class="attr">rm</span> <span class="string">-rf demux_qcat/none.fastq</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/1.rawdata.png" alt="1.rawdata"><br>
+<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/2.qcat.png" alt="2.qcat"><br>
+<img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/3.qcat_result.png" alt="3.qcat_result"><br>
 sequencing_summary.tsv<br>
 <img src="https://github.com/ItsYunmeng/MyPostImages/raw/master/nanopore-analysis-fulllength16Sdatabyflongle/3.sequencing_summary_qcat.png" alt="3.sequencing_summary.tsv"></p>
 <p>Ref:</p>
@@ -248,8 +258,8 @@ sequencing_summary.tsv<br>
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/01/nanopore-tools/" rel="prev" title="Nanopore tools Summary">
-      <i class="fa fa-chevron-left"></i> Nanopore tools Summary
+    <a href="/2020/06/18/Rplot-2020-1-howtomakebeautifultablesinR/" rel="prev" title="1.How to Make Beautiful Tables in R">
+      <i class="fa fa-chevron-left"></i> 1.How to Make Beautiful Tables in R
     </a></div>
       <div class="post-nav-item">
     <a href="/2020/07/01/biosoft-nanofilt/" rel="next" title="nanofilt - filtering and trimming of long read sequencing data">
@@ -330,20 +340,20 @@ sequencing_summary.tsv<br>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
