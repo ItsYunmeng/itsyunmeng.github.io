@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Abstract: Tex Live installation, and LaTeX basics (Doocument structure: cross referencing, footnote and sidenote, list, align, code, table, images, box; Typography style: foot and size, paragraph, hea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LaTeX基础入门">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/08/05/tutorial-LaTeX/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="Abstract: Tex Live installation, and LaTeX basics (Doocument structure: cross referencing, footnote and sidenote, list, align, code, table, images, box; Typography style: foot and size, paragraph, hea">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-08-05T13:01:56.000Z">
+<meta property="article:modified_time" content="2020-08-06T10:39:58.657Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="LaTeX">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/08/05/tutorial-LaTeX/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>LaTeX基础入门 | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/08/05/tutorial-LaTeX/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LaTeX基础入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-08-05 15:01:56" itemprop="dateCreated datePublished" datetime="2020-08-05T15:01:56+02:00">2020-08-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-06 12:39:58" itemprop="dateModified" datetime="2020-08-06T12:39:58+02:00">2020-08-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Smart-tools/" itemprop="url" rel="index"><span itemprop="name">Smart tools</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>Abstract:</strong> Tex Live installation, and LaTeX basics (Doocument structure: cross referencing, footnote and sidenote, list, align, code, table, images, box; Typography style: foot and size, paragraph, header and footer; Math formula; and others (hyperlinks, color, references)).</p>
+<a id="more"></a>
+<h1>Installation</h1>
+<h2 id="install">install</h2>
+<p>open <a href="https://tug.org/texlive/" target="_blank" rel="noopener">texlive</a> -&gt; click <code>on DVD</code> -&gt; click <code>downloading the TeX Live ISO image and burning your own DVD</code> -&gt; click <code>download from a nearby CTAN mirror</code> -&gt; click <code>texlive2020.iso</code> to download the file -&gt; open the file -&gt; double click <code>install-tl-windows</code> -&gt; chose <code>Run as administrator</code> -&gt; click <code>install</code> -&gt; finished when you see <code>Welcome to TeX Live!</code></p>
+<h2 id="test">test</h2>
+<p>open <code>cmd</code> -&gt; input <code>tex -v</code>, <code>latex -v</code>, <code>xelatex -v</code></p>
+<h1>Usage of TEXworks editor</h1>
+<h2 id="tex-file"><code>.tex</code> file</h2>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">\<span class="name">documentclass</span><span class="string">[a4paper,11pt,twoside,openany]</span><span class="string">&#123;book&#125;</span></span><span class="comment">%article, report, book, proc, slides, minimal</span></span><br><span class="line"></span><br><span class="line"><span class="tag">\<span class="name">usepackage</span><span class="string">[a4paper,includeheadfoot,top=1.5cm,bottom=1.5cm,left=1.25cm,right=2cm]</span><span class="string">&#123;geometry&#125;</span></span> <span class="comment">%set margins</span></span><br><span class="line"><span class="tag">\<span class="name">usepackage</span><span class="string">&#123;graphicx&#125;</span></span> <span class="comment">%insert picture</span></span><br><span class="line"><span class="tag">\<span class="name">usepackage</span><span class="string">[colorlinks,linkcolor=black]</span><span class="string">&#123;hyperref&#125;</span></span> <span class="comment">%set dir. link</span></span><br><span class="line"><span class="tag">\<span class="name">usepackage</span><span class="string">&#123;framed&#125;</span></span> <span class="comment">%add frame</span></span><br><span class="line"><span class="tag">\<span class="name">usepackage</span><span class="string">&#123;ulem&#125;</span></span> <span class="comment">%add underline</span></span><br><span class="line"><span class="tag">\<span class="name">usepackage</span><span class="string">&#123;multirow&#125;</span></span> <span class="comment">%table</span></span><br><span class="line"><span class="tag">\<span class="name">usepackage</span><span class="string">&#123;color&#125;</span></span> <span class="comment">%color</span></span><br><span class="line"><span class="tag">\<span class="name">usepackage</span><span class="string">&#123;soul&#125;</span></span> <span class="comment">%highlight</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">%title page</span></span><br><span class="line"><span class="tag">\<span class="name">title</span><span class="string">&#123;TEST TITLE&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">author</span><span class="string">&#123;Mary\thanks&#123;E-mail: ***@***.com&#125;</span></span></span><br><span class="line">	and Ted<span class="tag">\<span class="name">thanks</span><span class="string">&#123;Corresponding author: ***@***.com&#125;</span></span></span><br><span class="line">	and Ming</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">\<span class="name">date</span><span class="string">&#123;\today&#125;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">\<span class="name">begin</span><span class="string">&#123;document&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">maketitle</span></span> <span class="comment">%title page</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">\<span class="name">begin</span><span class="string">&#123;flushright&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">section*</span><span class="string">&#123;Acknowledgement&#125;</span></span>  <span class="comment">%add acknowledgement</span></span><br><span class="line">	<span class="tag">\<span class="name">end</span><span class="string">&#123;flushright&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">addcontentsline</span><span class="string">&#123;toc&#125;</span><span class="string">&#123;section&#125;</span><span class="string">&#123;Acknowledgement&#125;</span></span></span><br><span class="line"></span><br><span class="line">	<span class="comment">%abstract and keywords for `article'</span></span><br><span class="line">	<span class="comment">%\begin&#123;abstract&#125;</span></span><br><span class="line">	<span class="comment">%\noindent\textbf&#123;Abstract:&#125;	sdifbrigk dsfbsd sdsb</span></span><br><span class="line">	<span class="comment">%\newline</span></span><br><span class="line">	<span class="comment">%\textbf&#123;keywords:&#125; \LaTeX; Article;</span></span><br><span class="line">	<span class="comment">%\end&#123;abstract&#125;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">\<span class="name">tableofcontents</span></span> <span class="comment">%add contents</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">%book struture</span></span><br><span class="line">	<span class="tag">\<span class="name">chapter</span><span class="string">&#123;Document structure&#125;</span></span></span><br><span class="line"></span><br><span class="line">	<span class="tag">\<span class="name">section</span><span class="string">&#123;cross referencing&#125;</span></span></span><br><span class="line">	A reference to this section <span class="tag">\<span class="name">label</span><span class="string">&#123;sec:this&#125;</span></span> looks like: ``see section ~<span class="tag">\<span class="name">ref</span><span class="string">&#123;sec:this&#125;</span></span> on page ~<span class="tag">\<span class="name">pageref</span><span class="string">&#123;sec:this&#125;</span></span>''</span><br><span class="line"></span><br><span class="line">	<span class="tag">\<span class="name">section</span><span class="string">&#123;footnote and sidenote&#125;</span></span></span><br><span class="line">	This is a sentence with footnote. <span class="tag">\<span class="name">footnote</span><span class="string">&#123;From saa et al. (2014)&#125;</span></span> <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	This is a sentence with sidenote. <span class="tag">\<span class="name">marginpar</span><span class="string">&#123;sidenote&#125;</span></span></span><br><span class="line"></span><br><span class="line">	<span class="tag">\<span class="name">section</span><span class="string">&#123;list&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">begin</span><span class="string">&#123;enumerate&#125;</span></span> <span class="comment">%try \begin&#123;itemize&#125;</span></span><br><span class="line">	<span class="tag">\<span class="name">item</span></span> An item  </span><br><span class="line">	<span class="tag">\<span class="name">begin</span><span class="string">&#123;enumerate&#125;</span></span></span><br><span class="line">  		<span class="tag">\<span class="name">item</span></span> A nested item. <span class="tag">\<span class="name">label</span><span class="string">&#123;itref&#125;</span></span></span><br><span class="line">  		<span class="tag">\<span class="name">item</span><span class="string">[*]</span></span> A starred item.</span><br><span class="line">	<span class="tag">\<span class="name">end</span><span class="string">&#123;enumerate&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">item</span></span> Reference (<span class="tag">\<span class="name">ref</span><span class="string">&#123;itref&#125;</span></span>)</span><br><span class="line">	<span class="tag">\<span class="name">end</span><span class="string">&#123;enumerate&#125;</span></span></span><br><span class="line"></span><br><span class="line">	<span class="tag">\<span class="name">section</span><span class="string">&#123;Align&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">begin</span><span class="string">&#123;flushleft&#125;</span></span></span><br><span class="line">	left-aligned</span><br><span class="line">	<span class="tag">\<span class="name">end</span><span class="string">&#123;flushleft&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">begin</span><span class="string">&#123;center&#125;</span></span></span><br><span class="line">	centered</span><br><span class="line">	<span class="tag">\<span class="name">end</span><span class="string">&#123;center&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">begin</span><span class="string">&#123;flushright&#125;</span></span></span><br><span class="line">	right-aligned</span><br><span class="line">	<span class="tag">\<span class="name">end</span><span class="string">&#123;flushright&#125;</span></span></span><br><span class="line"></span><br><span class="line">	<span class="tag">\<span class="name">section</span><span class="string">&#123;scripts&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">verb</span></span>|c=a+b| <span class="comment">%short code</span></span><br><span class="line">	<span class="tag">\<span class="name">begin</span><span class="string">&#123;verbatim&#125;</span></span></span><br><span class="line">	a=1</span><br><span class="line">	b=2</span><br><span class="line">	c=a+b</span><br><span class="line">	<span class="tag">\<span class="name">end</span><span class="string">&#123;verbatim&#125;</span></span> <span class="comment">%long code</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">\<span class="name">section</span><span class="string">&#123;table&#125;</span></span></span><br><span class="line">	online generator: <span class="tag">\<span class="name">url</span><span class="string">&#123;https://www.tablesgenerator.com/&#125;</span></span> <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	<span class="tag">\<span class="name">begin</span><span class="string">&#123;tabular&#125;</span><span class="string">&#123;lllll&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">hline</span></span></span><br><span class="line">	<span class="tag">\<span class="name">multirow</span><span class="string">&#123;2&#125;</span><span class="string">&#123;*&#125;</span><span class="string">&#123;Treatments&#125;</span></span> &amp; <span class="tag">\<span class="name">multicolumn</span><span class="string">&#123;2&#125;</span><span class="string">&#123;l&#125;</span><span class="string">&#123;Temperature&#125;</span></span> &amp; <span class="tag">\<span class="name">multirow</span><span class="string">&#123;2&#125;</span><span class="string">&#123;*&#125;</span><span class="string">&#123;Humidity&#125;</span></span> &amp; <span class="tag">\<span class="name">multirow</span><span class="string">&#123;2&#125;</span><span class="string">&#123;*&#125;</span><span class="string">&#123;Wind Speed&#125;</span></span> <span class="tag">\<span class="name">\</span></span></span><br><span class="line">  &amp; Max. &amp; Min. &amp; &amp;  <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	<span class="tag">\<span class="name">hline</span></span></span><br><span class="line">	A &amp; 35 &amp; 12 &amp; 80 &amp; 10 <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	B &amp; 34 &amp; 25 &amp; 60 &amp; 8 <span class="tag">\<span class="name">\</span></span> <span class="tag">\<span class="name">hline</span></span>                     </span><br><span class="line">	<span class="tag">\<span class="name">end</span><span class="string">&#123;tabular&#125;</span></span></span><br><span class="line"></span><br><span class="line">	<span class="tag">\<span class="name">section</span><span class="string">&#123;picture&#125;</span></span></span><br><span class="line">	add picture <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	<span class="tag">\<span class="name">includegraphics</span><span class="string">[width=4cm,height=3cm]</span><span class="string">&#123;pictures/1.jpg&#125;</span></span></span><br><span class="line"></span><br><span class="line">	<span class="tag">\<span class="name">section</span><span class="string">&#123;box&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">fbox</span><span class="string">&#123;sentence in the box&#125;</span></span><span class="tag">\<span class="name">\</span></span></span><br><span class="line">	<span class="tag">\<span class="name">framebox</span><span class="string">[15em]</span><span class="string">[r]</span><span class="string">&#123;sentence in the box&#125;</span></span> <span class="tag">\<span class="name">\</span></span> <span class="comment">%width and align</span></span><br><span class="line">	[1ex]</span><br><span class="line">	<span class="tag">\<span class="name">setlength</span><span class="string">&#123;\fboxrule&#125;</span><span class="string">&#123;2.5pt&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">setlength</span><span class="string">&#123;\fboxsep&#125;</span><span class="string">&#123;5em&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">framebox</span><span class="string">[10em]</span><span class="string">[c]</span><span class="string">&#123;Test box&#125;</span></span></span><br><span class="line"></span><br><span class="line">	<span class="tag">\<span class="name">chapter</span><span class="string">&#123;Typography style&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">section</span><span class="string">&#123;font and size&#125;</span></span></span><br><span class="line">		<span class="tag">\<span class="name">subsection</span><span class="string">&#123;font&#125;</span></span></span><br><span class="line">  		<span class="tag">\<span class="name">textrm</span><span class="string">&#123;Roman font family&#125;</span></span> <span class="tag">\<span class="name">\</span></span></span><br><span class="line">		<span class="tag">\<span class="name">texttt</span><span class="string">&#123;Typewriter font family&#125;</span></span> <span class="tag">\<span class="name">\</span></span></span><br><span class="line">  		<span class="tag">\<span class="name">textsf</span><span class="string">&#123;Sans serif font family&#125;</span></span> <span class="tag">\<span class="name">\</span></span></span><br><span class="line">  		<span class="tag">\<span class="name">textmd</span><span class="string">&#123;Roman font family&#125;</span></span> <span class="tag">\<span class="name">\</span></span></span><br><span class="line"> 	   <span class="tag">\<span class="name">textbf</span><span class="string">&#123;Roman font family&#125;</span></span> <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   <span class="tag">\<span class="name">textup</span><span class="string">&#123;Roman font family&#125;</span></span> <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   <span class="tag">\<span class="name">textit</span><span class="string">&#123;Roman font family&#125;</span></span> <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   <span class="tag">\<span class="name">textsl</span><span class="string">&#123;Roman font family&#125;</span></span> <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   <span class="tag">\<span class="name">textsc</span><span class="string">&#123;Roman font family&#125;</span></span> <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   <span class="tag">\<span class="name">uline</span><span class="string">&#123;xiahuaxian&#125;</span></span><span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   <span class="tag">\<span class="name">uuline</span><span class="string">&#123;shuangxiahuaxian&#125;</span></span><span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   <span class="tag">\<span class="name">uwave</span><span class="string">&#123;bolangxian&#125;</span></span><span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   <span class="tag">\<span class="name">sout</span><span class="string">&#123;shanchuxian&#125;</span></span><span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   <span class="tag">\<span class="name">xout</span><span class="string">&#123;xieshanchuxian&#125;</span></span><span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   <span class="tag">\<span class="name">dashuline</span><span class="string">&#123;xuxiahuaxian&#125;</span></span><span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   <span class="tag">\<span class="name">dotuline</span><span class="string">&#123;dianxiahuaxian&#125;</span></span><span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   <span class="tag">\<span class="name">subsection</span><span class="string">&#123;size&#125;</span></span></span><br><span class="line">	   &#123;<span class="tag">\<span class="name">tiny</span></span> tiny&#125;<span class="tag">\<span class="name">\</span></span></span><br><span class="line"> 	   &#123;<span class="tag">\<span class="name">scriptsize</span></span> scriptsize&#125;<span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   &#123;<span class="tag">\<span class="name">footnotesize</span></span> footnotesize&#125;<span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   &#123;<span class="tag">\<span class="name">small</span></span> small&#125;<span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   &#123;<span class="tag">\<span class="name">normalsize</span></span> normalsize&#125;<span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   &#123;<span class="tag">\<span class="name">large</span></span> large&#125;<span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   &#123;<span class="tag">\<span class="name">Large</span></span> Large&#125;<span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   &#123;<span class="tag">\<span class="name">LARGE</span></span> LARGE&#125;<span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   &#123;<span class="tag">\<span class="name">huge</span></span> huge&#125;<span class="tag">\<span class="name">\</span></span></span><br><span class="line">	   &#123;<span class="tag">\<span class="name">Huge</span></span> Huge&#125;<span class="tag">\<span class="name">\</span></span></span><br><span class="line">	<span class="tag">\<span class="name">section</span><span class="string">&#123;paragraph&#125;</span></span></span><br><span class="line">	<span class="comment">%indent</span></span><br><span class="line">	<span class="tag">\<span class="name">indent</span></span><span class="tag">\<span class="name">indent</span></span> first paragraph hifbreiobfreifbggidgisdfifhwiefhwoehrwoeprjwopejwor fdifhoshfsod  ihdewifheorfh ewirhi whoriewhf eweowqhr  end <span class="tag">\<span class="name">par</span></span></span><br><span class="line">	second paragraph <span class="tag">\<span class="name">par</span></span></span><br><span class="line">	third paragraph <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	fourth paragraph <span class="tag">\<span class="name">par</span></span></span><br><span class="line">	fifth paragraph <span class="tag">\<span class="name">par</span></span></span><br><span class="line">	<span class="tag">\<span class="name">noindent</span></span> sixth paragraph <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	seventh paragraph <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	<span class="comment">%horizentol spacing</span></span><br><span class="line">	Hi! <span class="tag">\<span class="name">hspace</span><span class="string">&#123;5cm&#125;</span></span> Hi Hiiiiiiiiiiiiiiiiiiiiii iiiiiiiiiiiiiiiiii iiiiiiiiiiiiiii iiiiiiiiiiiiiiiiiiiii iiiiiiiiiiiiiiiiiiiiiiii iiiiiiiiiiiiiiiiiiiiiiii iiiiiiiiiiiiiiiiiiiiiiii iiiiiiiiiiiiiiiiiiiiiiii iiiiiiiiiiiiiiiiiiiiiiiii again! <span class="tag">\<span class="name">par</span></span></span><br><span class="line">	<span class="comment">%vertical spacing (front should be \par)</span></span><br><span class="line">	<span class="tag">\<span class="name">vspace</span><span class="string">&#123;5cm&#125;</span></span></span><br><span class="line">	Hello! <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	<span class="tag">\<span class="name">section</span><span class="string">&#123;header and footer&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">thispagestyle</span><span class="string">&#123;plain&#125;</span></span> <span class="comment">%plain, empty, headings, myheadings</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="tag">\<span class="name">chapter</span><span class="string">&#123;Add math&#125;</span></span></span><br><span class="line">	In physics, the mass-energy equivalence is stated</span><br><span class="line">by the equation <span class="formula">$E=mc^2$</span>, discovered in 1905 by Albert Einstein. <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	In physics, the mass-energy equivalence is stated</span><br><span class="line">by the equation <span class="formula">$$E=mc^2$$</span>, discovered in 1905 by Albert Einstein. <span class="tag">\<span class="name">\</span></span></span><br><span class="line">   online <span class="tag">\<span class="name">LaTeX</span></span> math edito: <span class="tag">\<span class="name">url</span><span class="string">&#123;https://latex.91maths.com/&#125;</span></span> <span class="tag">\<span class="name">\</span></span></span><br><span class="line"></span><br><span class="line">	<span class="tag">\<span class="name">chapter</span><span class="string">&#123;Others&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">section</span><span class="string">&#123;hyperlinks&#125;</span></span></span><br><span class="line">	<span class="tag">\<span class="name">url</span><span class="string">&#123;https://www.overleaf.com/learn/latex/Main_Page&#125;</span></span> <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	<span class="tag">\<span class="name">href</span><span class="string">&#123;https://www.overleaf.com/learn/latex/Main_Page&#125;</span><span class="string">&#123;overleaf&#125;</span></span> <span class="tag">\<span class="name">\</span></span></span><br><span class="line"></span><br><span class="line">	<span class="tag">\<span class="name">section</span><span class="string">&#123;color&#125;</span></span></span><br><span class="line">	&#123;<span class="tag">\<span class="name">color</span><span class="string">&#123;red&#125;</span></span> red&#125; <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	&#123;<span class="tag">\<span class="name">color</span><span class="string">&#123;blue&#125;</span></span> blue&#125; <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	the color of the <span class="tag">\<span class="name">textcolor</span><span class="string">&#123;red&#125;</span><span class="string">&#123;word&#125;</span></span> is red.<span class="tag">\<span class="name">\</span></span></span><br><span class="line">	This <span class="tag">\<span class="name">hl</span><span class="string">&#123;word&#125;</span></span> will be highlight. <span class="tag">\<span class="name">\</span></span></span><br><span class="line"></span><br><span class="line">	<span class="tag">\<span class="name">section</span><span class="string">&#123;references&#125;</span></span></span><br><span class="line">	this paper <span class="tag">\<span class="name">cite</span><span class="string">&#123;ref1&#125;</span></span> shows <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	this paper <span class="tag">\<span class="name">cite</span><span class="string">&#123;ref1,ref4&#125;</span></span> introduces</span><br><span class="line">	<span class="tag">\<span class="name">begin</span><span class="string">&#123;thebibliography&#125;</span><span class="string">&#123;99&#125;</span></span>  </span><br><span class="line">	<span class="tag">\<span class="name">bibitem</span><span class="string">&#123;ref1&#125;</span></span>Zheng L, Wang S, Tian L, et al., Query-adaptive late fusion for image search and person re-identification, Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, 2015: 1741-1750.  </span><br><span class="line">	<span class="tag">\<span class="name">bibitem</span><span class="string">&#123;ref2&#125;</span></span>Arandjelović R, Zisserman A, Three things everyone should know to improve object retrieval, Computer Vision and Pattern Recognition (CVPR), 2012 IEEE Conference on, IEEE, 2012: 2911-2918.  </span><br><span class="line">	<span class="tag">\<span class="name">bibitem</span><span class="string">&#123;ref3&#125;</span></span>Lowe D G. Distinctive image features from scale-invariant keypoints, International journal of computer vision, 2004, 60(2): 91-110.  </span><br><span class="line">	<span class="tag">\<span class="name">bibitem</span><span class="string">&#123;ref4&#125;</span></span>Philbin J, Chum O, Isard M, et al. Lost in quantization: Improving particular object retrieval in large scale image databases, Computer Vision and Pattern Recognition, 2008. CVPR 2008, IEEE Conference on, IEEE, 2008: 1-8.  </span><br><span class="line">	<span class="tag">\<span class="name">end</span><span class="string">&#123;thebibliography&#125;</span></span></span><br><span class="line"></span><br><span class="line"><span class="tag">\<span class="name">end</span><span class="string">&#123;document&#125;</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="resources">resources</h2>
+<blockquote>
+<p>LaTeX tutorial: <a href="https://www.overleaf.com/learn/latex/Main_Page" target="_blank" rel="noopener">https://www.overleaf.com/learn/latex/Main_Page</a><br>
+LaTeX online math editor: <a href="https://latex.91maths.com/" target="_blank" rel="noopener">https://latex.91maths.com/</a><br>
+LaTeX/Markdown online tables generator: <a href="https://www.tablesgenerator.com/" target="_blank" rel="noopener">https://www.tablesgenerator.com/</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/LaTeX/" rel="tag"># LaTeX</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/15/16S-PICRUSt2/" rel="prev" title="16S_PICRUSt2 - predicting functional abundances based on marker gene sequences">
+      <i class="fa fa-chevron-left"></i> 16S_PICRUSt2 - predicting functional abundances based on marker gene sequences
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">Installation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#install"><span class="nav-number">1.1.</span> <span class="nav-text">install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#test"><span class="nav-number">1.2.</span> <span class="nav-text">test</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">Usage of TEXworks editor</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tex-file"><span class="nav-number">2.1.</span> <span class="nav-text">.tex file</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#resources"><span class="nav-number">2.2.</span> <span class="nav-text">resources</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ItsYunmeng" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/itsyunmeng" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;itsyunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yunmengli@hotmail.com" title="E-Mail → mailto:yunmengli@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
