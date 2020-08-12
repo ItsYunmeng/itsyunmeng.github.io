@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要: 主要介绍了流式细胞术的概念，可检测的指标，原理，以及组成（液流系统、光学系统、电子系统和分选系统）。此外，还介绍了传统的流式细胞仪（FCM）和扫描流式细胞仪（SFCM或CytoSense）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="流式细胞术_1.基础知识">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/08/12/CytoSense-1-Introduction/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="摘要: 主要介绍了流式细胞术的概念，可检测的指标，原理，以及组成（液流系统、光学系统、电子系统和分选系统）。此外，还介绍了传统的流式细胞仪（FCM）和扫描流式细胞仪（SFCM或CytoSense）。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-08-12T11:12:34.000Z">
+<meta property="article:modified_time" content="2020-08-12T16:56:24.427Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="flow cytometry">
+<meta property="article:tag" content="CytoSense">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/08/12/CytoSense-1-Introduction/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>流式细胞术_1.基础知识 | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/08/12/CytoSense-1-Introduction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          流式细胞术_1.基础知识
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-12 13:12:34 / Modified: 18:56:24" itemprop="dateCreated datePublished" datetime="2020-08-12T13:12:34+02:00">2020-08-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Instrumental-Analysis/" itemprop="url" rel="index"><span itemprop="name">Instrumental Analysis</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Instrumental-Analysis/Flow-Cytometry/" itemprop="url" rel="index"><span itemprop="name">Flow Cytometry</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>摘要:</strong> 主要介绍了流式细胞术的概念，可检测的指标，原理，以及组成（液流系统、光学系统、电子系统和分选系统）。此外，还介绍了传统的流式细胞仪（FCM）和扫描流式细胞仪（SFCM或CytoSense）。</p>
+<a id="more"></a>
+<h1>流式细胞术</h1>
+<p>流式细胞术（Flow Cytometry, FCM）是一种可以快速、准确、客观对液流中排成单列的<strong>细胞或其他生物微粒</strong>（如微球，细菌，小型模式生物等）逐个进行快速定性分析和分选的技术。<br>
+它能够同时检测快速直线流动状态中的<strong>单个</strong>微粒的多项<strong>物理及生物学</strong>特性，并可以对其加以定量，也可以对特定群体加以分选。</p>
+<h2 id="可检测的指标">可检测的指标</h2>
+<p>细胞结构：细胞大小、粒度、表面面积、核浆比例；DNA含量与细胞周期；RNA含量；蛋白质含量；染色体分析。<br>
+细胞抗原表达：细胞表面/胞浆/核的特异性抗原；细胞受体；细胞内细胞因子。<br>
+细胞功能：细胞活性；酶活性；激素结合位点；细胞凋亡；钙离子内流；pH值；细胞吞噬；氧化应激。</p>
+<h2 id="原理">原理</h2>
+<p>在一定的压力下，鞘液包裹着细胞通过喷嘴中心进入流式照射室，在流式照射室的分析点，激光能够照射到细胞发出散射光，如果细胞上携带了荧光素，会被激光激发出荧光。散射光检测器将散射光信号转换为电信号，荧光被光电倍增管收集将荧光转换为电信号，这些信号之后被一系列放大和数据化处理，存储，之后便可以根据这些信号进行分析和分选。</p>
+<h2 id="组成">组成</h2>
+<p><strong>液流系统</strong>：在压力驱动下，将鞘液和样本驱动到流动室，两者相遇但不混合，保持层流的状态依次通过检测点，最后进入废液桶。</p>
+<ul>
+<li>鞘液sheath fluid
+<ul>
+<li>鞘液指液体在高压下形成一个圆柱形液流，样品从液流的中心流过，液体就像一个鞘一样包在样品外面，以此实现两种液体的同轴流动。<strong>样本流位于轴心且稳定流动，外侧有鞘液包裹。</strong></li>
+<li>鞘液成分通常是<strong>与样品等渗的缓冲液</strong>，以保证处于鞘液中心的细胞不会因低渗或高渗而死亡。通常根据不同细胞适宜的培养条件，对缓冲液的成分作适当的改变。细胞分析一般用PBS或MilliQ；细胞分选一般用PBS；植物原生质体一般用W5溶液。<em>注意：PBS是盐溶液，容易产生结晶，影响仪器的使用寿命。</em></li>
+<li>保持样品压力与鞘液压力之间合适的压力差是<strong>保持液流平稳</strong>的重要因素。</li>
+</ul>
+</li>
+<li>流动室flow cell
+<ul>
+<li>流动室通常是顶端有开口的圆锥形结构，使液流由粗逐渐变细。一般有空中正交结构流动室（在空气中被激光束正交照射）和封闭透明照射室（在照射室内部被激光光束照射）。</li>
+<li>流速选择：高速时的轴流比低速时的宽，一次性检测到的可能是多个样本，误差变大。当样本浓度低时，可以选高速。周期实验只能用低速。</li>
+</ul>
+</li>
+<li>流体动力学聚焦和喷嘴
+<ul>
+<li>流体动力学聚焦，即流动的鞘液与流动的细胞汇合，细胞被包裹在鞘液中心且被加速，保证细胞精确排队通过激光，可使细胞受到动力学限制并保持在液流的中心。</li>
+<li>喷嘴功能：形成非常细的可见液流，使细胞以单个串状形式排列于其中，从而让激光依次照射每个细胞，分析所有细胞的特性。分选用到的比较多。有不同的型号。</li>
+</ul>
+</li>
+</ul>
+<p><strong>光学系统：</strong></p>
+<ul>
+<li>激发光源：激光器
+<table>
+<thead>
+<tr>
+<th>激光器</th>
+<th>常用通道</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>355nm紫外激光器</td>
+<td>DAPI</td>
+</tr>
+<tr>
+<td>405nm紫激光器</td>
+<td>Pacfifc</td>
+</tr>
+<tr>
+<td>488nm蓝激光器</td>
+<td>FSC/SSC、FITC</td>
+</tr>
+<tr>
+<td>561nm黄激光器</td>
+<td>PE</td>
+</tr>
+<tr>
+<td>635nmm红激光器</td>
+<td>APC、APC-Cy7</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>激光：通过激发而辐射出来的放大的光</li>
+<li>特点：方向性、单波长、高能量、小发射角、高稳定性光照</li>
+<li>聚焦光学镜：使用透镜将激光束聚焦于较小的直径内，能量主要聚焦于中心点。</li>
+<li>滤光片：长通（LP500：高于500的全部通过，其他反射）、短通（SP500：高于500的全部反射，其他通过）和带通（BP500/50：475-525的通过，其他反射）。</li>
+<li>光电倍增管（PMT）及脉冲信号
+<ul>
+<li>通过滤光片根据不同波长分离的光信号最后进入各自的通道，即PMT。PMT连接了光路系统和计算机分析处理系统，起着关键的桥梁作用。PMT将光信号转变为电子信号，并将信号按比例放大。</li>
+<li>细胞产生的光学信号（电脉冲信号）较小，必须产生足够大的电脉冲信号才能被PMT检测到。PMT的级联放大，通过改变<strong>电压</strong>进行调节。可用于细胞去黏连。
+<ul>
+<li>高度（FL-H）：最大荧光强度</li>
+<li>宽度（FL-W）：细胞直径</li>
+<li>面积（FL-A）：荧光总量的度量</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>散射光
+<ul>
+<li>FSW：前向角散射光信号 - 细胞相对大小</li>
+<li>SSW：测向角散射光信号 - 复杂程度（颗粒度）</li>
+<li>FSW和SSW分别作横坐标和纵坐标看细胞的状态</li>
+</ul>
+</li>
+<li>荧光信号
+<ul>
+<li>激发光谱指能特应性的激发某种荧光素的一定波长范围内的光线，也称为吸收光谱。吸收波峰。</li>
+<li>发射光谱，指某一波长激发光能引起荧光素发射的一定波长范围内的荧光。发射波峰。</li>
+<li>将荧光素结合到抗原上，经过激光照射，荧光信号强弱，反映了细胞抗原的表达含量。</li>
+<li>除了周期外，其他一般经过log转换。划gate（阴阳性），阴性一般调到10^3以内，阳性一般调到10^4左右.</li>
+</ul>
+</li>
+</ul>
+<p><strong>电子系统：</strong></p>
+<ul>
+<li>数据存储：及时拷走原始数据和实验室用的参数。</li>
+<li>可视化处理： 圈门（gate）是选择目标细胞群体。坐标轴是log，显示范围大，绝大多数的荧光强度均用log表示。坐标轴是线性，主要用于FSW和SSW以及周期检测。
+<ul>
+<li>单参数直方图：横坐标为Total FWS，纵坐标为Particle Count。横轴，越靠右光信号越强。</li>
+<li>双参数 二维点图：表示两种参数同时测量的结果以及与细胞数量之间的关系，可以看到每一个细胞这两个参数的表达情况，以及不同表达程度的群体分布。</li>
+<li>等高图 密度图</li>
+</ul>
+</li>
+</ul>
+<p><strong>分选系统：</strong></p>
+<ul>
+<li>可检测的样品种类多样<br>
+各种细胞、微生物、血清、血浆、培养上清、细胞裂解液等。以孢子形式繁殖的样品特别注意，孢子残留在管路中，难以清洗，只能换管路。</li>
+<li>样品制备要求
+<ul>
+<li>细胞悬液</li>
+<li>浓度5<em>10^5 ~ 1</em>10^7 cells/ml，体积约0.5-1 ml，300目筛网过滤。</li>
+<li>分选样品需提前转移到无菌流式管中，并在接收管中加适量培养基或PBS。</li>
+<li>对照：空白对照/同型对照，单阳对照（两种荧光素以上才能用到，纠正多种荧光素的光谱重叠；如果用n种燃料，就要做n个单阳；最好买串联染料；先确定仪器再确定荧光染料，根据激发的波长和接受的通道。尽量选补偿不多的通道。）<br>
+对照设置：<br>
+实验样本荧光信号：自发荧光+特异荧光+非特异荧光
+<ul>
+<li>自发荧光：不经过荧光染色细胞内部荧光分子经过光照发出的荧光，发荧光信号为噪声信号。做空白对照。</li>
+<li>特异荧光</li>
+<li>非特异荧光：通过做同型对照去除。</li>
+</ul>
+<blockquote>
+<p>荧光溢漏和荧光补偿：每一种荧光素都可以被存在激发发射光及发射波长，而各个荧光发射光之间有一定的重叠，即它会溢漏一部分的荧光到其他邻近的通道里。<br>
+荧光补偿对照的原则：补偿所用对照的荧光染料必须与当前实验所用的荧光染料一致，AF488荧光素并不能代替FITC。<br>
+单染对照的荧光强度至少要与实验样本一致，护着要超过实验样本的荧光强度。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h1>流式细胞仪(FCM)</h1>
+<p><a href="https://fcm.univ-bio.com/article.html?id=2044" target="_blank" rel="noopener">uflow</a>可以多点点，有很多资料可以看。</p>
+<h1>扫描流式细胞仪（SFCM）</h1>
+<p>增加了颗粒扫描和成像的功能，详见<a href="https://www.cytobuoy.com/product/cytosense" target="_blank" rel="noopener">CytoSense</a>。<br>
+配套的软件：CytoUSB、CytoClus和EasyClus，详见<a href="https://www.cytobuoy.com/product/software/" target="_blank" rel="noopener">Software</a>.<br>
+更多的信息，点击<a href="https://thomasruttenprojects.wordpress.com/" target="_blank" rel="noopener">Phytoplankton analysis by flowcytometry and EasyClus software</a>, <a href="http://easyclus.com/" target="_blank" rel="noopener">EasyClus</a>。</p>
+<p>Ref:</p>
+<blockquote>
+<p>Yu Bin (Tsinghua University): BD Fortessa flow cytometry  training class<br>
+Flow Cytometry Animation：<a href="https://www.youtube.com/watch?v=EQXPJ7eeesQ" target="_blank" rel="noopener">https://www.youtube.com/watch?v=EQXPJ7eeesQ</a><br>
+univ: <a href="https://fcm.univ-bio.com/article.html?id=2842" target="_blank" rel="noopener">https://fcm.univ-bio.com/article.html?id=2842</a><br>
+CytoSense: <a href="https://www.cytobuoy.com/product/cytosense" target="_blank" rel="noopener">https://www.cytobuoy.com/product/cytosense</a><br>
+ThomasRuttenProjects: <a href="https://thomasruttenprojects.wordpress.com/" target="_blank" rel="noopener">https://thomasruttenprojects.wordpress.com/</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/flow-cytometry/" rel="tag"># flow cytometry</a>
+              <a href="/tags/CytoSense/" rel="tag"># CytoSense</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/05/tutorial-LaTeX/" rel="prev" title="LaTeX基础入门">
+      <i class="fa fa-chevron-left"></i> LaTeX基础入门
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">流式细胞术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#可检测的指标"><span class="nav-number">1.1.</span> <span class="nav-text">可检测的指标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">1.2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组成"><span class="nav-number">1.3.</span> <span class="nav-text">组成</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">流式细胞仪(FCM)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">扫描流式细胞仪（SFCM）</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ItsYunmeng" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/itsyunmeng" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;itsyunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yunmengli@hotmail.com" title="E-Mail → mailto:yunmengli@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
