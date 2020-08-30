@@ -28,7 +28,7 @@
 <meta property="og:description" content="摘要: 主要介绍了流式细胞术的概念，可检测的指标，原理，以及组成（液流系统、光学系统、电子系统和分选系统）。此外，还介绍了传统的流式细胞仪（FCM）和扫描流式细胞仪（SFCM或CytoSense）。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-08-12T11:12:34.000Z">
-<meta property="article:modified_time" content="2020-08-12T16:56:24.427Z">
+<meta property="article:modified_time" content="2020-08-12T20:01:58.665Z">
 <meta property="article:author" content="Yunmeng">
 <meta property="article:tag" content="flow cytometry">
 <meta property="article:tag" content="CytoSense">
@@ -189,7 +189,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-08-12 13:12:34 / Modified: 18:56:24" itemprop="dateCreated datePublished" datetime="2020-08-12T13:12:34+02:00">2020-08-12</time>
+              <time title="Created: 2020-08-12 13:12:34 / Modified: 22:01:58" itemprop="dateCreated datePublished" datetime="2020-08-12T13:12:34+02:00">2020-08-12</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -302,9 +302,9 @@
 </li>
 <li>散射光
 <ul>
-<li>FSW：前向角散射光信号 - 细胞相对大小</li>
-<li>SSW：测向角散射光信号 - 复杂程度（颗粒度）</li>
-<li>FSW和SSW分别作横坐标和纵坐标看细胞的状态</li>
+<li>FSC：前向角散射光信号 - 细胞相对大小</li>
+<li>SSC：测向角散射光信号 - 复杂程度（颗粒度）</li>
+<li>FSC和SSC分别作横坐标和纵坐标看细胞的状态</li>
 </ul>
 </li>
 <li>荧光信号
@@ -319,9 +319,9 @@
 <p><strong>电子系统：</strong></p>
 <ul>
 <li>数据存储：及时拷走原始数据和实验室用的参数。</li>
-<li>可视化处理： 圈门（gate）是选择目标细胞群体。坐标轴是log，显示范围大，绝大多数的荧光强度均用log表示。坐标轴是线性，主要用于FSW和SSW以及周期检测。
+<li>可视化处理： 圈门（gate）是选择目标细胞群体。坐标轴是log，显示范围大，绝大多数的荧光强度均用log表示。坐标轴是线性，主要用于FSC和SSC以及周期检测。
 <ul>
-<li>单参数直方图：横坐标为Total FWS，纵坐标为Particle Count。横轴，越靠右光信号越强。</li>
+<li>单参数直方图：横坐标为Total FWC，纵坐标为Particle Count。横轴，越靠右光信号越强。</li>
 <li>双参数 二维点图：表示两种参数同时测量的结果以及与细胞数量之间的关系，可以看到每一个细胞这两个参数的表达情况，以及不同表达程度的群体分布。</li>
 <li>等高图 密度图</li>
 </ul>
@@ -334,7 +334,7 @@
 <li>样品制备要求
 <ul>
 <li>细胞悬液</li>
-<li>浓度5<em>10^5 ~ 1</em>10^7 cells/ml，体积约0.5-1 ml，300目筛网过滤。</li>
+<li>浓度5 x 10^5 ~ 1 x 10^7 cells/ml，体积约0.5-1 ml，300目筛网过滤。</li>
 <li>分选样品需提前转移到无菌流式管中，并在接收管中加适量培养基或PBS。</li>
 <li>对照：空白对照/同型对照，单阳对照（两种荧光素以上才能用到，纠正多种荧光素的光谱重叠；如果用n种燃料，就要做n个单阳；最好买串联染料；先确定仪器再确定荧光染料，根据激发的波长和接受的通道。尽量选补偿不多的通道。）<br>
 对照设置：<br>
@@ -389,7 +389,10 @@ ThomasRuttenProjects: <a href="https://thomasruttenprojects.wordpress.com/" targ
     <a href="/2020/08/05/tutorial-LaTeX/" rel="prev" title="LaTeX基础入门">
       <i class="fa fa-chevron-left"></i> LaTeX基础入门
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/08/19/CytoSense-2-SoftwareandParameters/" rel="next" title="流式细胞术_2.相关软件和参数详解">
+      流式细胞术_2.相关软件和参数详解 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -465,7 +468,7 @@ ThomasRuttenProjects: <a href="https://thomasruttenprojects.wordpress.com/" targ
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

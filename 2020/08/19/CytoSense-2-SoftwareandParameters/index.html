@@ -20,15 +20,20 @@
     var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Yunmeng&#39;s Blog">
-<meta property="og:url" content="https://itsyunmeng.github.io/tags/Rbasics/index.html">
+  <meta name="description" content="Abstract: 主要介绍了CytoSense数据监测及分析所用软件CytoUSB和CytoClus中相关参数设置以及含义。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="流式细胞术_2.相关软件和参数详解">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/08/19/CytoSense-2-SoftwareandParameters/index.html">
 <meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="Abstract: 主要介绍了CytoSense数据监测及分析所用软件CytoUSB和CytoClus中相关参数设置以及含义。">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-08-19T10:01:37.000Z">
+<meta property="article:modified_time" content="2020-08-19T14:57:06.111Z">
 <meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="CytoSense">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://itsyunmeng.github.io/tags/Rbasics/">
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/08/19/CytoSense-2-SoftwareandParameters/">
 
 
 <script id="page-configurations">
@@ -36,11 +41,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false
+    isPost : true
   };
 </script>
 
-  <title>Tag: Rbasics | Yunmeng's Blog</title>
+  <title>流式细胞术_2.相关软件和参数详解 | Yunmeng's Blog</title>
   
 
 
@@ -154,110 +159,139 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h1 class="collection-header">Rbasics
-          <small>Tag</small>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/08/19/CytoSense-2-SoftwareandParameters/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          流式细胞术_2.相关软件和参数详解
         </h1>
-      </div>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-19 12:01:37 / Modified: 16:57:06" itemprop="dateCreated datePublished" datetime="2020-08-19T12:01:37+02:00">2020-08-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Instrumental-Analysis/" itemprop="url" rel="index"><span itemprop="name">Instrumental Analysis</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Instrumental-Analysis/Flow-Cytometry/" itemprop="url" rel="index"><span itemprop="name">Flow Cytometry</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2020</h1>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-03-14T16:46:36+01:00"
-              content="2020-03-14">
-          03-14
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/03/14/Ryuyanshizhan4-jibenshujuguanli/" itemprop="url">
-            <span itemprop="name">笔记_R语言实战_4.基本数据管理</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-03-12T14:42:32+01:00"
-              content="2020-03-12">
-          03-12
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/03/12/Ryuyanshizhan3-tuxingchuji/" itemprop="url">
-            <span itemprop="name">笔记_R语言实战_3.图形初阶</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-03-11T11:07:39+01:00"
-              content="2020-03-11">
-          03-11
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/03/11/Ryuyanshizhan2-chuangjianshujuji/" itemprop="url">
-            <span itemprop="name">笔记_R语言实战_2.创建数据集</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-03-10T19:44:12+01:00"
-              content="2020-03-10">
-          03-10
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/03/10/Ryuyanshizhan1-Ryuyanjieshao/" itemprop="url">
-            <span itemprop="name">笔记_R语言实战_1.R语言介绍</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
+        <p><strong>Abstract:</strong> 主要介绍了CytoSense数据监测及分析所用软件CytoUSB和CytoClus中相关参数设置以及含义。</p>
+<a id="more"></a>
+<p>为了控制CytoSense并分析其测得的结果，开发了相应的软件：CytoUSB和CytoClus。</p>
+<h1>CytoUSB</h1>
+<p>CytoUSB用于控制CytoSense，其主要功能包括：执行CytoSense的微调、校准和运行状况检查；设定相关的检测参数值和数据实时可视化，以优化实验方案，得到最优的结果。</p>
+<h2 id="实验设置">实验设置</h2>
+<p>？读取的颗粒数目，相应的测定的样本体积，流速是多少。<br>
+激发通道（trigger channel）/激发光；激发水平：mV；一般根据研究的对象选择激发光，如果是针对光合的浮游生物，其具有强烈的来自chl a的红色荧光信号，那就选择FL Red作为激发通道，激发水平的高低决定了chla浓度高低是多少时才可以被检测到，其也可以通过调节接受二极管检测器的灵敏度（photomultiplier detector sensitivities）进行优化，以尽可能的检测到所有的颗粒，并减少背景噪音。？</p>
+<h2 id="参数释义">参数释义</h2>
+<ul>
+<li><strong>Forward light scatter (FWS)</strong>: 细胞尺寸（cell size)</li>
+<li><strong>Sideward light scatter (SWS)</strong>: 细胞粒度和表面复杂性（cellular granularity and surface complexity)</li>
+<li><strong>FL Yellow</strong>：decaying pigments</li>
+<li><strong>FL Orange</strong>：藻胆蛋白（phycobiliproteins）</li>
+<li><strong>FL Red</strong>：叶绿素a（Chl a）</li>
+<li><strong>Curvature</strong>：如果颗粒具有弯曲或螺旋形状，则前向散射极化比（forward scatter polarization ratio）很高</li>
+</ul>
+<h1>CytoCLus 4</h1>
+<p>CytoUSB生成的文件可通过CytoClus进行处理和分析，其主要功能包括：手动划门对数据进行分类和解释；计算数据集的主要统计参数并作图；交互式定位物种以对样品成像，从而实现集群识别。</p>
+<h2 id="参数释义-2">参数释义</h2>
+<p>CytoClus 4统计了颗粒的许多参数，包括Length, Total, Maximum, Average, Inertia, Center of gravity, Fill factor, Asymmetry, Number of cells, Sample Length, Time of Arrival, First, Last, Minimum, 以及SWS covariance。每个参数都有其生物学解释，即相应的功能特征（functional traits）。可根据研究目的选择相应的参数进行统计和分析。<br>
+每个颗粒都会有一个<strong>脉冲形状（pulse shape）图</strong>，其横坐标为信号长度（signal length (μm))，纵坐标为信号水平（signal level (mV))。</p>
+<ul>
+<li><strong>Length (μm)</strong>：脉冲形状图的横坐标</li>
+<li><strong>Total</strong>：脉冲形状图所覆盖的区域，即信号的总强度</li>
+<li><strong>Average (mV)</strong>: 脉冲形状图纵坐标的平均值，即平均信号强度</li>
+<li><strong>Maximum (mV)</strong>: 脉冲形状图的纵坐标最大值，即最大的信号强度</li>
+<li><strong>Inertia</strong>：</li>
+<li><strong>Center of gravity</strong>：信号强度的重心</li>
+<li><strong>Fill factor</strong>：根据脉冲形状图画一个矩形，此处是指其中被覆盖的区域与被未被覆盖的区域比。用以评估细胞的形状，值高表示细胞是类似球形的，值低表示细胞是类似方形的。</li>
+<li><strong>Asymmetry</strong>：用颗粒信号强度重心的相对位置评估颗粒的不对称，表示细胞不对称的程度</li>
+<li><strong>Number of cells</strong>：脉冲形状中有意义的峰的数目，用以代表细胞的数目，是一个近似值，而不是实际值。</li>
+<li><strong>Sample Length (μs)</strong></li>
+<li><strong>Time of Arrival (s)</strong></li>
+<li><strong>First (mV)</strong></li>
+<li><strong>Last (mV)</strong></li>
+<li><strong>Minimum (mV)</strong>：脉冲形状图的纵坐标最小值，即最小的信号强度</li>
+<li><strong>SWS covariance</strong></li>
+</ul>
+<h1>EasyClus</h1>
+<p>在Matlab环境中工作，基于数据库执行集群的自动聚类、自动数据库划分和分类。流式细胞仪分析过程中产生的图像用于验证结果。</p>
+<p>Ref:</p>
+<blockquote>
+<p>CytoBuoy software: <a href="https://www.cytobuoy.com/product/software/" target="_blank" rel="noopener">https://www.cytobuoy.com/product/software/</a><br>
+Fragoso, G. M., Poulton, A. J., Pratt, N. J., Johnsen, G., &amp; Purdie, D. A. (2019). Trait‐based analysis of subpolar North Atlantic phytoplankton and plastidic ciliate communities using automated flow cytometer. Limnology and Oceanography, 64(4), 1763-1778.</p>
+</blockquote>
 
     </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CytoSense/" rel="tag"># CytoSense</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/12/CytoSense-1-Introduction/" rel="prev" title="流式细胞术_1.基础知识">
+      <i class="fa fa-chevron-left"></i> 流式细胞术_1.基础知识
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
@@ -308,6 +342,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">CytoUSB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实验设置"><span class="nav-number">1.1.</span> <span class="nav-text">实验设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数释义"><span class="nav-number">1.2.</span> <span class="nav-text">参数释义</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">CytoCLus 4</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#参数释义-2"><span class="nav-number">2.1.</span> <span class="nav-text">参数释义</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">EasyClus</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
