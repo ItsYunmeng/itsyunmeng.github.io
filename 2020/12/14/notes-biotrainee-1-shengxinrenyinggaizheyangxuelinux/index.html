@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Neo Sans Intel:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Helvetica:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"itsyunmeng.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="摘要：生信技能树-生信人应该这样学linux视频笔记和作业。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="笔记_[生信技能树]生信人应该这样学Linux">
+<meta property="og:url" content="https://itsyunmeng.github.io/2020/12/14/notes-biotrainee-1-shengxinrenyinggaizheyangxuelinux/index.html">
+<meta property="og:site_name" content="Yunmeng&#39;s Blog">
+<meta property="og:description" content="摘要：生信技能树-生信人应该这样学linux视频笔记和作业。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-12-14T10:29:26.000Z">
+<meta property="article:modified_time" content="2020-12-16T15:20:34.447Z">
+<meta property="article:author" content="Yunmeng">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://itsyunmeng.github.io/2020/12/14/notes-biotrainee-1-shengxinrenyinggaizheyangxuelinux/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>笔记_[生信技能树]生信人应该这样学Linux | Yunmeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yunmeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://itsyunmeng.github.io/2020/12/14/notes-biotrainee-1-shengxinrenyinggaizheyangxuelinux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yunmeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunmeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          笔记_[生信技能树]生信人应该这样学Linux
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-12-14 11:29:26" itemprop="dateCreated datePublished" datetime="2020-12-14T11:29:26+01:00">2020-12-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-16 16:20:34" itemprop="dateModified" datetime="2020-12-16T16:20:34+01:00">2020-12-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Statistics/" itemprop="url" rel="index"><span itemprop="name">Statistics</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Statistics/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>摘要</strong>：生信技能树-生信人应该这样学linux视频笔记和作业。</p>
+<a id="more"></a>
+<h1>学习资源介绍</h1>
+<p>公众号回复“马哥”：</p>
+<ul>
+<li>马哥linux运维，看到P30。(推荐B站兄弟连)</li>
+<li>生物信息学之linux，学完(即本文档）。</li>
+<li><a href="http://www.bio-info-trainee.com/2900.html" target="_blank" rel="noopener">完成linux的20道习题</a>(见linux作业)</li>
+<li>完成生物信息学数据格式的习题(blast/blat/fa-fq/sam-bam/vcf/bed/gtf-gff)，收集这些格式的说明书.(见数据格式)</li>
+<li><a href="http://www.bio-info-trainee.com/3575.html" target="_blank" rel="noopener">fasta和fastq格式文件的shell小练习</a>(见fa-fq的linux练习题)</li>
+<li><a href="http://www.bio-info-trainee.com/3578.html" target="_blank" rel="noopener">sam和bam格式文件的shell小练习</a>(见bam-sam的linux练习题)</li>
+<li><a href="http://www.bio-info-trainee.com/3577.html" target="_blank" rel="noopener">VCF格式文件的shell小练习</a>(?)</li>
+</ul>
+<p>相关的工具书：</p>
+<ul>
+<li>Linux命令行与shell脚本编程大全</li>
+</ul>
+<h1>系统认知</h1>
+<p>登录服务器：使用xshell和xftp</p>
+<h1>去可视化的命令行</h1>
+<ul>
+<li>基础知识：cd -, cd …, cd -, history, !5,  /home/, /tmp/, &gt;,&amp;，jobs,nohup 1,2,0</li>
+<li><a href="https://itsyunmeng.github.io/2020/06/02/4-1wenjianchulimingling/">文件目录操作</a>：ls, cd, pwd, mkdir, rm, mv, cp, touch, head, tail, less, more</li>
+<li><a href="https://itsyunmeng.github.io/2020/06/02/4-2quanxianguanlimingling/">用户权限</a>：chown, chgrp, groups, ls</li>
+<li><a href="https://itsyunmeng.github.io/2020/12/15/13-1-linuxxitongguanli/#more">系统管理</a>：df,du,top,free,ps,ifconfig,netstat,ssh,scp,</li>
+<li><a href="https://itsyunmeng.github.io/2020/12/14/11-2-Shell-zifujiequmingling/#more">文本操作</a>：awk,grep,sed,paste,cat,diff,wc,vim</li>
+</ul>
+<h1>文本处理</h1>
+<p>命令： wget, wc, grep, |, cut, awk, sort</p>
+<ul>
+<li>wc: 查看行数、单词数和字节数。</li>
+<li>grep: <code>grep H3K4me1 test.bed -n</code></li>
+<li><code>cat -n test.bed | grep H3K4me1</code></li>
+<li>按列： <code>cut -f 1-3 test.bed</code></li>
+<li>awk: <code>cut -f 1-3 test.bed | awk '{print $1&quot;:&quot;$2&quot;,&quot;$3}'</code></li>
+</ul>
+<h1>软件安装</h1>
+<p>命令： tr</p>
+<ul>
+<li>tr: <code>echo $PATH | tr &quot;:&quot; &quot;\n&quot;</code> 替换</li>
+</ul>
+<p>软件安装： <a href="https://itsyunmeng.github.io/2020/06/05/Bioconda/">bioconda</a><br>
+解压:</p>
+<ul>
+<li><code>unzip</code></li>
+<li><code>tar -zxvf/-jxvf</code> <code>*.gz文件</code> 和<code>*.bz2</code></li>
+</ul>
+<h1>环境变量</h1>
+<p><code>vim ~/.bashrc</code><br>
+将路径添加到文件中路径的最后面<br>
+<code>source ~/.bashrc</code></p>
+<h1>Shell脚本编程</h1>
+<h1>脚本要学好</h1>
+<p>看本blog中的shell相关</p>
+<h1>10个题目的答案讲解</h1>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ls</span> . | wc <span class="comment">#列出当前目录下的文件个数</span></span><br><span class="line">cat <span class="string">/etc/issue</span> <span class="comment">#查看系统版本</span></span><br><span class="line"><span class="keyword">echo</span> $PATH|tr <span class="string">":"</span> <span class="string">"\n"</span>|wc <span class="comment">#PATH下有多少个路径</span></span><br></pre></td></tr></table></figure>
+<h1>数据格式</h1>
+<ul>
+<li>fasta and fastq<br>
+原始数据文件<br>
+<a href="https://en.wikipedia.org/wiki/FASTA" target="_blank" rel="noopener">fasta</a>文件格式<br>
+<a href="https://en.wikipedia.org/wiki/FASTQ_format" target="_blank" rel="noopener">fastq</a>文件格式</li>
+<li>sam and bam<br>
+比对的文件<br>
+<a href="https://en.wikipedia.org/wiki/SAM_(file_format)" target="_blank" rel="noopener">SAM</a>文件格式：10个必选字段1个可选字段<br>
+通过samtools将sam文件转化成bam文件（sam的压缩文件，占内存小），用<code>samtools view 文件名</code>查看bam文件。</li>
+<li>gff and gtf<br>
+注释的文件<br>
+<a href="https://en.wikipedia.org/wiki/General_feature_format" target="_blank" rel="noopener">gff</a>主要用来注释基因组；<a href="https://en.wikipedia.org/wiki/Gene_transfer_format" target="_blank" rel="noopener">gtf</a>主要用来注释基因。</li>
+<li>vcf<br>
+对处理后的bam文件进行下游的SNP分析，生成<a href="https://en.wikipedia.org/wiki/Variant_Call_Format" target="_blank" rel="noopener">vcf</a>文件。</li>
+</ul>
+<blockquote>
+<p><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1608062443&amp;ver=2768&amp;signature=-nscqhEqRPBalGnvVClPxHze4*TQOauIUWfLckFnxlfEhJv6lqL6X9YdKbDLEAtpGDZ-KiqGS8sSDn7FuggiODvI-xc487zcdoOAXjJHogzUViER*3EQMLue26966*RJ&amp;new=1" target="_blank" rel="noopener">一个视频教你搞明白Fasta、Fastq、SAM、BAM……</a></p>
+</blockquote>
+<h1>fa-fq的linux练习题</h1>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mkdir</span> biosoft</span><br><span class="line">cd biosoft/</span><br><span class="line">wget https:<span class="regexp">//sourceforge</span>.net/projects/bowtie-bio/files/bowtie2/<span class="number">2.3</span>.<span class="number">4.3</span>/bowtie2-<span class="number">2.3</span>.<span class="number">4.3</span>-linux-x86_64.zip</span><br><span class="line">unzip bowtie2-<span class="number">2.3</span>.<span class="number">4.3</span>-linux-x86_64.zip</span><br><span class="line">cd bowtie2-<span class="number">2.3</span>.<span class="number">4.3</span>-linux-x86_64/example/reads/</span><br><span class="line"></span><br><span class="line">wc reads_1.fq <span class="comment">#10000条序列信息</span></span><br><span class="line">cat reads_1.f<span class="string">q | paste - - - - |</span> awk <span class="string">'&#123;print $1&#125;'</span></span><br><span class="line">cat reads_1.f<span class="string">q | paste - - - - |</span> awk <span class="string">'&#123;print $2&#125;'</span></span><br><span class="line">cat reads_1.f<span class="string">q | paste - - - - |</span> awk <span class="string">'&#123;print $3&#125;'</span></span><br><span class="line">cat reads_1.f<span class="string">q | paste - - - - |</span> awk <span class="string">'&#123;print $4&#125;'</span> <span class="comment">#或直接cut -f4</span></span><br><span class="line"></span><br><span class="line">cat reads_1.f<span class="string">q | paste - - - - |</span> awk <span class="string">'&#123;print $2&#125;'</span>|<span class="keyword">grep</span> N | wc  <span class="comment">#含有N的reads数是6429</span></span><br><span class="line">cat reads_1.f<span class="string">q | paste - - - - |</span> awk <span class="string">'&#123;print $2&#125;'</span>|<span class="keyword">grep</span> -o [ATGCN] | wc <span class="comment">#序列的碱基总数为1088399</span></span><br><span class="line">cat reads_1.f<span class="string">q | paste - - - - |</span> awk <span class="string">'&#123;print $2&#125;'</span>|<span class="keyword">grep</span> -o N | wc <span class="comment">#所有reads中N碱基的总数是26001</span></span><br><span class="line">cat reads_1.f<span class="string">q | paste - - - - |</span> awk <span class="string">'&#123;print $4&#125;'</span>|<span class="keyword">grep</span> -o <span class="number">5</span>|wc <span class="comment">#碱基质量值恰好为Q20的个数为21369</span></span><br><span class="line">cat reads_1.f<span class="string">q | paste - - - - |</span> awk <span class="string">'&#123;print $4&#125;'</span>|<span class="keyword">grep</span> -o ?|wc <span class="comment">#碱基质量值恰好为Q30的个数为21574</span></span><br><span class="line"><span class="comment">#对照质量值表，phred+33找到对应的字符。</span></span><br><span class="line"></span><br><span class="line">cat reads_1.f<span class="string">q | paste - - - - |</span> awk <span class="string">'&#123;print $2&#125;'</span>|cut -c <span class="number">1</span>|<span class="keyword">sort</span>|uniq -c <span class="comment">#统计所有序列的第一位碱基的ATCGN分布情况</span></span><br><span class="line">awk <span class="string">'&#123;if(NR%4 == 1)&#123;print "&gt;" substr($0, 2)&#125;&#125;&#123;if(NR%4 == 2)&#123;print&#125;&#125;'</span> reads_1.fq &gt; reads_1.fa <span class="comment">#将fq转化成fa</span></span><br><span class="line">wc reads_1.fa <span class="comment">#10000条序列</span></span><br><span class="line">cat reads_1.fa | paste - - | awk <span class="string">'&#123;print $2&#125;'</span>|<span class="keyword">grep</span> -o [GC]|wc <span class="comment">#总的碱基序列的G、C数量是529983</span></span><br><span class="line">cat reads_1.fa | <span class="keyword">tr</span> -d N|<span class="keyword">grep</span> -o N|wc <span class="comment">#删除每条序列的N碱基</span></span><br><span class="line"></span><br><span class="line">cat reads_1.fa | paste - -|<span class="keyword">grep</span> -v N |<span class="keyword">tr</span> <span class="string">"\t"</span> <span class="string">"\n"</span> <span class="comment">#删除含有N碱基的序列</span></span><br><span class="line">cat reads_1.fa | paste - -|awk <span class="string">'&#123;if(length($2)&gt;65)print&#125;'</span>|<span class="keyword">tr</span> <span class="string">"\t"</span> <span class="string">"\n"</span> <span class="comment">#删除短于65bp的序列</span></span><br><span class="line">cat reads_1.fa | awk <span class="string">'&#123;sub(/^.&#123;5&#125;/,"")&#125;1'</span> |awk <span class="string">'&#123;sub(/.&#123;5&#125;$/,"")&#125;1'</span> <span class="comment">#删除每条序列的前后五个碱基</span></span><br><span class="line">cat reads_1.fa | paste - -|awk <span class="string">'&#123;if(length($2)&lt;=125)print&#125;'</span>|<span class="keyword">tr</span> <span class="string">"\t"</span> <span class="string">"\n"</span> <span class="comment">#删除长于125bp的序列</span></span><br><span class="line">cat reads_1.f<span class="string">q | paste - - - -|</span> awk <span class="string">'&#123;print $4&#125;'</span>|cut -c <span class="number">1</span>|<span class="keyword">sort</span>|uniq -c <span class="comment">#可根据碱基质量字符的数目预估一下，如果多个字符的数目分布相对均衡，可直接fastqc去看per case sequence quality  #查看reads_1.fq中每条序列的第一位碱基的质量值的平均值</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a href="c.biancheng.net/c/ascii/">ASCII码一览表，ASCII码对照表</a></p>
+</blockquote>
+<h1>sam-bam的linux练习题</h1>
+<p>bam文件要先进行排序，才能进行index，即<code>samtools index 排序后的bam文件</code>。<br>
+bam文件可视化用IGV。</p>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#navigate to the same directory <span class="built_in">as</span> the previous question</span><br><span class="line">bowtie2 -x ../index/lambda_virus <span class="number">-1</span> reads_1.fq <span class="number">-2</span> reads_2.fq &gt;tmp.sam #得到比对文件tmp.sam</span><br><span class="line"></span><br><span class="line">less -S tmp.sam #查看sam文件</span><br><span class="line">cat tmp.sam | <span class="type">grep</span> -v <span class="string">"^@"</span>|<span class="type">wc</span> -l #删掉@开头的，然后除以<span class="number">2</span>，共有<span class="number">10000</span>条pair-<span class="keyword">end</span> reads参与了比对参考基因组</span><br><span class="line">cat tmp.sam | <span class="type">grep</span> -v <span class="string">"^@"</span>|<span class="type">cut</span> -f2|<span class="type">sort</span>|<span class="type">uniq</span> -c|<span class="type">wc</span> -l #多少种比对的类型(即第二列数值有多少种)及其分布 #<span class="number">20</span>种，结果中第二列是比对的类型，第一列是其数目。</span><br><span class="line">cat tmp.sam | <span class="type">grep</span> -v <span class="string">"^@"</span>|<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">6</span>==<span class="string">"*"</span>)print&#125;'|<span class="type">less</span> -S #第六列为*代表比对失败，序列太多N</span><br><span class="line">cat tmp.sam | <span class="type">grep</span> -v <span class="string">"^@"</span>|<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">6</span>==<span class="string">"*"</span>)print&#125;'|<span class="type">cut</span> -f1|<span class="type">sort</span>| <span class="type">uniq</span> -c|<span class="type">wc</span> #第一例为序列ID</span><br><span class="line">cat tmp.sam | <span class="type">grep</span> -v <span class="string">"^@"</span>|<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">6</span>==<span class="string">"*"</span>)print&#125;'|<span class="type">cut</span> -f1|<span class="type">sort</span>| <span class="type">uniq</span> -c|<span class="type">grep</span> -w <span class="number">1</span>|<span class="type">wc</span> #单端失败</span><br><span class="line">cat tmp.sam | <span class="type">grep</span> -v <span class="string">"^@"</span>|<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">6</span>==<span class="string">"*"</span>)print&#125;'|<span class="type">cut</span> -f1|<span class="type">sort</span>| <span class="type">uniq</span> -c|<span class="type">grep</span> -w <span class="number">2</span>|<span class="type">wc</span> #双端失败</span><br><span class="line">cat tmp.sam | <span class="type">grep</span> -v <span class="string">"^@"</span>|<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">5</span>&gt;<span class="number">30</span>)print&#125;'|<span class="type">wc</span> #质量值看第五列，大于<span class="number">30</span>的有<span class="number">18632</span>条单端reads</span><br><span class="line"></span><br><span class="line">cat tmp.sam | <span class="type">grep</span> -v <span class="string">"^@"</span>|<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">6</span>!=<span class="string">"*"</span>)print&#125;'|<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">6</span>~<span class="string">"[IDNXSHP]"</span>)print&#125;'|<span class="type">less</span> -S #比对成功但不是完全匹配，即第六列不是*，但是除了M也还有其他的字符IDNXSHP表示insert、delete、skipped、mismatch、soft clipping、hard clipping、padding。</span><br><span class="line">cat tmp.sam | <span class="type">grep</span> -v <span class="string">"^@"</span>|<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">9</span>&gt;<span class="number">1250</span> |<span class="type">| $9</span>&lt;<span class="number">-1250</span>)print&#125;'|<span class="type">less</span> -S #inset size长度大于<span class="number">1250</span>bp的 pair-<span class="keyword">end</span> reads</span><br><span class="line">cat tmp.sam | <span class="type">grep</span> -v <span class="string">"^@"</span>|<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">6</span>!=<span class="string">"*"</span>)print&#125;'|<span class="type">cut</span> -f3|<span class="type">sort</span>|<span class="type">uniq</span> -c #各染色体的成功比对reads数</span><br><span class="line">cat tmp.sam |<span class="type">grep</span> -v <span class="string">"^@"</span>|<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">10</span>~<span class="string">"N"</span>)print&#125;'|<span class="type">wc</span> #序列里有N的比对情况，对照cat tmp.sam |<span class="type">grep</span> -v <span class="string">"^@"</span>|<span class="type">cut</span> -f10 |<span class="type">grep</span> N|<span class="type">wc</span>。可看到N不影响<span class="keyword">match</span>，仍然可完全匹配。</span><br><span class="line">cat tmp.sam |<span class="type">grep</span> -v <span class="string">"^@"</span>|<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">10</span>~<span class="string">"N"</span>)print&#125;'|<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">6</span>!=<span class="string">"*"</span>)print&#125;'|<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">6</span>!~<span class="string">"[IDNXSHP]"</span>)print&#125;'|<span class="type">less</span> -S #序列里有N，且完全匹配</span><br><span class="line"></span><br><span class="line">cat tmp.sam | <span class="type">grep</span> <span class="string">"^@"</span>|<span class="type">wc</span>  #头文件行数<span class="number">3</span></span><br><span class="line">???  #sam文件里每一行的tags个数一样吗 #sam文件里每一行的tags个数分别是多少个</span><br><span class="line">cat tmp.sam | <span class="type">grep</span> '^@' | <span class="type">grep</span> 'LN' #sam文件里记录的参考基因组染色体长度分别是？-&gt; 看头文件中LN的值</span><br><span class="line">cat tmp.sam | <span class="type">grep</span> -v '^@' |<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">6</span>~<span class="string">"I"</span>)print&#125;'|<span class="type">less</span> -S #找到比对情况有insertion情况的</span><br><span class="line">cat tmp.sam | <span class="type">grep</span> -v '^@' |<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">6</span>~<span class="string">"D"</span>)print&#125;'|<span class="type">less</span> -S #找到比对情况有deletion情况的</span><br><span class="line"></span><br><span class="line">cat tmp.sam | <span class="type">grep</span> -v '^@' |<span class="type">awk</span> '&#123;<span class="keyword">if</span>($<span class="number">4</span>&gt;<span class="number">5013</span> &amp;&amp; $<span class="number">4</span>&lt;<span class="number">50130</span>)print&#125;'|<span class="type">less</span> -S #看第四列 #取出位于参考基因组某区域的比对记录，比如 <span class="number">5013</span>到<span class="number">50130</span> 区域</span><br><span class="line">sort -k <span class="number">3</span>,<span class="number">3</span> -k <span class="number">4</span>,<span class="number">4</span>n tmp.sam|<span class="type">less</span> -S #-k [n,m]，按照指定的字段范围排序，从第n个字段开始，到第m个字段结束。 #把sam文件按照染色体$<span class="number">3</span>以及起始坐标$<span class="number">4</span>排序</span><br><span class="line">grep <span class="number">102</span>M3D11M tmp.sam|<span class="type">cut</span> -f10|<span class="type">wc</span> #找到 <span class="number">102</span>M3D11M 的比对情况，计算其reads片段长度。</span><br><span class="line">#安装samtools软件后使用samtools软件的各个功能尝试把上述题目重新做一遍。</span><br></pre></td></tr></table></figure>
+<h1>linux作业</h1>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -<span class="keyword">p</span> test/<span class="number">1</span>/<span class="number">2</span>/<span class="number">3</span>/<span class="number">4</span>/<span class="number">5</span>/<span class="number">6</span>/<span class="number">7</span>/<span class="number">8</span>/<span class="number">9</span></span><br><span class="line">touch test/<span class="number">1</span>/<span class="number">2</span>/<span class="number">3</span>/<span class="number">4</span>/<span class="number">5</span>/<span class="number">6</span>/<span class="number">7</span>/<span class="number">8</span>/<span class="number">9</span>/<span class="keyword">me</span>.txt</span><br><span class="line"><span class="keyword">vim</span> test/<span class="number">1</span>/<span class="number">2</span>/<span class="number">3</span>/<span class="number">4</span>/<span class="number">5</span>/<span class="number">6</span>/<span class="number">7</span>/<span class="number">8</span>/<span class="number">9</span>/<span class="keyword">me</span>.txt</span><br><span class="line">rm -r test/</span><br><span class="line"><span class="built_in">mkdir</span> -<span class="keyword">p</span> test/folder&#123;<span class="number">1</span>..<span class="number">5</span>&#125;/folder&#123;<span class="number">1</span>..<span class="number">5</span>&#125;</span><br><span class="line"><span class="keyword">ls</span> test/*</span><br><span class="line"></span><br><span class="line"><span class="keyword">vim</span> <span class="keyword">me</span>.txt</span><br><span class="line"><span class="keyword">echo</span> test/folder&#123;<span class="number">1</span>..<span class="number">5</span>&#125;/folder&#123;<span class="number">1</span>..<span class="number">5</span>&#125;|xargs -n <span class="number">1</span> <span class="keyword">cp</span> <span class="keyword">me</span>.txt -v</span><br><span class="line">rm -rf test/</span><br><span class="line">wget http://www.biotrainee.<span class="keyword">com</span>/jmzeng/igv/test.bed</span><br><span class="line">wc test.bed</span><br><span class="line"><span class="keyword">grep</span> H3K4me3 test.bed -n</span><br><span class="line">wget http://www.biotrainee.<span class="keyword">com</span>/jmzeng/rmDuplicate.zip</span><br><span class="line">unzip rmDuplicate.zip</span><br><span class="line">biosoft/tree-<span class="number">1.8</span>.<span class="number">0</span>/tree rmDuplicate</span><br><span class="line"><span class="keyword">cd</span> rmDuplicate/samtools/single/</span><br><span class="line">less -S tmp.sam</span><br><span class="line"></span><br><span class="line">#sam和bam的定义#</span><br><span class="line">conda install samtools</span><br><span class="line">samtools <span class="keyword">view</span> tmp.rmdup.bam |less -S</span><br><span class="line">samtools <span class="keyword">view</span> -bS <span class="keyword">abc</span>.sam -<span class="keyword">o</span> <span class="keyword">abc</span>.bam</span><br><span class="line">samtools <span class="keyword">view</span> tmp.rmdup.bam |cut -f2|<span class="keyword">sort</span>|uniq -<span class="keyword">c</span></span><br><span class="line"><span class="keyword">cd</span> ../paired/</span><br><span class="line">samtools <span class="keyword">view</span> tmp.rmdup.bam |cut -f2|<span class="keyword">sort</span>|uniq -<span class="keyword">c</span></span><br><span class="line"></span><br><span class="line">wget http://www.biotrainee.<span class="keyword">com</span>/jmzeng/sickle/sickle-results.zip</span><br><span class="line">unzip sickle-results.zip</span><br><span class="line">tree</span><br><span class="line"><span class="keyword">cd</span> sickle-results/</span><br><span class="line">unzip single_tmp_fastqc.zip</span><br><span class="line"><span class="keyword">cd</span> single_tmp_fastqc/</span><br><span class="line"><span class="keyword">cat</span> fastqc_data.txt | <span class="keyword">grep</span> <span class="string">"^&gt;&gt;"</span>|wc</span><br><span class="line"></span><br><span class="line">wget http://www.biotrainee.<span class="keyword">com</span>/jmzeng/tmp/hg38.tss</span><br><span class="line">less -S hg38.tss | cut -f1|<span class="keyword">grep</span> NM_000546 -n</span><br><span class="line">less -S hg38.tss|cut -<span class="keyword">f</span> <span class="number">2</span>|<span class="keyword">grep</span> -v <span class="string">'_'</span>|<span class="keyword">sort</span>|uniq -<span class="keyword">c</span></span><br><span class="line"><span class="keyword">grep</span> <span class="string">"^NR"</span> hg38.tss |wc   #NM为转录本并可以翻译成蛋白</span><br><span class="line"><span class="keyword">grep</span> <span class="string">"^NM"</span> hg38.tss |wc   #NR为转录本但不可以翻译成蛋白</span><br></pre></td></tr></table></figure>
+<h1>其他可能遇到的问题</h1>
+<ul>
+<li><a href="https://blog.csdn.net/dreameras/article/details/78959048" target="_blank" rel="noopener">Linux执行ls命令后不同文件类型显示的颜色一样</a></li>
+<li><a href="https://www.cnblogs.com/h--d/p/6507421.html" target="_blank" rel="noopener">【Linux】Tree命令安装和使用</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/14/2020-14-xiaochang/" rel="prev" title="2020.14.笑场">
+      <i class="fa fa-chevron-left"></i> 2020.14.笑场
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/14/11-1shell-zhengzebiaodashi/" rel="next" title="Linux_11.1-Shell编程-正则表达式">
+      Linux_11.1-Shell编程-正则表达式 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">学习资源介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">系统认知</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">去可视化的命令行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">4.</span> <span class="nav-text">文本处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">5.</span> <span class="nav-text">软件安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">6.</span> <span class="nav-text">环境变量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">7.</span> <span class="nav-text">Shell脚本编程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">8.</span> <span class="nav-text">脚本要学好</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">9.</span> <span class="nav-text">10个题目的答案讲解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">10.</span> <span class="nav-text">数据格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">11.</span> <span class="nav-text">fa-fq的linux练习题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">12.</span> <span class="nav-text">sam-bam的linux练习题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">13.</span> <span class="nav-text">linux作业</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">14.</span> <span class="nav-text">其他可能遇到的问题</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yunmeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yunmeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ItsYunmeng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ItsYunmeng" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ItsYunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/itsyunmeng" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;itsyunmeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yunmengli@hotmail.com" title="E-Mail → mailto:yunmengli@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunmeng</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
