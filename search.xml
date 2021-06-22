@@ -4936,12 +4936,39 @@ Usage: pilon --genome genome.fasta [–frags frags.bam] [–jumps jumps.bam] [�
 </tr>
 <tr>
 <td style="text-align:left">2</td>
-<td style="text-align:left">?</td>
+<td style="text-align:left">★★☆☆☆</td>
 <td style="text-align:left">明天我要去冰岛</td>
 <td style="text-align:left">嘉倩</td>
 <td style="text-align:left">随笔</td>
 <td style="text-align:left">2017.1</td>
+<td style="text-align:left">旅游随笔</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:left">？</td>
+<td style="text-align:left">湖面如镜</td>
+<td style="text-align:left">贺淑芳</td>
+<td style="text-align:left">小说集</td>
+<td style="text-align:left">2020.12</td>
 <td style="text-align:left">在看</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left">？</td>
+<td style="text-align:left">我不可能只是仰望着你</td>
+<td style="text-align:left">保拉·麦克莱恩</td>
+<td style="text-align:left">传记</td>
+<td style="text-align:left">在看</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">？</td>
+<td style="text-align:left">夜航西飞</td>
+<td style="text-align:left">柏瑞尔·马卡姆 / 陶立夏[译]</td>
+<td style="text-align:left">传记</td>
+<td style="text-align:left">在看</td>
+<td style="text-align:left"></td>
 </tr>
 </tbody>
 </table>
@@ -7027,5 +7054,19 @@ Funnel test &lt; begg test &lt; egger test<br>
     <content><![CDATA[<h1>MyPostImages</h1>
 <p>store images in blog</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>2021.3.湖面如镜</title>
+    <url>/2021/06/22/2021-3-humianrujing/</url>
+    <content><![CDATA[<p><strong>摘要</strong>：原文摘录。| 简介：</p>
+<a id="more"></a>
+]]></content>
+      <categories>
+        <category>Lists</category>
+        <category>Reading List</category>
+      </categories>
+      <tags>
+        <tag>Books</tag>
+      </tags>
   </entry>
 </search>
