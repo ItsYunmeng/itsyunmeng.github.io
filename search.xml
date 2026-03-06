@@ -29,7 +29,7 @@
     
     
     <entry>
-      <title>Learn German for Beginners - A Complete Step-by-Step Journey from A1 to B2 - A1 Lessons 11–20</title>
+      <title>Learn German for beginners - a complete step-by-step journey from A1 to B2 - A1 Lessons 11–20</title>
       <link href="/2025/06/02/German-A1-11-20/"/>
       <url>/2025/06/02/German-A1-11-20/</url>
       
@@ -98,6 +98,35 @@
             <tag> bacteria </tag>
             
             <tag> surf zone seawater </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>An introduction to MetaMetaDB and its updated version, ProkAtlas, and how to use them</title>
+      <link href="/2024/06/24/database-prokatlas/"/>
+      <url>/2024/06/24/database-prokatlas/</url>
+      
+        <content type="html"><![CDATA[<h1 id="MetaMetaDB"><a href="#MetaMetaDB" class="headerlink" title="MetaMetaDB"></a>MetaMetaDB</h1><p>Currently, MetaMetaDB contains 2,949,852 representative 16S rRNA sequences from 61 diverse environments. (data by November 6, 2014)</p><h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><blockquote><p>Example: Hiraoka, S., Miyahara, M., Fujii, K., Machiyama, A. and Iwasaki, W., 2017. Seasonal analysis of microbial communities in precipitation in the greater Tokyo area, Japan. Frontiers in microbiology, 8, p.1506. <a href="https://doi.org/10.3389/fmicb.2017.01506">https://doi.org/10.3389/fmicb.2017.01506</a></p></blockquote><p>“To estimate ordinary habitats for each 16S rRNA sequence, a BLASTN search was performed against MetaMetaDB (Yang and Iwasaki, 2014), and the top hit sequence with an e-value ≤ 1E-10 and an identity≥ 90% was retrieved. Microbial habitability index (MHI) scores were calculated as previously described (Yang and Iwasaki, 2014).”</p><p>“To estimate the environments from which microbes in precipitation originated, we performed a microbial habitat index analysis using MetaMetaDB (Yang and Iwasaki, 2014), which is a database to estimate the ordinary habitats of microbes based on similarity searches for 16S rRNA gene sequences against amplicon-sequencing and shotgun metagenomic data in public databases.”</p><h1 id="Updates-ProkAtlas"><a href="#Updates-ProkAtlas" class="headerlink" title="Updates - ProkAtlas"></a>Updates - ProkAtlas</h1><ul><li><p>online version: <a href="https://msk33.github.io/prokatlas.html">https://msk33.github.io/prokatlas.html</a></p></li><li><p>ProkAtlas database: <a href="http://msk33.github.io/ProkAtlas.fa.zip">http://msk33.github.io/ProkAtlas.fa.zip</a></p></li><li><p><a href="http://msk33.github.io/prokatlas_standalone_200905.zip">Source code for calculating microbial habitat preference scores</a> (This script is written in python and requires pandas)</p></li></ul><h2 id="Usage-1"><a href="#Usage-1" class="headerlink" title="Usage"></a>Usage</h2><blockquote><p>Example: Yokoyama, D. and Kikuchi, J., 2023. Inferring microbial community assembly in an urban river basin through geo-multi-omics and phylogenetic bin-based null-model analysis of surface water. Environmental Research, 231, p.116202. <a href="https://doi.org/10.1016/j.envres.2023.116202">https://doi.org/10.1016/j.envres.2023.116202</a></p></blockquote><p>“For additional analysis, habitats were predicted under the scheme of ProkAtlas (Mise and Iwasaki, 2020) where the microbial habitats were predicted from 16 S rRNA sequences with reference to a database linking shotgun metagenome sequences to the collected habitats. The ASV table was processed to generate the proportions of 115 preferential habitats, which were categorized as follows: ocean-related, freshwater-related, soil-related, wastewater and human–related, and other habitats (Table S3).”</p><p>“According to ProkAtlas analysis, the microbiomes showed clear preferential habitat patterns. With a few exceptions, the proportion of ocean-related microbes was high in estuary environments, whereas the proportion of freshwater-related microbes was high in upper stream environments (Fig. S7).”</p><p>“The microbial preference to salinity is also confirmed by habitat prediction of ProkAtlas, where the proportions of ocean-related sequences in FL microbes were elevated in estuary environments while the proportions of freshwater-related sequences were higher in upper streams (Fig. S7). This analysis predicts the optimal environments for microbiomes based on a wide range of sequence–habitat data and provides a robust interpretation of environmental selection. The relationship between the predicted habitats and geography adds to the strength of this interpretation.”</p><h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><blockquote><p>1.Yang, C.C. and Iwasaki, W., 2014. MetaMetaDB: A database and analytic system for investigating microbial habitability. PLoS One, 9(1), p.e87126. <a href="https://doi.org/10.1371/journal.pone.0087126">https://doi.org/10.1371/journal.pone.0087126</a><br>2.MetaMetaDB: To the Habitabilities of Microbes: <a href="https://ngdc.cncb.ac.cn/databasecommons/database/id/986">https://ngdc.cncb.ac.cn/databasecommons/database/id/986</a> (ps, the database has been deleted.)<br>3.The sequence archives in NCBI: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Tree&id=408169&lvl=3&lin=f&keep=1&srchmode=1&unlock">https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Tree&amp;id=408169&amp;lvl=3&amp;lin=f&amp;keep=1&amp;srchmode=1&amp;unlock</a><br>4.Mise, K. and Iwasaki, W., 2020. Environmental atlas of prokaryotes enables powerful and intuitive habitat-based analysis of community structures. Iscience, 23(10). <a href="https://doi.org/10.1016/j.isci.2020.101624">https://doi.org/10.1016/j.isci.2020.101624</a><br>5.ProkAtlas Online: <a href="https://msk33.github.io/prokatlas.html">https://msk33.github.io/prokatlas.html</a></p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> Research </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MetaMetaDB </tag>
+            
+            <tag> ProkAtlas </tag>
+            
+            <tag> database </tag>
             
         </tags>
       
