@@ -162,6 +162,31 @@
     </entry>
     
     
+    
+    <entry>
+      <title>Public oceanic and meteorological database</title>
+      <link href="/2024/03/21/database-meteo-ocean/"/>
+      <url>/2024/03/21/database-meteo-ocean/</url>
+      
+        <content type="html"><![CDATA[<p>在环境样本测序数据分析时，通常要和环境因子相关联以分析驱动子。环境因子可以人工实地测定也可以通过当地的监测站获取。有的时候，由于环境条件的限制或者设备突发问题，很容易造成了某些点或者时间段的数据缺失。这种情况下，使用遥感(卫星和雷达)数据不失为一种解决方案。本文以比利时沿海城市Oostend为例，介绍了当地的环境监测站，并包括了获取遥感数据的网站和方法。</p><h1 id="Belgian-time-and-season"><a href="#Belgian-time-and-season" class="headerlink" title="Belgian time and season"></a>Belgian time and season</h1><p>Royal Observatory of Belgium: <a href="https://robinfo.oma.be/en/astro-info/sun/seasons-2024/">https://robinfo.oma.be/en/astro-info/sun/seasons-2024/</a></p><h1 id="Local-monitoring-station"><a href="#Local-monitoring-station" class="headerlink" title="Local monitoring station"></a>Local monitoring station</h1><p>Meetnet Vlaamse Banken: <a href="https://meetnetvlaamsebanken.be/">https://meetnetvlaamsebanken.be/</a><br>Vlaanderen is water: <a href="https://kwaliteitzwemwater.be/nl/normen">https://kwaliteitzwemwater.be/nl/normen</a><br>当地水质检测，包含了E. coli和Enterococci: <a href="https://kwaliteitzwemwater.be/nl/normen">https://kwaliteitzwemwater.be/nl/normen</a></p><h1 id="Remote-data"><a href="#Remote-data" class="headerlink" title="Remote data"></a>Remote data</h1><h2 id="Ocean-productivity-and-nutrients-data"><a href="#Ocean-productivity-and-nutrients-data" class="headerlink" title="Ocean productivity and nutrients data"></a>Ocean productivity and nutrients data</h2><p>Oregon State University’s Ocean Productivity database:<a href="http://sites.science.oregonstate.edu/ocean.productivity/index.php">http://sites.science.oregonstate.edu/ocean.productivity/index.php</a><br>nppr: An R package for ocean productivity data automatically downloading, reading, processing and visualization. <a href="https://github.com/chaoxv/nppr">https://github.com/chaoxv/nppr</a><br>Global Ocean Biogeochemistry Analysis and Forecast: <a href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_BGC_001_028/services">https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_BGC_001_028/services</a></p><h2 id="Meteorological-data"><a href="#Meteorological-data" class="headerlink" title="Meteorological data"></a>Meteorological data</h2><p>Visual Crossing Weather Data: <a href="https://www.visualcrossing.com/">https://www.visualcrossing.com/</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> research </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> database </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
   
   
 </search>
